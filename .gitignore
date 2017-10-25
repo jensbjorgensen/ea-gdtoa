@@ -1,6 +1,7 @@
 *~
 *.l[oa]
 *.[oa]
+buildresults/
 compile
 xQtest
 /autom4te.cache
