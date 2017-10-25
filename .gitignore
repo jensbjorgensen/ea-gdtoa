@@ -14,7 +14,6 @@ xQtest
 /INSTALL
 /.deps/
 /.libs/
-/Makefile
 /acconf.h
 /arith.h
 /config.guess
