@@ -94,8 +94,6 @@ icheck()
 	return 0;
 	}
 
-char *emptyfmt = "";	/* avoid possible warning message with printf("") */
-
  static Akind *
 ccheck()
 {
@@ -106,10 +104,10 @@ ccheck()
 	long Cray1;
 
 	/* Cray1 = 4617762693716115456 -- without overflow on non-Crays */
-	Cray1 = printf(emptyfmt) < 0 ? 0 : 4617762;
-	if (printf(emptyfmt, Cray1) >= 0)
+	Cray1 = printf("") < 0 ? 0 : 4617762;
+	if (printf("%ld", Cray1) >= 0)
 		Cray1 = 1000000*Cray1 + 693716;
-	if (printf(emptyfmt, Cray1) >= 0)
+	if (printf("%ld", Cray1) >= 0)
 		Cray1 = 1000000*Cray1 + 115456;
 	u.d = 1e13;
 	if (u.L == Cray1)
