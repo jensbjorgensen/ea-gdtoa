@@ -75,3 +75,175 @@ workspace "EmbeddedArtistry gdtoa"
     {
 
     }
+
+    -- Generate the required arith.h header
+    local DESTINATION = "../../" .. RESULTSROOT
+    postbuildcommands { "mkdir -p " .. DESTINATION .. "include" }
+    postbuildcommands { DESTINATION .. "arithchk/arithchk > " .. DESTINATION .. "include/arith.h" }
+
+  project "qnan"
+    kind "ConsoleApp"
+    language "C"
+    targetdir (RESULTSROOT .. "qnan")
+    targetname "qnan"
+
+    dependson { "arithchk" }
+
+    local SourceDir = ROOT;
+    files
+    {
+      SourceDir .. "qnan.c"
+    }
+
+    filter {} -- clear filter!
+
+    includedirs
+    {
+      SourceDir,
+      RESULTSROOT .. "include/",
+      "/usr/local/opt/llvm/include",
+      "/usr/local/opt/llvm/include/c++/v1/"
+    }
+
+    libdirs
+    {
+
+    }
+
+    links
+    {
+
+    }
+
+    -- Generate the required qnan.h header
+    local DESTINATION = "../../" .. RESULTSROOT
+    postbuildcommands { "mkdir -p " .. DESTINATION .. "include" }
+    postbuildcommands { DESTINATION .. "qnan/qnan > " .. DESTINATION .. "include/gd_qnan.h" }
+
+project "gdtoa"
+    kind "StaticLib"
+    language "C"
+    targetdir (RESULTSROOT .. "gdtoa/standard")
+    targetname "gdtoa"
+
+    local SourceDir = ROOT;
+
+    dependson { "arithchk", "qnan" }
+
+    files
+    {
+      SourceDir .. "**.h",
+      SourceDir .. "**.c",
+    }
+
+    removefiles { "arith_check.c", "qnan.c" }
+
+    filter {} -- clear filter!
+
+    includedirs
+    {
+      RESULTSROOT .. "include/",
+      SourceDir, -- include root source directory to allow for absolute include paths
+      "/usr/local/opt/llvm/include",
+      "/usr/local/opt/llvm/include/c++/v1/"
+    }
+
+project "gdtoa-noerrno"
+    kind "StaticLib"
+    language "C"
+    targetdir (RESULTSROOT .. "gdtoa/noerrno")
+    targetname "gdtoa"
+
+    local SourceDir = ROOT;
+
+    dependson { "arithchk", "qnan" }
+
+    files
+    {
+      SourceDir .. "**.h",
+      SourceDir .. "**.c",
+    }
+
+    removefiles { "arith_check.c", "qnan.c" }
+
+    filter {} -- clear filter!
+
+    includedirs
+    {
+      RESULTSROOT .. "include/",
+      SourceDir, -- include root source directory to allow for absolute include paths
+      "/usr/local/opt/llvm/include",
+      "/usr/local/opt/llvm/include/c++/v1/"
+    }
+
+    defines
+    {
+      "NO_ERRNO",
+    }
+
+project "gdtoa-infnan"
+    kind "StaticLib"
+    language "C"
+    targetdir (RESULTSROOT .. "gdtoa/infnan")
+    targetname "gdtoa"
+
+    local SourceDir = ROOT;
+
+    dependson { "arithchk", "qnan" }
+
+    files
+    {
+      SourceDir .. "**.h",
+      SourceDir .. "**.c",
+    }
+
+    removefiles { "arith_check.c", "qnan.c" }
+
+    filter {} -- clear filter!
+
+    includedirs
+    {
+      RESULTSROOT .. "include/",
+      SourceDir, -- include root source directory to allow for absolute include paths
+      "/usr/local/opt/llvm/include",
+      "/usr/local/opt/llvm/include/c++/v1/"
+    }
+
+    defines
+    {
+      "INFNAN_CHECK",
+    }
+
+project "gdtoa-noerrno-infnan"
+    kind "StaticLib"
+    language "C"
+    targetdir (RESULTSROOT .. "gdtoa/noerrno_infnan")
+    targetname "gdtoa"
+
+    local SourceDir = ROOT;
+
+    dependson { "arithchk", "qnan" }
+
+    files
+    {
+      SourceDir .. "**.h",
+      SourceDir .. "**.c",
+    }
+
+    removefiles { "arith_check.c", "qnan.c" }
+
+    filter {} -- clear filter!
+
+    includedirs
+    {
+      RESULTSROOT .. "include/",
+      SourceDir, -- include root source directory to allow for absolute include paths
+      "/usr/local/opt/llvm/include",
+      "/usr/local/opt/llvm/include/c++/v1/"
+    }
+
+    defines
+    {
+      "NO_ERRNO",
+      "INFNAN_CHECK",
+    }
