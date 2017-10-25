@@ -1,6 +1,8 @@
 *~
 *.l[oa]
 *.[oa]
+compile
+xQtest
 /autom4te.cache
 /COPYING
 /Makefile.in
