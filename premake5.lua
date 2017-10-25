@@ -148,6 +148,10 @@ project "gdtoa"
       "/usr/local/opt/llvm/include/c++/v1/"
     }
 
+    -- Install headers
+    postbuildcommands {"{COPY} ../../gdtoa.h %{cfg.targetdir}"}
+    postbuildcommands {"{COPY} ../../gdtoaimp.h %{cfg.targetdir}"}
+
 project "gdtoa-noerrno"
     kind "StaticLib"
     language "C"
@@ -180,6 +184,10 @@ project "gdtoa-noerrno"
     {
       "NO_ERRNO",
     }
+
+    -- Install headers
+    postbuildcommands {"{COPY} ../../gdtoa.h %{cfg.targetdir}"}
+    postbuildcommands {"{COPY} ../../gdtoaimp.h %{cfg.targetdir}"}
 
 project "gdtoa-infnan"
     kind "StaticLib"
@@ -214,6 +222,10 @@ project "gdtoa-infnan"
       "INFNAN_CHECK",
     }
 
+    -- Install headers
+    postbuildcommands {"{COPY} ../../gdtoa.h %{cfg.targetdir}"}
+    postbuildcommands {"{COPY} ../../gdtoaimp.h %{cfg.targetdir}"}
+
 project "gdtoa-noerrno-infnan"
     kind "StaticLib"
     language "C"
@@ -247,3 +259,7 @@ project "gdtoa-noerrno-infnan"
       "NO_ERRNO",
       "INFNAN_CHECK",
     }
+
+    -- Install headers
+    postbuildcommands {"{COPY} ../../gdtoa.h %{cfg.targetdir}"}
+    postbuildcommands {"{COPY} ../../gdtoaimp.h %{cfg.targetdir}"}
