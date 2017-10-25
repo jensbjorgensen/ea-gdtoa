@@ -54,7 +54,7 @@ workspace "EmbeddedArtistry gdtoa"
     local SourceDir = ROOT;
     files
     {
-      SourceDir .. "arithchk.c"
+      SourceDir .. "src/arithchk.c"
     }
 
     filter {} -- clear filter!
@@ -92,7 +92,7 @@ workspace "EmbeddedArtistry gdtoa"
     local SourceDir = ROOT;
     files
     {
-      SourceDir .. "qnan.c"
+      SourceDir .. "src/qnan.c"
     }
 
     filter {} -- clear filter!
@@ -132,8 +132,8 @@ project "gdtoa"
 
     files
     {
-      SourceDir .. "**.h",
-      SourceDir .. "**.c",
+      SourceDir .. "include/**.h",
+      SourceDir .. "src/**.c",
     }
 
     removefiles { "arith_check.c", "qnan.c" }
@@ -143,14 +143,14 @@ project "gdtoa"
     includedirs
     {
       RESULTSROOT .. "include/",
-      SourceDir, -- include root source directory to allow for absolute include paths
+      SourceDir .. "include",
       "/usr/local/opt/llvm/include",
       "/usr/local/opt/llvm/include/c++/v1/"
     }
 
     -- Install headers
-    postbuildcommands {"{COPY} ../../gdtoa.h %{cfg.targetdir}"}
-    postbuildcommands {"{COPY} ../../gdtoaimp.h %{cfg.targetdir}"}
+    postbuildcommands {"{COPY} ../../include/gdtoa.h %{cfg.targetdir}"}
+    postbuildcommands {"{COPY} ../../include/gdtoaimp.h %{cfg.targetdir}"}
 
 project "gdtoa-noerrno"
     kind "StaticLib"
@@ -164,8 +164,8 @@ project "gdtoa-noerrno"
 
     files
     {
-      SourceDir .. "**.h",
-      SourceDir .. "**.c",
+      SourceDir .. "include/**.h",
+      SourceDir .. "src/**.c",
     }
 
     removefiles { "arith_check.c", "qnan.c" }
@@ -175,7 +175,7 @@ project "gdtoa-noerrno"
     includedirs
     {
       RESULTSROOT .. "include/",
-      SourceDir, -- include root source directory to allow for absolute include paths
+      SourceDir .. "include",
       "/usr/local/opt/llvm/include",
       "/usr/local/opt/llvm/include/c++/v1/"
     }
@@ -186,8 +186,8 @@ project "gdtoa-noerrno"
     }
 
     -- Install headers
-    postbuildcommands {"{COPY} ../../gdtoa.h %{cfg.targetdir}"}
-    postbuildcommands {"{COPY} ../../gdtoaimp.h %{cfg.targetdir}"}
+    postbuildcommands {"{COPY} ../../include/gdtoa.h %{cfg.targetdir}"}
+    postbuildcommands {"{COPY} ../../include/gdtoaimp.h %{cfg.targetdir}"}
 
 project "gdtoa-infnan"
     kind "StaticLib"
@@ -201,8 +201,8 @@ project "gdtoa-infnan"
 
     files
     {
-      SourceDir .. "**.h",
-      SourceDir .. "**.c",
+      SourceDir .. "include/**.h",
+      SourceDir .. "src/**.c",
     }
 
     removefiles { "arith_check.c", "qnan.c" }
@@ -212,7 +212,7 @@ project "gdtoa-infnan"
     includedirs
     {
       RESULTSROOT .. "include/",
-      SourceDir, -- include root source directory to allow for absolute include paths
+      SourceDir .. "include",
       "/usr/local/opt/llvm/include",
       "/usr/local/opt/llvm/include/c++/v1/"
     }
@@ -223,8 +223,8 @@ project "gdtoa-infnan"
     }
 
     -- Install headers
-    postbuildcommands {"{COPY} ../../gdtoa.h %{cfg.targetdir}"}
-    postbuildcommands {"{COPY} ../../gdtoaimp.h %{cfg.targetdir}"}
+    postbuildcommands {"{COPY} ../../include/gdtoa.h %{cfg.targetdir}"}
+    postbuildcommands {"{COPY} ../../include/gdtoaimp.h %{cfg.targetdir}"}
 
 project "gdtoa-noerrno-infnan"
     kind "StaticLib"
@@ -238,8 +238,8 @@ project "gdtoa-noerrno-infnan"
 
     files
     {
-      SourceDir .. "**.h",
-      SourceDir .. "**.c",
+      SourceDir .. "include/**.h",
+      SourceDir .. "src/**.c",
     }
 
     removefiles { "arith_check.c", "qnan.c" }
@@ -249,7 +249,7 @@ project "gdtoa-noerrno-infnan"
     includedirs
     {
       RESULTSROOT .. "include/",
-      SourceDir, -- include root source directory to allow for absolute include paths
+      SourceDir .. "include",
       "/usr/local/opt/llvm/include",
       "/usr/local/opt/llvm/include/c++/v1/"
     }
@@ -261,5 +261,5 @@ project "gdtoa-noerrno-infnan"
     }
 
     -- Install headers
-    postbuildcommands {"{COPY} ../../gdtoa.h %{cfg.targetdir}"}
-    postbuildcommands {"{COPY} ../../gdtoaimp.h %{cfg.targetdir}"}
+    postbuildcommands {"{COPY} ../../include/gdtoa.h %{cfg.targetdir}"}
+    postbuildcommands {"{COPY} ../../include/gdtoaimp.h %{cfg.targetdir}"}
