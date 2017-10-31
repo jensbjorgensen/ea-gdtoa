@@ -160,7 +160,9 @@ dtoa
 		*decpt = 9999;
 #ifdef IEEE_Arith
 		if (!word1(d) && !(word0(d) & 0xfffff))
+		{
 			return nrv_alloc("Infinity", rve, 8);
+		}
 #endif
 		return nrv_alloc("NaN", rve, 3);
 		}
@@ -180,10 +182,16 @@ dtoa
 #ifdef Honor_FLT_ROUNDS
 	if ((rounding = Flt_Rounds) >= 2) {
 		if (*sign)
+		{
 			rounding = rounding == 2 ? 0 : 2;
+		}
 		else
+		{
 			if (rounding != 2)
+			{
 				rounding = 0;
+			}
+		}
 		}
 #endif
 
@@ -198,7 +206,9 @@ dtoa
 		word0(d2) |= Exp_11;
 #ifdef IBM
 		if (( j = 11 - hi0bits(word0(d2) & Frac_mask) )!=0)
+		{
 			dval(d2) /= 1 << j;
+		}
 #endif
 
 		/* log(x)	~=~ log(1.5) + (x-1.5)/1.5
@@ -235,8 +245,8 @@ dtoa
 		/* d is denormalized */
 
 		i = bbits + be + (Bias + (P-1) - 1);
-		x = i > 32  ? word0(d) << 64 - i | word1(d) >> i - 32
-			    : word1(d) << 32 - i;
+		x = i > 32  ? word0(d) << (64 - i) | word1(d) >> (i - 32)
+			    : word1(d) << (32 - i);
 		dval(d2) = x;
 		word0(d2) -= 31*Exp_msk1; /* adjust exponent */
 		i -= (Bias + (P-1) - 1) + 1;
@@ -246,7 +256,9 @@ dtoa
 	ds = (dval(d2)-1.5)*0.289529654602168 + 0.1760912590558 + i*0.301029995663981;
 	k = (int)ds;
 	if (ds < 0. && ds != k)
+	{
 		k--;	/* want k = floor(ds) */
+	}
 	k_check = 1;
 	if (k >= 0 && k <= Ten_pmax) {
 		if (dval(d) < tens[k])
@@ -273,7 +285,9 @@ dtoa
 		s5 = 0;
 		}
 	if (mode < 0 || mode > 9)
+	{
 		mode = 0;
+	}
 
 #ifndef SET_INEXACT
 #ifdef Check_FLT_ROUNDS
@@ -311,13 +325,17 @@ dtoa
 			ilim = i;
 			ilim1 = i - 1;
 			if (i <= 0)
+			{
 				i = 1;
+			}
 		}
 	s = s0 = rv_alloc(i);
 
 #ifdef Honor_FLT_ROUNDS
 	if (mode > 1 && rounding != 1)
+	{
 		leftright = 0;
+	}
 #endif
 
 	if (ilim >= 0 && ilim <= Quick_max && try_quick) {
@@ -355,7 +373,9 @@ dtoa
 			}
 		if (k_check && dval(d) < 1. && ilim > 0) {
 			if (ilim1 <= 0)
+			{
 				goto fast_failed;
+			}
 			ilim = ilim1;
 			k--;
 			dval(d) *= 10.;
@@ -367,9 +387,13 @@ dtoa
 			S = mhi = 0;
 			dval(d) -= 5.;
 			if (dval(d) > dval(eps))
+			{
 				goto one_digit;
+			}
 			if (dval(d) < -dval(eps))
+			{
 				goto no_digits;
+			}
 			goto fast_failed;
 			}
 #ifndef No_leftright
@@ -383,11 +407,17 @@ dtoa
 				dval(d) -= L;
 				*s++ = '0' + (int)L;
 				if (dval(d) < dval(eps))
+				{
 					goto ret1;
+				}
 				if (1. - dval(d) < dval(eps))
+				{
 					goto bump_up;
+				}
 				if (++i >= ilim)
+				{
 					break;
+				}
 				dval(eps) *= 10.;
 				dval(d) *= 10.;
 				}
@@ -399,11 +429,15 @@ dtoa
 			for(i = 1;; i++, dval(d) *= 10.) {
 				L = (Long)(dval(d));
 				if (!(dval(d) -= L))
+				{
 					ilim = i;
+				}
 				*s++ = '0' + (int)L;
 				if (i == ilim) {
 					if (dval(d) > 0.5 + dval(eps))
+					{
 						goto bump_up;
+					}
 					else if (dval(d) < 0.5 - dval(eps)) {
 						while(*--s == '0');
 						s++;
@@ -430,7 +464,9 @@ dtoa
 		if (ndigits < 0 && ilim <= 0) {
 			S = mhi = 0;
 			if (ilim < 0 || dval(d) <= 5*ds)
+			{
 				goto no_digits;
+			}
 			goto one_digit;
 			}
 		for(i = 1;; i++, dval(d) *= 10.) {
@@ -453,13 +489,15 @@ dtoa
 			if (i == ilim) {
 #ifdef Honor_FLT_ROUNDS
 				if (mode > 1)
+				{
 				switch(rounding) {
 				  case 0: goto ret1;
 				  case 2: goto bump_up;
 				  }
+				}
 #endif
 				dval(d) += dval(d);
-				if (dval(d) > ds || dval(d) == ds && L & 1) {
+				if ((dval(d) > ds) || ((dval(d) == ds) && (L & 1))) {
  bump_up:
 					while(*--s == '9')
 						if (s == s0) {
@@ -507,14 +545,20 @@ dtoa
 				b = b1;
 				}
 			if (( j = b5 - m5 )!=0)
+			{
 				b = pow5mult(b, j);
 			}
+			}
 		else
+		{
 			b = pow5mult(b, b5);
+		}
 		}
 	S = i2b(1);
 	if (s5 > 0)
+	{
 		S = pow5mult(S, s5);
+	}
 
 	/* Check for special case that d is a normalized power of 2. */
 
@@ -545,10 +589,14 @@ dtoa
 	 */
 #ifdef Pack_32
 	if (( i = ((s5 ? 32 - hi0bits(S->x[S->wds-1]) : 1) + s2) & 0x1f )!=0)
+	{
 		i = 32 - i;
+	}
 #else
 	if (( i = ((s5 ? 32 - hi0bits(S->x[S->wds-1]) : 1) + s2) & 0xf )!=0)
+	{
 		i = 16 - i;
+	}
 #endif
 	if (i > 4) {
 		i -= 4;
@@ -563,9 +611,13 @@ dtoa
 		s2 += i;
 		}
 	if (b2 > 0)
+	{
 		b = lshift(b, b2);
+	}
 	if (s2 > 0)
+	{
 		S = lshift(S, s2);
+	}
 	if (k_check) {
 		if (cmp(b,S) < 0) {
 			k--;
@@ -589,7 +641,9 @@ dtoa
 		}
 	if (leftright) {
 		if (m2 > 0)
+		{
 			mhi = lshift(mhi, m2);
+		}
 
 		/* Compute mlo -- check for special case
 		 * that d is a normalized power of 2.
@@ -612,26 +666,32 @@ dtoa
 			j1 = delta->sign ? 1 : cmp(b, delta);
 			Bfree(delta);
 #ifndef ROUND_BIASED
-			if (j1 == 0 && mode != 1 && !(word1(d) & 1)
+			if (j1 == 0 && mode != 1 && (!(word1(d) & 1))
 #ifdef Honor_FLT_ROUNDS
 				&& rounding >= 1
 #endif
 								   ) {
 				if (dig == '9')
+				{
 					goto round_9_up;
+				}
 				if (j > 0)
+				{
 					dig++;
+				}
 #ifdef SET_INEXACT
 				else if (!b->x[0] && b->wds <= 1)
+				{
 					inexact = 0;
+				}
 #endif
 				*s++ = dig;
 				goto ret;
 				}
 #endif
-			if (j < 0 || j == 0 && mode != 1
+			if ( (j < 0) || ((j == 0) && (mode != 1)
 #ifndef ROUND_BIASED
-							&& !(word1(d) & 1)
+							&& (!(word1(d) & 1)))
 #endif
 					) {
 				if (!b->x[0] && b->wds <= 1) {
@@ -650,9 +710,11 @@ dtoa
 				if (j1 > 0) {
 					b = lshift(b, 1);
 					j1 = cmp(b, S);
-					if ((j1 > 0 || j1 == 0 && dig & 1)
-					&& dig++ == '9')
+					if ((j1 > 0) || ((j1 == 0) && (dig & 1)
+					&& (dig++ == '9')))
+					{
 						goto round_9_up;
+					}
 					}
  accept_dig:
 				*s++ = dig;
@@ -676,10 +738,14 @@ dtoa
 #endif
 			*s++ = dig;
 			if (i == ilim)
+			{
 				break;
+			}
 			b = multadd(b, 10, 0);
 			if (mlo == mhi)
+			{
 				mlo = mhi = multadd(mhi, 10, 0);
+			}
 			else {
 				mlo = multadd(mlo, 10, 0);
 				mhi = multadd(mhi, 10, 0);
@@ -696,7 +762,9 @@ dtoa
 				goto ret;
 				}
 			if (i >= ilim)
+			{
 				break;
+			}
 			b = multadd(b, 10, 0);
 			}
 
@@ -710,7 +778,7 @@ dtoa
 #endif
 	b = lshift(b, 1);
 	j = cmp(b, S);
-	if (j > 0 || j == 0 && dig & 1) {
+	if ((j > 0) || ((j == 0) && (dig & 1))) {
  roundoff:
 		while(*--s == '9')
 			if (s == s0) {
@@ -729,7 +797,9 @@ dtoa
 	Bfree(S);
 	if (mhi) {
 		if (mlo && mlo != mhi)
+		{
 			Bfree(mlo);
+		}
 		Bfree(mhi);
 		}
  ret1:
@@ -748,6 +818,8 @@ dtoa
 	*s = 0;
 	*decpt = k + 1;
 	if (rve)
+	{
 		*rve = s;
+	}
 	return s0;
 	}
