@@ -174,8 +174,13 @@ THIS SOFTWARE.
 #include "gd_qnan.h"
 
 #ifdef DEBUG
-#include "stdio.h"
+#ifdef GDTOA_HOST_DEBUG
+#include <stdio.h>
 #define Bug(x) {fprintf(stderr, "%s\n", x); exit(1);}
+#else
+#include <assert.h>
+#define Bug(x) assert(!(x))
+#endif
 #endif
 
 #include "stdlib.h"
