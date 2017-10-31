@@ -726,10 +726,6 @@ d2b
 		     b->wds = (x[1] = z) !=0 ? 2 : 1;
 		}
 	else {
-#ifdef DEBUG
-		if (!z)
-			Bug("Zero passed to d2b");
-#endif
 		k = lo0bits(&z);
 		x[0] = z;
 #ifndef Sudden_Underflow
