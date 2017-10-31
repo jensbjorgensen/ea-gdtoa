@@ -128,7 +128,9 @@ project "gdtoa"
 
     local SourceDir = ROOT;
 
-    dependson { "arithchk", "qnan" }
+    -- We are using pre-defined arith.h and gd_qnan.h headers
+    -- You can enable generated output using this dependson line:
+    --dependson { "arithchk", "qnan" }
 
     files
     {
@@ -142,7 +144,8 @@ project "gdtoa"
 
     includedirs
     {
-      RESULTSROOT .. "include/",
+      --Uncomment to use the generated headers
+      --RESULTSROOT .. "include/",
       SourceDir .. "include",
       "/usr/local/opt/llvm/include",
       "/usr/local/opt/llvm/include/c++/v1/"
@@ -160,7 +163,9 @@ project "gdtoa-noerrno"
 
     local SourceDir = ROOT;
 
-    dependson { "arithchk", "qnan" }
+    -- We are using pre-defined arith.h and gd_qnan.h headers
+    -- You can enable generated output using this dependson line:
+    --dependson { "arithchk", "qnan" }
 
     files
     {
@@ -174,7 +179,8 @@ project "gdtoa-noerrno"
 
     includedirs
     {
-      RESULTSROOT .. "include/",
+      --Uncomment to use the generated headers
+      --RESULTSROOT .. "include/",
       SourceDir .. "include",
       "/usr/local/opt/llvm/include",
       "/usr/local/opt/llvm/include/c++/v1/"
@@ -197,7 +203,9 @@ project "gdtoa-infnan"
 
     local SourceDir = ROOT;
 
-    dependson { "arithchk", "qnan" }
+    -- We are using pre-defined arith.h and gd_qnan.h headers
+    -- You can enable generated output using this dependson line:
+    --dependson { "arithchk", "qnan" }
 
     files
     {
@@ -211,7 +219,8 @@ project "gdtoa-infnan"
 
     includedirs
     {
-      RESULTSROOT .. "include/",
+      --Uncomment to use the generated headers
+      --RESULTSROOT .. "include/",
       SourceDir .. "include",
       "/usr/local/opt/llvm/include",
       "/usr/local/opt/llvm/include/c++/v1/"
@@ -234,7 +243,9 @@ project "gdtoa-noerrno-infnan"
 
     local SourceDir = ROOT;
 
-    dependson { "arithchk", "qnan" }
+    -- We are using pre-defined arith.h and gd_qnan.h headers
+    -- You can enable generated output using this dependson line:
+    --dependson { "arithchk", "qnan" }
 
     files
     {
@@ -248,7 +259,8 @@ project "gdtoa-noerrno-infnan"
 
     includedirs
     {
-      RESULTSROOT .. "include/",
+      --Uncomment to use the generated headers
+      --RESULTSROOT .. "include/",
       SourceDir .. "include",
       "/usr/local/opt/llvm/include",
       "/usr/local/opt/llvm/include/c++/v1/"
