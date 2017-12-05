@@ -178,10 +178,14 @@ THIS SOFTWARE.
 #include <stdio.h>
 #define Bug(x) {fprintf(stderr, "%s\n", x); exit(1);}
 #else
+#ifdef GDTOA_NO_ASSERT
+#define Bug(...)
+#else
 #include <assert.h>
 #define Bug(x) assert(!(x))
-#endif
-#endif
+#endif //GDTOA_NO_ASSET
+#endif //GDTOA_HOST_DEBUG
+#endif //DEBUG
 
 #include "stdlib.h"
 #include "string.h"
@@ -207,7 +211,10 @@ extern Char *MALLOC ANSI((size_t));
 #define IEEE_Arith
 #endif
 
+#ifndef NO_ERRNO
 #include "errno.h"
+#endif
+
 #ifdef Bad_float_h
 
 #ifdef IEEE_Arith
@@ -256,8 +263,10 @@ extern Char *MALLOC ANSI((size_t));
 #define n_bigtens 2
 #endif
 
+#ifndef GDTOA_NO_MATH_H
 #ifndef __MATH_H__
 #include "math.h"
+#endif
 #endif
 
 #ifdef __cplusplus
