@@ -30,6 +30,7 @@ THIS SOFTWARE.
  * with " at " changed at "@" and " dot " changed to ".").	*/
 
 #include "gdtoaimp.h"
+#include <float.h>
 
  static Bigint *
 #ifdef KR_headers
@@ -61,7 +62,7 @@ bitstob(ULong *bits, int nbits, int *bbits)
 		*x++ = (*bits >> 16) & ALL_ON;
 #endif
 		} while(++bits <= be);
-	i = x - x0;
+	i = (int)(x - x0); //TODO: can we fix types here?
 	while(!x0[--i])
 		if (!i) {
 			b->wds = 0;
@@ -152,11 +153,11 @@ gdtoa
 		to hold the suppressed trailing zeros.
 	*/
 
-	int bbits, b2, b5, be0, dig, i, ieps, ilim, ilim0, ilim1, inex;
+	int bbits, b2, b5, be0, dig, i, ieps, ilim = 0, ilim0, ilim1 = 0, inex;
 	int j, j1, k, k0, k_check, kind, leftright, m2, m5, nbits;
 	int rdir, s2, s5, spec_case, try_quick;
 	Long L;
-	Bigint *b, *b1, *delta, *mlo, *mhi, *mhi1, *S;
+	Bigint *b, *b1, *delta, *mlo = NULL, *mhi, *mhi1, *S;
 	double d, d2, ds, eps;
 	char *s, *s0;
 
@@ -201,10 +202,6 @@ gdtoa
 	i = be + bbits - 1;
 	word0(d) &= Frac_mask1;
 	word0(d) |= Exp_11;
-#ifdef IBM
-	if ( (j = 11 - hi0bits(word0(d) & Frac_mask)) !=0)
-		dval(d) /= 1 << j;
-#endif
 
 	/* log(x)	~=~ log(1.5) + (x-1.5)/1.5
 	 * log10(x)	 =  log(x) / log(10)
@@ -227,33 +224,31 @@ gdtoa
 	 * (We could get a more accurate k by invoking log10,
 	 *  but this is probably not worthwhile.)
 	 */
-#ifdef IBM
-	i <<= 2;
-	i += j;
-#endif
 	ds = (dval(d)-1.5)*0.289529654602168 + 0.1760912590558 + i*0.301029995663981;
 
 	/* correct assumption about exponent range */
 	if ((j = i) < 0)
+	{
 		j = -j;
+	}
 	if ((j -= 1077) > 0)
+	{
 		ds += j * 7e-17;
+	}
 
 	k = (int)ds;
 	if (ds < 0. && ds != k)
+	{
 		k--;	/* want k = floor(ds) */
+	}
 	k_check = 1;
-#ifdef IBM
-	j = be + bbits - 1;
-	if ( (j1 = j & 3) !=0)
-		dval(d) *= 1 << j1;
-	word0(d) += j << Exp_shift - 2 & Exp_mask;
-#else
 	word0(d) += (be + bbits - 1) << Exp_shift;
-#endif
-	if (k >= 0 && k <= Ten_pmax) {
+	if (k >= 0 && k <= Ten_pmax)
+	{
 		if (dval(d) < tens[k])
+		{
 			k--;
+		}
 		k_check = 0;
 		}
 	j = bbits - i - 1;
@@ -276,7 +271,9 @@ gdtoa
 		s5 = 0;
 		}
 	if (mode < 0 || mode > 9)
+	{
 		mode = 0;
+	}
 	try_quick = 1;
 	if (mode > 5) {
 		mode -= 4;
@@ -329,10 +326,6 @@ gdtoa
 
 		i = 0;
 		d2 = dval(d);
-#ifdef IBM
-		if ( (j = 11 - hi0bits(word0(d) & Frac_mask)) !=0)
-			dval(d) /= 1 << j;
-#endif
 		k0 = k;
 		ilim0 = ilim;
 		ieps = 2; /* conservative */
@@ -390,16 +383,20 @@ gdtoa
 			for(i = 0;;) {
 				L = (Long)(dval(d)/ds);
 				dval(d) -= L*ds;
-				*s++ = '0' + (int)L;
+				*s++ = (char)('0' + (int)L);
 				if (dval(d) < dval(eps)) {
 					if (dval(d))
 						inex = STRTOG_Inexlo;
 					goto ret1;
 					}
 				if (ds - dval(d) < dval(eps))
+				{
 					goto bump_up;
+				}
 				if (++i >= ilim)
+				{
 					break;
+				}
 				dval(eps) *= 10.;
 				dval(d) *= 10.;
 				}
@@ -411,7 +408,7 @@ gdtoa
 			for(i = 1;; i++, dval(d) *= 10.) {
 				if ( (L = (Long)(dval(d)/ds)) !=0)
 					dval(d) -= L*ds;
-				*s++ = '0' + (int)L;
+				*s++ = (char)('0' + (int)L);
 				if (i == ilim) {
 					ds *= 0.5;
 					if (dval(d) > ds + dval(eps))
@@ -457,7 +454,7 @@ gdtoa
 				dval(d) += ds;
 				}
 #endif
-			*s++ = '0' + (int)L;
+			*s++ = (char)('0' + (int)L);
 			if (dval(d) == 0.)
 				break;
 			if (i == ilim) {
@@ -640,7 +637,7 @@ gdtoa
 					dig++;
 					inex = STRTOG_Inexhi;
 					}
-				*s++ = dig;
+				*s++ = (char)dig;
 				goto ret;
 				}
 #endif
@@ -655,7 +652,7 @@ gdtoa
 						goto accept;
 						}
 					while (cmp(S,mhi) > 0) {
-						*s++ = dig;
+						*s++ = (char)dig;
 						mhi1 = multadd(mhi, 10, 0);
 						if (mlo == mhi)
 							mlo = mhi1;
@@ -679,7 +676,7 @@ gdtoa
 				if (b->wds > 1 || b->x[0])
 					inex = STRTOG_Inexlo;
  accept:
-				*s++ = dig;
+				*s++ = (char)dig;
 				goto ret;
 				}
 			if (j1 > 0 && rdir != 2) {
@@ -690,10 +687,10 @@ gdtoa
 					goto roundoff;
 					}
 				inex = STRTOG_Inexhi;
-				*s++ = dig + 1;
+				*s++ = (char)(dig + 1);
 				goto ret;
 				}
-			*s++ = dig;
+			*s++ = (char)dig;
 			if (i == ilim)
 				break;
 			b = multadd(b, 10, 0);
@@ -707,7 +704,8 @@ gdtoa
 		}
 	else
 		for(i = 1;; i++) {
-			*s++ = dig = quorem(b,S) + '0';
+			dig = quorem(b,S) + '0';
+			*s++ = (char) dig;
 			if (i >= ilim)
 				break;
 			b = multadd(b, 10, 0);
