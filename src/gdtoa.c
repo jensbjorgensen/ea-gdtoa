@@ -243,7 +243,7 @@ gdtoa
 		k--;	/* want k = floor(ds) */
 	}
 	k_check = 1;
-	word0(d) += (be + bbits - 1) << Exp_shift;
+	word0(d) += (unsigned)((be + bbits - 1) << Exp_shift);
 	if (k >= 0 && k <= Ten_pmax)
 	{
 		if (dval(d) < tens[k])
@@ -410,17 +410,23 @@ gdtoa
 			dval(eps) *= tens[ilim-1];
 			for(i = 1;; i++, dval(d) *= 10.) {
 				if ( (L = (Long)(dval(d)/ds)) !=0)
+				{
 					dval(d) -= L*ds;
+				}
 				*s++ = (char)('0' + (int)L);
 				if (i == ilim) {
 					ds *= 0.5;
 					if (dval(d) > ds + dval(eps))
+					{
 						goto bump_up;
+					}
 					else if (dval(d) < ds - dval(eps)) {
 						while(*--s == '0'){}
 						s++;
 						if (fabs(dval(d)) <= DBL_EPSILON)
+						{
 							inex = STRTOG_Inexlo;
+						}
 						goto ret1;
 						}
 					break;
@@ -448,7 +454,7 @@ gdtoa
 			goto one_digit;
 			}
 		for(i = 1;; i++, dval(d) *= 10.) {
-			L = dval(d) / ds;
+			L = (int)(dval(d) / ds);
 			dval(d) -= L*ds;
 #ifdef Check_FLT_ROUNDS
 			/* If FLT_ROUNDS == 2, L will usually be high by 1 */
