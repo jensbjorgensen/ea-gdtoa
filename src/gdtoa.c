@@ -31,6 +31,7 @@ THIS SOFTWARE.
 
 #include "gdtoaimp.h"
 #include <float.h>
+#include <math.h>
 
  static Bigint *
 #ifdef KR_headers
@@ -237,7 +238,7 @@ gdtoa
 	}
 
 	k = (int)ds;
-	if (ds < 0. && ds != k)
+	if (ds < 0. && (fabs(ds - k) > DBL_EPSILON))
 	{
 		k--;	/* want k = floor(ds) */
 	}
@@ -465,7 +466,7 @@ gdtoa
 					goto ret1;
 					}
 				dval(d) += dval(d);
-				if ((dval(d) > ds) || ((dval(d) == ds) && (L & 1))) {
+				if ((dval(d) > ds) || ((fabs(dval(d) - ds) <= DBL_EPSILON) && (L & 1))) {
  bump_up:
 					inex = STRTOG_Inexhi;
 					while(*--s == '9')
