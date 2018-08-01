@@ -44,9 +44,13 @@ g_ffmt(char *buf, float *f, int ndig, unsigned bufsize)
 	int decpt, ex, i, mode;
 
 	if (ndig < 0)
+	{
 		ndig = 0;
-	if (bufsize < ndig + 10)
+	}
+	if (bufsize < (unsigned)(ndig + 10))
+	{
 		return 0;
+	}
 
 	L = (ULong*)f;
 	sign = L[0] & 0x80000000L;
@@ -60,7 +64,7 @@ g_ffmt(char *buf, float *f, int ndig, unsigned bufsize)
 			*b++ = '-';
 		return strcp(b, "Infinity");
 		}
-	if (*f == 0.) {
+	if (*f == 0.0F) {
 		b = buf;
 #ifndef IGNORE_ZERO_SIGN
 		if (L[0] & 0x80000000L)
@@ -77,11 +81,14 @@ g_ffmt(char *buf, float *f, int ndig, unsigned bufsize)
 		ex = 1;
 	ex -= 0x7f + 23;
 	mode = 2;
-	if (ndig <= 0) {
+	if (ndig <= 0)
+	{
 		if (bufsize < 16)
+		{
 			return 0;
-		mode = 0;
 		}
+		mode = 0;
+	}
 	i = STRTOG_Normal;
 	s = gdtoa(&fpi, ex, bits, &i, mode, ndig, &decpt, &se);
 	return g__fmt(buf, s, se, decpt, sign);
