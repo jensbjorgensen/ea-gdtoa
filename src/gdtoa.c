@@ -386,7 +386,7 @@ gdtoa
 				dval(d) -= L*ds;
 				*s++ = (char)('0' + (int)L);
 				if (dval(d) < dval(eps)) {
-					if (fabs(dval(d)) <= DBL_EPSILON)
+					if (dval(d) > 0.0)
 					{
 						inex = STRTOG_Inexlo;
 					}
@@ -423,7 +423,7 @@ gdtoa
 					else if (dval(d) < ds - dval(eps)) {
 						while(*--s == '0'){}
 						s++;
-						if (fabs(dval(d)) <= DBL_EPSILON)
+						if (dval(d) > 0.0)
 						{
 							inex = STRTOG_Inexlo;
 						}
