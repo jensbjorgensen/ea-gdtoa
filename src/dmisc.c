@@ -42,13 +42,16 @@ rv_alloc(i) int i;
 rv_alloc(int i)
 #endif
 {
-	int j, k, *r;
+	int k, *r;
+	size_t j;
 
 	j = sizeof(ULong);
 	for(k = 0;
-		sizeof(Bigint) - sizeof(ULong) - sizeof(int) + j <= i;
+		sizeof(Bigint) - sizeof(ULong) - sizeof(int) + j <= (size_t)i;
 		j <<= 1)
+	{
 			k++;
+	}
 	r = (int*)Balloc(k);
 	*r = k;
 	return
@@ -88,12 +91,14 @@ freedtoa(s) char *s;
 freedtoa(char *s)
 #endif
 {
-	Bigint *b = (Bigint *)((int *)s - 1);
+	Bigint *b = (Bigint *)((void*)(s - sizeof(int*)));
 	b->maxwds = 1 << (b->k = *(int*)b);
 	Bfree(b);
 #ifndef MULTIPLE_THREADS
 	if (s == dtoa_result)
+	{
 		dtoa_result = 0;
+	}
 #endif
 	}
 
@@ -166,7 +171,9 @@ quorem
 		if (!*bxe) {
 			bx = b->x;
 			while(--bxe > bx && !*bxe)
+			{
 				--n;
+			}
 			b->wds = n;
 			}
 		}
@@ -208,9 +215,13 @@ quorem
 		bxe = bx + n;
 		if (!*bxe) {
 			while(--bxe > bx && !*bxe)
+			{
 				--n;
+			}
 			b->wds = n;
 			}
 		}
-	return q;
+
+	//TODO: why is an int being returned?
+	return (int)q;
 	}
