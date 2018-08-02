@@ -63,9 +63,9 @@ Balloc
 #ifdef Omit_Private_Memory
 		rv = (Bigint *)MALLOC(sizeof(Bigint) + (x-1)*sizeof(ULong));
 #else
-		len = (sizeof(Bigint) + (x-1)*sizeof(ULong) + sizeof(double) - 1)
+		len = (sizeof(Bigint) + ((unsigned)x-1)*sizeof(ULong) + sizeof(double) - 1)
 			/sizeof(double);
-		if (pmem_next - private_mem + len <= PRIVATE_mem) {
+		if ((unsigned)(pmem_next - private_mem + len) <= PRIVATE_mem) {
 			rv = (Bigint*)pmem_next;
 			pmem_next += len;
 			}
@@ -167,7 +167,7 @@ multadd
 	wds = b->wds;
 	x = b->x;
 	i = 0;
-	carry = a;
+	carry = (unsigned long long)a;
 	do {
 #ifdef ULLong
 		y = *x * (ULLong)m + carry;
@@ -195,7 +195,7 @@ multadd
 			Bfree(b);
 			b = b1;
 			}
-		b->x[wds++] = carry;
+		b->x[wds++] = (ULong)carry;
 		b->wds = wds;
 		}
 	return b;
@@ -246,7 +246,7 @@ i2b
 	Bigint *b;
 
 	b = Balloc(1);
-	b->x[0] = i;
+	b->x[0] = (ULong)i;
 	b->wds = 1;
 	return b;
 	}
@@ -303,7 +303,7 @@ mult
 				*xc++ = z & 0xffffffffUL;
 				}
 				while(x < xae);
-			*xc = carry;
+			*xc = (ULong)carry;
 			}
 		}
 #else

@@ -67,7 +67,7 @@ ULtoQ(ULong *L, ULong *bits, Long exp, int k)
 		L[_3] = bits[0];
 		L[_2] = bits[1];
 		L[_1] = bits[2];
-		L[_0] = (bits[3] & ~0x10000) | ((exp + 0x3fff + 112) << 16);
+		L[_0] = (bits[3] & (unsigned)~0x10000) | (unsigned)((exp + 0x3fff + 112) << 16);
 		break;
 
 	  case STRTOG_Denormal:

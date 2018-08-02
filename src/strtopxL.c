@@ -72,7 +72,7 @@ strtopxL(CONST char *s, char **sp, void *V)
 	  case STRTOG_NaNbits:
 		L[_2] = bits[0];
 		L[_1] = bits[1];
-		L[_0] = (exp + 0x3fff + 63) << 16;
+		L[_0] = (unsigned)((exp + 0x3fff + 63) << 16);
 		break;
 
 	  case STRTOG_Infinite:

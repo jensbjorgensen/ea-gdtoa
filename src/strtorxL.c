@@ -63,7 +63,7 @@ ULtoxL(ULong *L, ULong *bits, Long exp, int k)
 	  case STRTOG_Normal:
 	  case STRTOG_Denormal:
 	  case STRTOG_NaNbits:
-		L[_0] = (exp + 0x3fff + 63) << 16;
+		L[_0] = (ULong)((exp + 0x3fff + 63) << 16);
 		L[_1] = bits[1];
 		L[_2] = bits[0];
 		break;

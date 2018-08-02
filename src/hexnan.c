@@ -109,7 +109,7 @@ hexnan( CONST char **sp, FPI *fpi, ULong *x0)
 					*sp = s + 1;
 					break;
 					}
-				} while((c = *++s));
+				} while((c = (ULong)*++s));
 #endif
 			return STRTOG_NaN;
 			}

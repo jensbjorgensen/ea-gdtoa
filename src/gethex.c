@@ -112,13 +112,13 @@ gethex( CONST char **sp, FPI *fpi, Long *exp, Bigint **bp, int sign)
 			e1 = -e1;
 		e += e1;
 	  }
-	*sp = (char*)s;
+	*sp = (const char*)s;
 	if (zret) {
 		if (!havedig)
-			*sp = (char*)s0 - 1;
+			*sp = (const char*)s0 - 1;
 		return STRTOG_Zero;
 		}
-	n = s1 - s0 - 1;
+	n = (int)(s1 - s0 - 1);
 	for(k = 0; n > 7; n >>= 1)
 		k++;
 	b = Balloc(k);
@@ -127,17 +127,20 @@ gethex( CONST char **sp, FPI *fpi, Long *exp, Bigint **bp, int sign)
 	L = 0;
 	while(s1 > s0) {
 		if (*--s1 == decimalpoint)
+		{
 			continue;
+		}
 		if (n == 32) {
 			*x++ = L;
 			L = 0;
 			n = 0;
 			}
-		L |= (hexdig[*s1] & 0x0f) << n;
+		L |= (unsigned)((hexdig[*s1] & 0x0f) << n);
 		n += 4;
 		}
 	*x++ = L;
-	b->wds = n = x - b->x;
+	n = (int)(x - b->x);
+	b->wds = n;
 	n = 32*n - hi0bits(L);
 	nbits = fpi->nbits;
 	lostbits = 0;

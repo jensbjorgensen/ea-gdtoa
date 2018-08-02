@@ -62,11 +62,11 @@ strtodI(CONST char *s, char **sp, double *dd)
 	typedef union {
 		double d[2];
 		ULong L[4];
-		} U;
-	U *u;
+		} U2;
+	U2 *u;
 
 	k = strtodg(s, sp, &fpi, &exp, bits);
-	u = (U*)dd;
+	u = (U2*)dd;
 	sign = k & STRTOG_Neg ? 0x80000000L : 0;
 	switch(k & STRTOG_Retmask) {
 	  case STRTOG_NoNumber:
@@ -94,7 +94,7 @@ strtodI(CONST char *s, char **sp, double *dd)
 
 	  case STRTOG_Normal:
 		u->L[_1] = bits[0];
-		u->L[_0] = (bits[1] & ~0x100000) | ((exp + 0x3ff + 52) << 20);
+		u->L[_0] = (bits[1] & (unsigned)~0x100000) | (unsigned)((exp + 0x3ff + 52) << 20);
 	  contain:
 		j = k & STRTOG_Inexact;
 		if (sign) {

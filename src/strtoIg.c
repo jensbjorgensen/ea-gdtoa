@@ -64,7 +64,7 @@ strtoIg(CONST char *s00, char **se, FPI *fpi, Long *exp, Bigint **B, int *rvp)
 		if (fpi->sudden_underflow
 		 && (rv & STRTOG_Retmask) == STRTOG_Zero) {
 			b1->x[0] = 0;
-			b1->x[nw1] = 1L << nb11;
+			b1->x[nw1] = (ULong)(1L << nb11);
 			rv1 += STRTOG_Normal - STRTOG_Zero;
 			rv1 &= ~STRTOG_Underflow;
 			goto swapcheck;

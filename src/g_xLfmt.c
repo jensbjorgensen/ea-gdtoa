@@ -60,9 +60,13 @@ g_xLfmt(char *buf, void *V, int ndig, unsigned bufsize)
 	int decpt, ex, i, mode;
 
 	if (ndig < 0)
+	{
 		ndig = 0;
-	if (bufsize < ndig + 10)
+	}
+	if (bufsize < (unsigned)ndig + 10)
+	{
 		return 0;
+	}
 
 	L = (ULong*)V;
 	sign = L[_0] & 0x80000000L;

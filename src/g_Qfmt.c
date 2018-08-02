@@ -63,7 +63,7 @@ g_Qfmt(char *buf, void *V, int ndig, unsigned bufsize)
 
 	if (ndig < 0)
 		ndig = 0;
-	if (bufsize < ndig + 10)
+	if (bufsize < (unsigned)ndig + 10)
 		return 0;
 
 	L = (ULong*)V;

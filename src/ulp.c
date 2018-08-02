@@ -49,7 +49,7 @@ ulp
 #ifdef IBM
 		L |= Exp_msk1 >> 4;
 #endif
-		word0(a) = L;
+		word0(a) = (ULong)L;
 		word1(a) = 0;
 #ifndef Sudden_Underflow
 		}

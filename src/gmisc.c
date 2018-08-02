@@ -60,7 +60,8 @@ rshift(Bigint *b, int k)
 			while(x < xe)
 				*x1++ = *x++;
 		}
-	if ((b->wds = x1 - b->x) == 0)
+	b->wds = (int) (x1 - b->x);
+	if ((b->wds) == 0)
 		b->x[0] = 0;
 	}
 

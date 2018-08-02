@@ -70,7 +70,7 @@ ULtox(UShort *L, ULong *bits, Long exp, int k)
 
 	  case STRTOG_Normal:
 	  case STRTOG_NaNbits:
-		L[_0] = exp + 0x3fff + 63;
+		L[_0] = (UShort)(exp + 0x3fff + 63);
  normal_bits:
 		L[_4] = (UShort)bits[0];
 		L[_3] = (UShort)(bits[0] >> 16);

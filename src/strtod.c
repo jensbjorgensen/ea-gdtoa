@@ -30,6 +30,9 @@ THIS SOFTWARE.
  * with " at " changed at "@" and " dot " changed to ".").	*/
 
 #include "gdtoaimp.h"
+#include <stdint.h>
+#include <float.h>
+#include <math.h>
 #ifndef NO_FENV_H
 #include <fenv.h>
 #endif
@@ -61,7 +64,7 @@ static CONST double tinytens[] = { 1e-16, 1e-32, 1e-64, 1e-128,
  double
 strtod
 #ifdef KR_headers
-	(s00, se) CONST char *s00; char **se;
+	(s00, se) CONST char *s00; CONST char **se;
 #else
 	(CONST char *s00, char **se)
 #endif
@@ -75,7 +78,7 @@ strtod
 	double aadj, aadj1, adj, rv, rv0;
 	Long L;
 	ULong y, z;
-	Bigint *bb, *bb1, *bd, *bd0, *bs, *delta;
+	Bigint *bb = NULL, *bb1 = NULL, *bd = NULL, *bd0 = NULL, *bs = NULL, *delta = NULL;
 #ifdef SET_INEXACT
 	int inexact, oldinexact;
 #endif
@@ -152,9 +155,13 @@ strtod
 	y = z = 0;
 	for(nd = nf = 0; (c = *s) >= '0' && c <= '9'; nd++, s++)
 		if (nd < 9)
-			y = 10*y + c - '0';
+		{
+			y = 10*y + (unsigned)c - '0';
+		}
 		else if (nd < 16)
-			z = 10*z + c - '0';
+		{
+			z = 10*z + (unsigned)c - '0';
+		}
 	nd0 = nd;
 #ifdef USE_LOCALE
 	if (c == *localeconv()->decimal_point)
@@ -182,13 +189,21 @@ strtod
 				nf += nz;
 				for(i = 1; i < nz; i++)
 					if (nd++ < 9)
+					{
 						y *= 10;
+					}
 					else if (nd <= DBL_DIG + 1)
+					{
 						z *= 10;
+					}
 				if (nd++ < 9)
-					y = 10*y + c;
+				{
+					y = 10*y + (unsigned)c;
+				}
 				else if (nd <= DBL_DIG + 1)
-					z = 10*z + c;
+				{
+					z = 10*z + (unsigned)c;
+				}
 				nz = 0;
 				}
 			}
@@ -487,7 +502,7 @@ strtod
 				dval(rv) = 2.*dval(rv0);
 				dval(rv) *= tinytens[j];
 #endif
-				if (!dval(rv)) {
+				if (fabs(dval(rv)) <= DBL_EPSILON) {
  undfl:
 					dval(rv) = 0.;
 #ifndef NO_ERRNO
@@ -649,8 +664,8 @@ strtod
 				adj = 1.;
 			if (adj <= 0x7ffffffe) {
 				/* adj = rounding ? ceil(adj) : floor(adj); */
-				y = adj;
-				if (y != adj) {
+				y = (ULong)adj;
+				if (fabs(y - adj) > DBL_EPSILON) {
 					if (!((rounding>>1) ^ dsign))
 						y++;
 					adj = y;
@@ -769,7 +784,7 @@ strtod
 #endif /*Avoid_Underflow*/
 				L = (word0(rv) & Exp_mask) - Exp_msk1;
 #endif /*Sudden_Underflow}*/
-				word0(rv) = L | Bndry_mask1;
+				word0(rv) = (ULong) (L | Bndry_mask1);
 				word1(rv) = 0xffffffff;
 #ifdef IBM
 				goto cont;
@@ -787,7 +802,7 @@ strtod
 			else {
 				dval(rv) -= ulp(dval(rv));
 #ifndef Sudden_Underflow
-				if (!dval(rv))
+				if (fabs(dval(rv)) <= DBL_EPSILON)
 					goto undfl;
 #endif
 				}
@@ -860,8 +875,11 @@ strtod
 #ifdef Avoid_Underflow
 			if (scale && y <= 2*P*Exp_msk1) {
 				if (aadj <= 0x7fffffff) {
-					if ((z = aadj) <= 0)
+					z = (ULong)aadj;
+					if (z <= 0)
+					{
 						z = 1;
+					}
 					aadj = z;
 					aadj1 = dsign ? aadj : -aadj;
 					}
@@ -969,14 +987,34 @@ strtod
 		}
 #endif
  retfree:
-	Bfree(bb);
-	Bfree(bd);
-	Bfree(bs);
-	Bfree(bd0);
-	Bfree(delta);
+ 	if(bb)
+ 	{
+ 		Bfree(bb);
+ 	}
+
+	if(bd)
+	{
+		Bfree(bd);
+	}
+
+	if(bs)
+	{
+		Bfree(bs);
+	}
+
+	if(bd0)
+	{
+		Bfree(bd0);
+	}
+
+	if(delta)
+	{
+		Bfree(delta);
+	}
+
  ret:
 	if (se)
-		*se = (char *)s;
+		*se = (char*)(uintptr_t)s;
 	return sign ? -dval(rv) : dval(rv);
 	}
 

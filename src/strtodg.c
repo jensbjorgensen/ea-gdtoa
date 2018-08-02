@@ -30,6 +30,7 @@ THIS SOFTWARE.
  * with " at " changed at "@" and " dot " changed to ".").	*/
 
 #include "gdtoaimp.h"
+#include <stdint.h>
 
 #ifdef USE_LOCALE
 #include "locale.h"
@@ -326,7 +327,7 @@ strtodg
 	int bb0, bb2, bb5, bbe, bd2, bd5, bbbits, bs2, c, decpt, denorm;
 	int dsign, e, e1, e2, emin, esign, finished, i, inex, irv;
 	int j, k, nbits, nd, nd0, nf, nz, nz0, rd, rvbits, rve, rve1, sign;
-	int sudden_underflow;
+	int sudden_underflow = 0;
 	CONST char *s, *s0, *s1;
 	double adj, adj0, rv, tol;
 	Long L;
@@ -385,9 +386,13 @@ strtodg
 	y = z = 0;
 	for(decpt = nd = nf = 0; (c = *s) >= '0' && c <= '9'; nd++, s++)
 		if (nd < 9)
-			y = 10*y + c - '0';
+		{
+			y = 10*y + (unsigned)c - '0';
+		}
 		else if (nd < 16)
-			z = 10*z + c - '0';
+		{
+			z = 10*z + (unsigned)c - '0';
+		}
 	nd0 = nd;
 #ifdef USE_LOCALE
 	if (c == *localeconv()->decimal_point)
@@ -415,13 +420,21 @@ strtodg
 				nf += nz;
 				for(i = 1; i < nz; i++)
 					if (nd++ < 9)
+					{
 						y *= 10;
+					}
 					else if (nd <= DBL_DIG + 1)
+					{
 						z *= 10;
+					}
 				if (nd++ < 9)
-					y = 10*y + c;
+				{
+					y = 10*y + (unsigned) c;
+				}
 				else if (nd <= DBL_DIG + 1)
-					z = 10*z + c;
+				{
+					z = 10*z + (unsigned) c;
+				}
 				nz = 0;
 				}
 			}
@@ -597,13 +610,13 @@ strtodg
 			while(e1 >= (1 << (n_bigtens-1))) {
 				e2 += ((word0(rv) & Exp_mask)
 					>> Exp_shift1) - Bias;
-				word0(rv) &= ~Exp_mask;
+				word0(rv) &= (unsigned)~Exp_mask;
 				word0(rv) |= Bias << Exp_shift1;
 				dval(rv) *= bigtens[n_bigtens-1];
 				e1 -= 1 << (n_bigtens-1);
 				}
 			e2 += ((word0(rv) & Exp_mask) >> Exp_shift1) - Bias;
-			word0(rv) &= ~Exp_mask;
+			word0(rv) &= (unsigned)~Exp_mask;
 			word0(rv) |= Bias << Exp_shift1;
 			for(j = 0; e1 > 0; j++, e1 >>= 1)
 				if (e1 & 1)
@@ -619,13 +632,13 @@ strtodg
 			while(e1 >= (1 << (n_bigtens-1))) {
 				e2 += ((word0(rv) & Exp_mask)
 					>> Exp_shift1) - Bias;
-				word0(rv) &= ~Exp_mask;
+				word0(rv) &= (unsigned)~Exp_mask;
 				word0(rv) |= Bias << Exp_shift1;
 				dval(rv) *= tinytens[n_bigtens-1];
 				e1 -= 1 << (n_bigtens-1);
 				}
 			e2 += ((word0(rv) & Exp_mask) >> Exp_shift1) - Bias;
-			word0(rv) &= ~Exp_mask;
+			word0(rv) &= (unsigned)~Exp_mask;
 			word0(rv) |= Bias << Exp_shift1;
 			for(j = 0; e1 > 0; j++, e1 >>= 1)
 				if (e1 & 1)
@@ -858,7 +871,7 @@ strtodg
 				inex = STRTOG_Inexlo;
 				}
 			if (dval(adj) < 2147483647.) {
-				L = adj0;
+				L = (int)adj0;
 				adj0 -= L;
 				switch(rd) {
 				  case 0:
@@ -879,7 +892,7 @@ strtodg
 				dval(adj) = L;
 				}
 			}
-		y = rve + rvbits;
+		y = (ULong)(rve + rvbits);
 
 		/* adj *= ulp(dval(rv)); */
 		/* if (asub) rv -= adj; else rv += adj; */
@@ -940,7 +953,7 @@ strtodg
 		if (finished)
 			break;
 
-		z = rve + rvbits;
+		z = (ULong)(rve + rvbits);
 		if (y == z && L) {
 			/* Can we stop now? */
 			tol = dval(adj) * 5e-16; /* > max rel error */
@@ -982,8 +995,10 @@ strtodg
 #ifndef NO_ERRNO
 		errno = ERANGE;
 #endif
+#ifdef INFNAN_CHECK
  infnanexp:
 		*exp = fpi->emax + 1;
+#endif
 		}
  ret:
 	if (denorm) {
@@ -995,13 +1010,19 @@ strtodg
 			irv = (irv & ~STRTOG_Retmask) |
 				(rvb->wds > 0 ? STRTOG_Denormal : STRTOG_Zero);
 			if (irv & STRTOG_Inexact)
+			{
 				irv |= STRTOG_Underflow;
+			}
 			}
 		}
 	if (se)
-		*se = (char *)s;
+	{
+		*se = (char*)(uintptr_t)s;
+	}
 	if (sign)
+	{
 		irv |= STRTOG_Neg;
+	}
 	if (rvb) {
 		copybits(bits, nbits, rvb);
 		Bfree(rvb);

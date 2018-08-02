@@ -42,7 +42,7 @@ htinit(unsigned char *h, unsigned char *s, int inc)
 {
 	int i, j;
 	for(i = 0; (j = s[i]) !=0; i++)
-		h[j] = i + inc;
+		h[j] = (unsigned char)(i + inc);
 	}
 
  void

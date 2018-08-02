@@ -52,7 +52,7 @@ ULtod(ULong *L, ULong *bits, Long exp, int k)
 	  case STRTOG_Normal:
 	  case STRTOG_NaNbits:
 		L[_1] = bits[0];
-		L[_0] = (bits[1] & ~0x100000) | ((exp + 0x3ff + 52) << 20);
+		L[_0] = (bits[1] & (unsigned)~0x100000) | (unsigned)((exp + 0x3ff + 52) << 20);
 		break;
 
 	  case STRTOG_Infinite:

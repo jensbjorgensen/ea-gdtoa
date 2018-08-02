@@ -66,13 +66,13 @@ g_xfmt(char *buf, void *V, int ndig, unsigned bufsize)
 
 	if (ndig < 0)
 		ndig = 0;
-	if (bufsize < ndig + 10)
+	if (bufsize < (unsigned)ndig + 10)
 		return 0;
 
 	L = (UShort *)V;
 	sign = L[_0] & 0x8000;
-	bits[1] = (L[_1] << 16) | L[_2];
-	bits[0] = (L[_3] << 16) | L[_4];
+	bits[1] = (ULong)(L[_1] << 16) | L[_2];
+	bits[0] = (ULong)(L[_3] << 16) | L[_4];
 	if ( (ex = L[_0] & 0x7fff) !=0) {
 		if (ex == 0x7fff) {
 			/* Infinity or NaN */

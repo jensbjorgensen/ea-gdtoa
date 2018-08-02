@@ -97,10 +97,10 @@ ratio
 		}
 #else
 	if (k > 0)
-		word0(da) += k*Exp_msk1;
+		word0(da) += (unsigned)(k*Exp_msk1);
 	else {
 		k = -k;
-		word0(db) += k*Exp_msk1;
+		word0(db) += (unsigned)(k*Exp_msk1);
 		}
 #endif
 	return dval(da) / dval(db);

@@ -30,6 +30,8 @@ THIS SOFTWARE.
  * with " at " changed at "@" and " dot " changed to ".").	*/
 
 #include "gdtoaimp.h"
+#include <math.h>
+#include <float.h>
 
 /* dtoa for IEEE arithmetic (dmg): convert double to ASCII string.
  *
@@ -116,7 +118,7 @@ dtoa
 		to hold the suppressed trailing zeros.
 	*/
 
-	int bbits, b2, b5, be, dig, i, ieps, ilim, ilim0, ilim1,
+	int bbits, b2, b5, be, dig, i, ieps, ilim = 0, ilim0, ilim1 = 0,
 		j, j1, k, k0, k_check, leftright, m2, m5, s2, s5,
 		spec_case, try_quick;
 	Long L;
@@ -124,7 +126,7 @@ dtoa
 	int denorm;
 	ULong x;
 #endif
-	Bigint *b, *b1, *delta, *mlo, *mhi, *S;
+	Bigint *b, *b1, *delta, *mlo = NULL, *mhi, *S;
 	double d2, ds, eps;
 	char *s, *s0;
 #ifdef Honor_FLT_ROUNDS
@@ -170,7 +172,7 @@ dtoa
 #ifdef IBM
 	dval(d) += 0; /* normalize */
 #endif
-	if (!dval(d)) {
+	if (fabs(dval(d)) < DBL_EPSILON) {
 		*decpt = 1;
 		return nrv_alloc("0", rve, 1);
 		}
@@ -255,7 +257,7 @@ dtoa
 #endif
 	ds = (dval(d2)-1.5)*0.289529654602168 + 0.1760912590558 + i*0.301029995663981;
 	k = (int)ds;
-	if (ds < 0. && ds != k)
+	if (ds < 0. && (fabs(ds - k) > DBL_EPSILON))
 	{
 		k--;	/* want k = floor(ds) */
 	}
@@ -403,9 +405,9 @@ dtoa
 			 */
 			dval(eps) = 0.5/tens[ilim-1] - dval(eps);
 			for(i = 0;;) {
-				L = dval(d);
+				L = (int)dval(d);
 				dval(d) -= L;
-				*s++ = '0' + (int)L;
+				*s++ = '0' + (char)L;
 				if (dval(d) < dval(eps))
 				{
 					goto ret1;
@@ -428,11 +430,13 @@ dtoa
 			dval(eps) *= tens[ilim-1];
 			for(i = 1;; i++, dval(d) *= 10.) {
 				L = (Long)(dval(d));
-				if (!(dval(d) -= L))
+				//Formerly if(!(dval(d) -= L))
+				dval(d) -= L;
+				if ( fabs(dval(d)) <= DBL_EPSILON)
 				{
 					ilim = i;
 				}
-				*s++ = '0' + (int)L;
+				*s++ = '0' + (char)L;
 				if (i == ilim) {
 					if (dval(d) > 0.5 + dval(eps))
 					{
@@ -479,8 +483,8 @@ dtoa
 				dval(d) += ds;
 				}
 #endif
-			*s++ = '0' + (int)L;
-			if (!dval(d)) {
+			*s++ = '0' + (char)L;
+			if (fabs(dval(d)) <= DBL_EPSILON) {
 #ifdef SET_INEXACT
 				inexact = 0;
 #endif
@@ -497,7 +501,7 @@ dtoa
 				}
 #endif
 				dval(d) += dval(d);
-				if ((dval(d) > ds) || ((dval(d) == ds) && (L & 1))) {
+				if ((dval(d) > ds) || ((fabs(dval(d) - ds) <= DBL_EPSILON) && (L & 1))) {
  bump_up:
 					while(*--s == '9')
 						if (s == s0) {
@@ -685,7 +689,7 @@ dtoa
 					inexact = 0;
 				}
 #endif
-				*s++ = dig;
+				*s++ = (char)dig;
 				goto ret;
 				}
 #endif
@@ -717,7 +721,7 @@ dtoa
 					}
 					}
  accept_dig:
-				*s++ = dig;
+				*s++ = (char)dig;
 				goto ret;
 				}
 			if (j1 > 0) {
@@ -730,13 +734,13 @@ dtoa
 					*s++ = '9';
 					goto roundoff;
 					}
-				*s++ = dig + 1;
+				*s++ = (char)dig + 1;
 				goto ret;
 				}
 #ifdef Honor_FLT_ROUNDS
  keep_dig:
 #endif
-			*s++ = dig;
+			*s++ = (char)dig;
 			if (i == ilim)
 			{
 				break;
@@ -754,7 +758,8 @@ dtoa
 		}
 	else
 		for(i = 1;; i++) {
-			*s++ = dig = quorem(b,S) + '0';
+			dig = quorem(b,S) + '0';
+			*s++ = (char) dig;
 			if (!b->x[0] && b->wds <= 1) {
 #ifdef SET_INEXACT
 				inexact = 0;

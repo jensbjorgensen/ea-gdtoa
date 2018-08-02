@@ -56,8 +56,10 @@ g__fmt(char *b, char *s, char *se, int decpt, ULong sign)
 		if (*s) {
 			*b++ = decimalpoint;
 			while((*b = *s++) !=0)
+			{
 				b++;
 			}
+		}
 		*b++ = 'e';
 		/* sprintf(b, "%+.2d", decpt - 1); */
 		if (--decpt < 0) {
@@ -69,9 +71,11 @@ g__fmt(char *b, char *s, char *se, int decpt, ULong sign)
 		for(j = 2, k = 10; 10*k <= decpt; j++, k *= 10){}
 		for(;;) {
 			i = decpt / k;
-			*b++ = i + '0';
+			*b++ = (char)i + '0';
 			if (--j <= 0)
+			{
 				break;
+			}
 			decpt -= i*k;
 			decpt *= 10;
 			}
