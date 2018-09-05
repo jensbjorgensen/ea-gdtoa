@@ -36,8 +36,8 @@ Please describe the tests that you ran to verify your changes. Provide instructi
 
 Please identify two developers to review this change
 
-- [ ] @personA
-- [ ] @personB
+- [ ] @ personA
+- [ ] @ personB
 
 # Checklist:
 
