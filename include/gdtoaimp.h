@@ -553,12 +553,12 @@ extern unsigned char hexdig[];
 
 extern Bigint* Balloc ANSI((int));
 extern void Bfree ANSI((Bigint*));
-extern void ULtof ANSI((ULong*, ULong*, Long, int));
+extern void ULtof ANSI((ULong*, const ULong*, Long, int));
 extern void ULtod ANSI((ULong*, const ULong*, Long, int));
 extern void ULtodd ANSI((ULong*, ULong*, Long, int));
-extern void ULtoQ ANSI((ULong*, ULong*, Long, int));
-extern void ULtox ANSI((UShort*, ULong*, Long, int));
-extern void ULtoxL ANSI((ULong*, ULong*, Long, int));
+extern void ULtoQ ANSI((ULong*, const ULong*, Long, int));
+extern void ULtox ANSI((UShort*, const ULong*, Long, int));
+extern void ULtoxL ANSI((ULong*, const ULong*, Long, int));
 extern ULong any_on ANSI((Bigint*, int));
 extern double b2d ANSI((Bigint*, int*));
 extern int cmp ANSI((Bigint*, Bigint*));

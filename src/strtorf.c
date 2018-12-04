@@ -34,11 +34,11 @@ THIS SOFTWARE.
 void
 #ifdef KR_headers
 	ULtof(L, bits, exp, k) ULong* L;
-ULong* bits;
+const ULong* bits;
 Long exp;
 int k;
 #else
-ULtof(ULong *L, ULong *bits, Long exp, int k)
+ULtof(ULong *L, const ULong *bits, Long exp, int k)
 #endif
 {
 	switch(k & STRTOG_Retmask)

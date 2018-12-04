@@ -50,11 +50,11 @@ THIS SOFTWARE.
 void
 #ifdef KR_headers
 	ULtoxL(L, bits, exp, k) ULong* L;
-ULong* bits;
+const ULong* bits;
 Long exp;
 int k;
 #else
-ULtoxL(ULong *L, ULong *bits, Long exp, int k)
+ULtoxL(ULong *L, const ULong *bits, Long exp, int k)
 #endif
 {
 	switch(k & STRTOG_Retmask)

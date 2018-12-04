@@ -54,11 +54,11 @@ THIS SOFTWARE.
 void
 #ifdef KR_headers
 	ULtox(L, bits, exp, k) UShort* L;
-ULong* bits;
+const ULong* bits;
 Long exp;
 int k;
 #else
-ULtox(UShort *L, ULong *bits, Long exp, int k)
+ULtox(UShort *L, const ULong *bits, Long exp, int k)
 #endif
 {
 	switch(k & STRTOG_Retmask)
