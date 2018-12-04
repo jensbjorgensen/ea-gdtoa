@@ -40,3 +40,7 @@ purify: clean
 .PHONY: regen
 regen:
 	@build/bin/premake5 --file=premake5.lua gmake
+
+.PHONY: format
+format:
+	$(Q)tools/format/clang-format-all.sh
