@@ -97,7 +97,9 @@ strtopx(CONST char *s, char **sp, void *V)
 		L[3] = ldus_QNAN3;
 		L[4] = ldus_QNAN4;
 	  }
-	if (k & STRTOG_Neg)
+	if (k & STRTOG_Neg) { {
 		L[_0] |= 0x8000;
+}
+}
 	return k;
 	}

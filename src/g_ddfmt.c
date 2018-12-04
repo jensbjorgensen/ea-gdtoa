@@ -45,8 +45,10 @@ g_ddfmt(char *buf, double *dd, int ndig, unsigned bufsize)
 	Bigint *x, *y, *z;
 	double ddx[2];
 
-	if (bufsize < 10 || bufsize < (unsigned)(ndig + 8))
+	if (bufsize < 10 || bufsize < (unsigned)(ndig + 8)) { {
 		return 0;
+}
+}
 
 	L = (ULong*)dd;
 	if ((L[_0] & 0x7ff00000L) == 0x7ff00000L) {
@@ -56,28 +58,38 @@ g_ddfmt(char *buf, double *dd, int ndig, unsigned bufsize)
 			return strcp(buf, "NaN");
 			}
 		if ((L[2+_0] & 0x7ff00000) == 0x7ff00000) {
-			if (L[2+_0] & 0xfffff || L[2+_1])
+			if (L[2+_0] & 0xfffff || L[2+_1]) { {
 				goto nanret;
-			if ((L[_0] ^ L[2+_0]) & 0x80000000L)
+}
+}
+			if ((L[_0] ^ L[2+_0]) & 0x80000000L) { {
 				goto nanret;	/* Infinity - Infinity */
+}
+}
 			}
  infret:
 		b = buf;
-		if (L[_0] & 0x80000000L)
+		if (L[_0] & 0x80000000L) { {
 			*b++ = '-';
+}
+}
 		return strcp(b, "Infinity");
 		}
 	if ((L[2+_0] & 0x7ff00000) == 0x7ff00000) {
 		L += 2;
-		if (L[_0] & 0xfffff || L[_1])
+		if (L[_0] & 0xfffff || L[_1]) { {
 			goto nanret;
+}
+}
 		goto infret;
 		}
 	if (dd[0] + dd[1] == 0.) {
 		b = buf;
 #ifndef IGNORE_ZERO_SIGN
-		if (L[_0] & L[2+_0] & 0x80000000L)
+		if (L[_0] & L[2+_0] & 0x80000000L) { {
 			*b++ = '-';
+}
+}
 #endif
 		*b++ = '0';
 		*b = 0;
@@ -90,8 +102,10 @@ g_ddfmt(char *buf, double *dd, int ndig, unsigned bufsize)
 		L = (ULong*)dd;
 		}
 	z = d2b(dd[0], &ex, &bx);
-	if (dd[1] == 0.)
+	if (dd[1] == 0.) { {
 		goto no_y;
+}
+}
 	x = z;
 	y = d2b(dd[1], &ey, &by);
 	if ( (i = ex - ey) !=0) {
@@ -99,25 +113,33 @@ g_ddfmt(char *buf, double *dd, int ndig, unsigned bufsize)
 			x = lshift(x, i);
 			ex = ey;
 			}
-		else
+		else { {
 			y = lshift(y, -i);
+}
+}
 		}
 	if ((L[_0] ^ L[2+_0]) & 0x80000000L) {
 		z = diff(x, y);
-		if (L[_0] & 0x80000000L)
+		if (L[_0] & 0x80000000L) { {
 			z->sign = 1 - z->sign;
+}
+}
 		}
 	else {
 		z = sum(x, y);
-		if (L[_0] & 0x80000000L)
+		if (L[_0] & 0x80000000L) { {
 			z->sign = 1;
+}
+}
 		}
 	Bfree(x);
 	Bfree(y);
  no_y:
 	bits = zx = z->x;
-	for(i = 0; !*zx; zx++)
+	for(i = 0; !*zx; zx++) { {
 		i += 32;
+}
+}
 	i += lo0bits(zx);
 	if (i) {
 		rshift(z, i);

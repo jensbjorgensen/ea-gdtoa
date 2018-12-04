@@ -33,9 +33,9 @@ THIS SOFTWARE.
 
  void
 #ifdef KR_headers
-ULtod(L, bits, exp, k) ULong *L; ULong *bits; Long exp; int k;
+ULtod(L, bits, exp, k) ULong *L; const ULong *bits; Long exp; int k;
 #else
-ULtod(ULong *L, ULong *bits, Long exp, int k)
+ULtod(ULong *L, const ULong *bits, Long exp, int k)
 #endif
 {
 	switch(k & STRTOG_Retmask) {
@@ -64,8 +64,10 @@ ULtod(ULong *L, ULong *bits, Long exp, int k)
 		L[0] = d_QNAN0;
 		L[1] = d_QNAN1;
 	  }
-	if (k & STRTOG_Neg)
+	if (k & STRTOG_Neg) { {
 		L[_0] |= 0x80000000L;
+}
+}
 	}
 
  int

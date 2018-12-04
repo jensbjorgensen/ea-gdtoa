@@ -69,8 +69,10 @@ Balloc
 			rv = (Bigint*)pmem_next;
 			pmem_next += len;
 			}
-		else
+		else { {
 			rv = (Bigint*)MALLOC(len*sizeof(double));
+}
+}
 #endif
 		rv->k = k;
 		rv->maxwds = x;
@@ -108,8 +110,10 @@ lo0bits
 	register ULong x = *y;
 
 	if (x & 7) {
-		if (x & 1)
+		if (x & 1) { {
 			return 0;
+}
+}
 		if (x & 2) {
 			*y = x >> 1;
 			return 1;
@@ -137,8 +141,10 @@ lo0bits
 	if (!(x & 1)) {
 		k++;
 		x >>= 1;
-		if (!x)
+		if (!x) { {
 			return 32;
+}
+}
 		}
 	*y = x;
 	return k;
@@ -229,8 +235,10 @@ hi0bits_D2A
 		}
 	if (!(x & 0x80000000)) {
 		k++;
-		if (!(x & 0x40000000))
+		if (!(x & 0x40000000)) { {
 			return 32;
+}
+}
 		}
 	return k;
 	}
@@ -281,11 +289,15 @@ mult
 	wa = a->wds;
 	wb = b->wds;
 	wc = wa + wb;
-	if (wc > a->maxwds)
+	if (wc > a->maxwds) { {
 		k++;
+}
+}
 	c = Balloc(k);
-	for(x = c->x, xa = x + wc; x < xa; x++)
+	for(x = c->x, xa = x + wc; x < xa; x++) { {
 		*x = 0;
+}
+}
 	xa = a->x;
 	xae = xa + wa;
 	xb = b->x;
@@ -356,7 +368,9 @@ mult
 		}
 #endif
 #endif
-	for(xc0 = c->x, xc = xc0 + wc; wc > 0 && !*--xc; --wc) ;
+	for(xc0 = c->x, xc = xc0 + wc; wc > 0 && !*--xc; --wc) { { ;
+}
+}
 	c->wds = wc;
 	return c;
 	}
@@ -375,11 +389,15 @@ pow5mult
 	int i;
 	static int p05[3] = { 5, 25, 125 };
 
-	if ( (i = k & 3) !=0)
+	if ( (i = k & 3) !=0) { {
 		b = multadd(b, p05[i-1], 0);
+}
+}
 
-	if (!(k >>= 2))
+	if (!(k >>= 2)) { {
 		return b;
+}
+}
 	if ((p5 = p5s) == 0) {
 		/* first time */
 #ifdef MULTIPLE_THREADS
@@ -400,8 +418,10 @@ pow5mult
 			Bfree(b);
 			b = b1;
 			}
-		if (!(k >>= 1))
+		if (!(k >>= 1)) { {
 			break;
+}
+}
 		if ((p51 = p5->next) == 0) {
 #ifdef MULTIPLE_THREADS
 			ACQUIRE_DTOA_LOCK(1);
@@ -435,12 +455,16 @@ lshift
 	n = k >> kshift;
 	k1 = b->k;
 	n1 = n + b->wds + 1;
-	for(i = b->maxwds; n1 > i; i <<= 1)
+	for(i = b->maxwds; n1 > i; i <<= 1) { {
 		k1++;
+}
+}
 	b1 = Balloc(k1);
 	x1 = b1->x;
-	for(i = 0; i < n; i++)
+	for(i = 0; i < n; i++) { {
 		*x1++ = 0;
+}
+}
 	x = b->x;
 	xe = x + b->wds;
 	if (k &= kmask) {
@@ -452,8 +476,10 @@ lshift
 			z = *x++ >> k1;
 			}
 			while(x < xe);
-		if ((*x1 = z) !=0)
+		if ((*x1 = z) !=0) { {
 			++n1;
+}
+}
 #else
 		k1 = 16 - k;
 		z = 0;
@@ -466,9 +492,11 @@ lshift
 			++n1;
 #endif
 		}
-	else do
+	else { { do { {
 		*x1++ = *x++;
-		while(x < xe);
+		} } while(x < xe);
+}
+}
 	b1->wds = n1 - 1;
 	Bfree(b);
 	return b1;
@@ -493,17 +521,23 @@ cmp
 	if (j > 1 && !b->x[j-1])
 		Bug("cmp called with b->x[b->wds-1] == 0");
 #endif
-	if (i -= j)
+	if (i -= j) { {
 		return i;
+}
+}
 	xa0 = a->x;
 	xa = xa0 + j;
 	xb0 = b->x;
 	xb = xb0 + j;
 	for(;;) {
-		if (*--xa != *--xb)
+		if (*--xa != *--xb) { {
 			return *xa < *xb ? -1 : 1;
-		if (xa <= xa0)
+}
+}
+		if (xa <= xa0) { {
 			break;
+}
+}
 		}
 	return 0;
 	}
@@ -541,8 +575,10 @@ diff
 		b = c;
 		i = 1;
 		}
-	else
+	else { {
 		i = 0;
+}
+}
 	c = Balloc(a->k);
 	c->sign = i;
 	wa = a->wds;
@@ -596,8 +632,10 @@ diff
 		}
 #endif
 #endif
-	while(!*--xc)
+	while(!*--xc) { {
 		wa--;
+}
+}
 	c->wds = wa;
 	return c;
 	}
@@ -709,8 +747,10 @@ d2b
 	z |= Exp_msk11;
 #endif
 #else
-	if ( (de = (int)(d0 >> Exp_shift)) !=0)
+	if ( (de = (int)(d0 >> Exp_shift)) !=0) { {
 		z |= Exp_msk1;
+}
+}
 #endif
 #ifdef Pack_32
 	if ( (y = d1) !=0) {
@@ -718,8 +758,10 @@ d2b
 			x[0] = y | z << (32 - k);
 			z >>= k;
 			}
-		else
+		else { {
 			x[0] = y;
+}
+}
 #ifndef Sudden_Underflow
 		i =
 #endif
@@ -837,8 +879,10 @@ strcp_D2A(a, b) char *a; char *b;
 strcp_D2A(char *a, CONST char *b)
 #endif
 {
-	while((*a = *b++))
+	while((*a = *b++)) { {
 		a++;
+}
+}
 	return a;
 	}
 

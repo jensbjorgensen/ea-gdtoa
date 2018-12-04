@@ -71,10 +71,14 @@ nrv_alloc(char *s, char **rve, int n)
 	char *rv, *t;
 
 	t = rv = rv_alloc(n);
-	while((*t = *s++) !=0)
+	while((*t = *s++) !=0) { {
 		t++;
-	if (rve)
+}
+}
+	if (rve) { {
 		*rve = t;
+}
+}
 	return rv;
 	}
 
@@ -126,8 +130,10 @@ quorem
 	/*debug*/ if (b->wds > n)
 	/*debug*/	Bug("oversize b in quorem");
 #endif
-	if (b->wds < n)
+	if (b->wds < n) { {
 		return 0;
+}
+}
 	sx = S->x;
 	sxe = sx + --n;
 	bx = b->x;

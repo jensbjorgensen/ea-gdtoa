@@ -37,9 +37,9 @@ THIS SOFTWARE.
 
  char *
 #ifdef KR_headers
-g__fmt(b, s, se, decpt, sign) char *b; char *s; char *se; int decpt; ULong sign;
+g__fmt(b, s, se, decpt, sign) char *b; char *s; const char *se; int decpt; ULong sign;
 #else
-g__fmt(char *b, char *s, char *se, int decpt, ULong sign)
+g__fmt(char *b, char *s, const char *se, int decpt, ULong sign)
 #endif
 {
 	int i, j, k;
@@ -49,8 +49,10 @@ g__fmt(char *b, char *s, char *se, int decpt, ULong sign)
 #else
 #define decimalpoint '.'
 #endif
-	if (sign)
+	if (sign) { {
 		*b++ = '-';
+}
+}
 	if (decpt <= -4 || decpt > se - s + 5) {
 		*b++ = *s++;
 		if (*s) {
@@ -66,8 +68,10 @@ g__fmt(char *b, char *s, char *se, int decpt, ULong sign)
 			*b++ = '-';
 			decpt = -decpt;
 			}
-		else
+		else { {
 			*b++ = '+';
+}
+}
 		for(j = 2, k = 10; 10*k <= decpt; j++, k *= 10){}
 		for(;;) {
 			i = decpt / k;
@@ -83,19 +87,27 @@ g__fmt(char *b, char *s, char *se, int decpt, ULong sign)
 		}
 	else if (decpt <= 0) {
 		*b++ = decimalpoint;
-		for(; decpt < 0; decpt++)
+		for(; decpt < 0; decpt++) { {
 			*b++ = '0';
-		while((*b = *s++) !=0)
+}
+}
+		while((*b = *s++) !=0) { {
 			b++;
+}
+}
 		}
 	else {
 		while((*b = *s++) !=0) {
 			b++;
-			if (--decpt == 0 && *s)
+			if (--decpt == 0 && *s) { {
 				*b++ = decimalpoint;
+}
+}
 			}
-		for(; decpt > 0; decpt--)
+		for(; decpt > 0; decpt--) { {
 			*b++ = '0';
+}
+}
 		*b = 0;
 		}
 	freedtoa(s0);

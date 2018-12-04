@@ -43,8 +43,10 @@ g_dfmt(char *buf, double *d, int ndig, unsigned bufsize)
 	ULong bits[2], *L, sign;
 	int decpt, ex, i, mode;
 
-	if (ndig < 0)
+	if (ndig < 0) { {
 		ndig = 0;
+}
+}
 	if (bufsize < (unsigned)ndig + 10)
 	{
 		return 0;
@@ -58,15 +60,19 @@ g_dfmt(char *buf, double *d, int ndig, unsigned bufsize)
 			return strcp(buf, "NaN");
 			}
 		b = buf;
-		if (sign)
+		if (sign) { {
 			*b++ = '-';
+}
+}
 		return strcp(b, "Infinity");
 		}
 	if (L[_1] == 0 && (L[_0] ^ sign) == 0 /*d == 0.*/) {
 		b = buf;
 #ifndef IGNORE_ZERO_SIGN
-		if (L[_0] & 0x80000000L)
+		if (L[_0] & 0x80000000L) { {
 			*b++ = '-';
+}
+}
 #endif
 		*b++ = '0';
 		*b = 0;
@@ -74,15 +80,19 @@ g_dfmt(char *buf, double *d, int ndig, unsigned bufsize)
 		}
 	bits[0] = L[_1];
 	bits[1] = L[_0] & 0xfffff;
-	if ( (ex = (L[_0] >> 20) & 0x7ff) !=0)
+	if ( (ex = (L[_0] >> 20) & 0x7ff) !=0) { {
 		bits[1] |= 0x100000;
-	else
+	} } else { {
 		ex = 1;
+}
+}
 	ex -= 0x3ff + 52;
 	mode = 2;
 	if (ndig <= 0) {
-		if (bufsize < 25)
+		if (bufsize < 25) { {
 			return 0;
+}
+}
 		mode = 0;
 		}
 	i = STRTOG_Normal;

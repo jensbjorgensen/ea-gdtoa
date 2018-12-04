@@ -90,8 +90,10 @@ ULtox(UShort *L, ULong *bits, Long exp, int k)
 		L[3] = ldus_QNAN3;
 		L[4] = ldus_QNAN4;
 	  }
-	if (k & STRTOG_Neg)
+	if (k & STRTOG_Neg) { {
 		L[_0] |= 0x8000;
+}
+}
 	}
 
  int

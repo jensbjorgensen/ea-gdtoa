@@ -71,8 +71,10 @@ strtopdd(CONST char *s, char **sp, double *dd)
 				i = exp - 1;
 				exp = 0;
 				}
-			else
+			else { {
 				exp -= i;
+}
+}
 			if (i > 0) {
 				bits[1] = bits[1] << i | bits[0] >> (32-i);
 				bits[0] = bits[0] << i & 0xffffffffL;
@@ -84,8 +86,10 @@ strtopdd(CONST char *s, char **sp, double *dd)
 				i = exp - 1;
 				exp = 0;
 				}
-			else
+			else { {
 				exp -= i;
+}
+}
 			if (i < 32) {
 				bits[1] = bits[0] >> (32 - i);
 				bits[0] = bits[0] << i & 0xffffffffL;
@@ -104,12 +108,18 @@ strtopdd(CONST char *s, char **sp, double *dd)
 		break;
 
 	  case STRTOG_Denormal:
-		if (bits[3])
+		if (bits[3]) { {
 			goto nearly_normal;
-		if (bits[2])
+}
+}
+		if (bits[2]) { {
 			goto partly_normal;
-		if (bits[1] & 0xffe00000)
+}
+}
+		if (bits[1] & 0xffe00000) { {
 			goto hardly_normal;
+}
+}
 		/* completely denormal */
 		u->L[2] = u->L[3] = 0;
 		u->L[_1] = bits[0];

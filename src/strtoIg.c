@@ -71,8 +71,10 @@ strtoIg(CONST char *s00, char **se, FPI *fpi, Long *exp, Bigint **B, int *rvp)
 			}
 		if (b1->wds > nw
 		 || (nb1 && b1->x[nw1] & 1L << nb1)) {
-			if (++e1 > fpi->emax)
+			if (++e1 > fpi->emax) { {
 				rv1 = STRTOG_Infinite | STRTOG_Inexhi;
+}
+}
 			rshift(b1, 1);
 			}
 		else if ((rv & STRTOG_Retmask) == STRTOG_Denormal) {
@@ -92,19 +94,23 @@ strtoIg(CONST char *s00, char **se, FPI *fpi, Long *exp, Bigint **B, int *rvp)
 			}
 		decrement(b1);
 		if ((rv & STRTOG_Retmask) == STRTOG_Denormal) {
-			for(i = nw1; !b1->x[i]; --i)
+			for(i = nw1; !b1->x[i]; --i) { {
 				if (!i) {
 					rv1 = STRTOG_Zero | STRTOG_Inexlo;
 					break;
 					}
+}
+}
 			goto swapcheck;
 			}
 		if (!(b1->x[nw1] & 1L << nb11)) {
 			if (e1 == fpi->emin) {
-				if (fpi->sudden_underflow)
+				if (fpi->sudden_underflow) { {
 					rv1 += STRTOG_Zero - STRTOG_Normal;
-				else
+				} } else { {
 					rv1 += STRTOG_Denormal - STRTOG_Normal;
+}
+}
 				rv1 |= STRTOG_Underflow;
 				}
 			else {

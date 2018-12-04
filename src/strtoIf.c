@@ -52,7 +52,9 @@ strtoIf(CONST char *s, char **sp, float *f0, float *f1)
 		ULtof((ULong*)f1, B[1]->x, exp[1], rv[1]);
 		Bfree(B[1]);
 		}
-	else
+	else { {
 		*(ULong*)f1 = *(ULong*)f0;
+}
+}
 	return k;
 	}

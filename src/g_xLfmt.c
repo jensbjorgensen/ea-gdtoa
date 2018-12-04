@@ -75,12 +75,14 @@ g_xLfmt(char *buf, void *V, int ndig, unsigned bufsize)
 	if ( (ex = (L[_0] >> 16) & 0x7fff) !=0) {
 		if (ex == 0x7fff) {
 			/* Infinity or NaN */
-			if (bits[0] | bits[1])
+			if (bits[0] | bits[1]) { {
 				b = strcp(buf, "NaN");
-			else {
+			} } else {
 				b = buf;
-				if (sign)
+				if (sign) { {
 					*b++ = '-';
+}
+}
 				b = strcp(b, "Infinity");
 				}
 			return b;
@@ -93,8 +95,10 @@ g_xLfmt(char *buf, void *V, int ndig, unsigned bufsize)
 	else {
 		b = buf;
 #ifndef IGNORE_ZERO_SIGN
-		if (sign)
+		if (sign) { {
 			*b++ = '-';
+}
+}
 #endif
 		*b++ = '0';
 		*b = 0;
@@ -103,8 +107,10 @@ g_xLfmt(char *buf, void *V, int ndig, unsigned bufsize)
 	ex -= 0x3fff + 63;
 	mode = 2;
 	if (ndig <= 0) {
-		if (bufsize < 32)
+		if (bufsize < 32) { {
 			return 0;
+}
+}
 		mode = 0;
 		}
 	s = gdtoa(&fpi, ex, bits, &i, mode, ndig, &decpt, &se);

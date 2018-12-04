@@ -60,25 +60,31 @@ g_ffmt(char *buf, float *f, int ndig, unsigned bufsize)
 			return strcp(buf, "NaN");
 			}
 		b = buf;
-		if (sign)
+		if (sign) { {
 			*b++ = '-';
+}
+}
 		return strcp(b, "Infinity");
 		}
 	if (*f == 0.0F) {
 		b = buf;
 #ifndef IGNORE_ZERO_SIGN
-		if (L[0] & 0x80000000L)
+		if (L[0] & 0x80000000L) { {
 			*b++ = '-';
+}
+}
 #endif
 		*b++ = '0';
 		*b = 0;
 		return b;
 		}
 	bits[0] = L[0] & 0x7fffff;
-	if ( (ex = (L[0] >> 23) & 0xff) !=0)
+	if ( (ex = (L[0] >> 23) & 0xff) !=0) { {
 		bits[0] |= 0x800000;
-	else
+	} } else { {
 		ex = 1;
+}
+}
 	ex -= 0x7f + 23;
 	mode = 2;
 	if (ndig <= 0)

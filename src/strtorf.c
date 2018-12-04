@@ -60,8 +60,10 @@ ULtof(ULong *L, ULong *bits, Long exp, int k)
 	  case STRTOG_NaN:
 		L[0] = f_QNAN;
 	  }
-	if (k & STRTOG_Neg)
+	if (k & STRTOG_Neg) { {
 		L[0] |= 0x80000000L;
+}
+}
 	}
 
  int

@@ -148,8 +148,10 @@ dtoa
 		*sign = 1;
 		word0(d) &= ~Sign_bit;	/* clear sign bit */
 		}
-	else
+	else { {
 		*sign = 0;
+}
+}
 
 #if defined(IEEE_Arith) + defined(VAX)
 #ifdef IEEE_Arith
@@ -263,8 +265,10 @@ dtoa
 	}
 	k_check = 1;
 	if (k >= 0 && k <= Ten_pmax) {
-		if (dval(d) < tens[k])
+		if (dval(d) < tens[k]) { {
 			k--;
+}
+}
 		k_check = 0;
 		}
 	j = bbits - i - 1;
@@ -315,8 +319,10 @@ dtoa
 			leftright = 0;
 			/* no break */
 		case 4:
-			if (ndigits <= 0)
+			if (ndigits <= 0) { {
 				ndigits = 1;
+}
+}
 			ilim = ilim1 = i = ndigits;
 			break;
 		case 3:
@@ -358,20 +364,24 @@ dtoa
 				dval(d) /= bigtens[n_bigtens-1];
 				ieps++;
 				}
-			for(; j; j >>= 1, i++)
+			for(; j; j >>= 1, i++) { {
 				if (j & 1) {
 					ieps++;
 					ds *= bigtens[i];
 					}
+}
+}
 			dval(d) /= ds;
 			}
 		else if (( j1 = -k )!=0) {
 			dval(d) *= tens[j1 & 0xf];
-			for(j = j1 >> 4; j; j >>= 1, i++)
+			for(j = j1 >> 4; j; j >>= 1, i++) { {
 				if (j & 1) {
 					ieps++;
 					dval(d) *= bigtens[i];
 					}
+}
+}
 			}
 		if (k_check && dval(d) < 1. && ilim > 0) {
 			if (ilim1 <= 0)
@@ -443,7 +453,9 @@ dtoa
 						goto bump_up;
 					}
 					else if (dval(d) < 0.5 - dval(eps)) {
-						while(*--s == '0');
+						while(*--s == '0') { {;
+}
+}
 						s++;
 						goto ret1;
 						}
@@ -503,12 +515,14 @@ dtoa
 				dval(d) += dval(d);
 				if ((dval(d) > ds) || ((fabs(dval(d) - ds) <= DBL_EPSILON) && (L & 1))) {
  bump_up:
-					while(*--s == '9')
+					while(*--s == '9') { {
 						if (s == s0) {
 							k++;
 							*s = '0';
 							break;
 							}
+}
+}
 					++*s++;
 					}
 				break;
@@ -626,8 +640,10 @@ dtoa
 		if (cmp(b,S) < 0) {
 			k--;
 			b = multadd(b, 10, 0);	/* we botched the k estimate */
-			if (leftright)
+			if (leftright) { {
 				mhi = multadd(mhi, 10, 0);
+}
+}
 			ilim = ilim1;
 			}
 		}
@@ -705,11 +721,13 @@ dtoa
 					goto accept_dig;
 					}
 #ifdef Honor_FLT_ROUNDS
-				if (mode > 1)
+				if (mode > 1) { {
 				 switch(rounding) {
 				  case 0: goto accept_dig;
 				  case 2: goto keep_dig;
 				  }
+}
+}
 #endif /*Honor_FLT_ROUNDS*/
 				if (j1 > 0) {
 					b = lshift(b, 1);
@@ -726,8 +744,10 @@ dtoa
 				}
 			if (j1 > 0) {
 #ifdef Honor_FLT_ROUNDS
-				if (!rounding)
+				if (!rounding) { {
 					goto accept_dig;
+}
+}
 #endif
 				if (dig == '9') { /* possible if i == 1 */
  round_9_up:
@@ -756,7 +776,7 @@ dtoa
 				}
 			}
 		}
-	else
+	else { {
 		for(i = 1;; i++) {
 			dig = quorem(b,S) + '0';
 			*s++ = (char) dig;
@@ -772,6 +792,8 @@ dtoa
 			}
 			b = multadd(b, 10, 0);
 			}
+}
+}
 
 	/* Round off last digit */
 
@@ -785,17 +807,21 @@ dtoa
 	j = cmp(b, S);
 	if ((j > 0) || ((j == 0) && (dig & 1))) {
  roundoff:
-		while(*--s == '9')
+		while(*--s == '9') { {
 			if (s == s0) {
 				k++;
 				*s++ = '1';
 				goto ret;
 				}
+}
+}
 		++*s++;
 		}
 	else {
  trimzeros:
-		while(*--s == '0');
+		while(*--s == '0') { {;
+}
+}
 		s++;
 		}
  ret:

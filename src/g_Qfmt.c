@@ -61,10 +61,14 @@ g_Qfmt(char *buf, void *V, int ndig, unsigned bufsize)
 	ULong bits[4], *L, sign;
 	int decpt, ex, i, mode;
 
-	if (ndig < 0)
+	if (ndig < 0) { {
 		ndig = 0;
-	if (bufsize < (unsigned)ndig + 10)
+}
+}
+	if (bufsize < (unsigned)ndig + 10) { {
 		return 0;
+}
+}
 
 	L = (ULong*)V;
 	sign = L[_0] & 0x80000000L;
@@ -76,12 +80,14 @@ g_Qfmt(char *buf, void *V, int ndig, unsigned bufsize)
 	if ( (ex = (L[_0] & 0x7fff0000L) >> 16) !=0) {
 		if (ex == 0x7fff) {
 			/* Infinity or NaN */
-			if (bits[0] | bits[1] | bits[2] | bits[3])
+			if (bits[0] | bits[1] | bits[2] | bits[3]) { {
 				b = strcp(b, "NaN");
-			else {
+			} } else {
 				b = buf;
-				if (sign)
+				if (sign) { {
 					*b++ = '-';
+}
+}
 				b = strcp(b, "Infinity");
 				}
 			return b;
@@ -95,8 +101,10 @@ g_Qfmt(char *buf, void *V, int ndig, unsigned bufsize)
 		}
 	else {
 #ifndef IGNORE_ZERO_SIGN
-		if (sign)
+		if (sign) { {
 			*b++ = '-';
+}
+}
 #endif
 		*b++ = '0';
 		*b = 0;
@@ -105,8 +113,10 @@ g_Qfmt(char *buf, void *V, int ndig, unsigned bufsize)
 	ex -= 0x3fff + 112;
 	mode = 2;
 	if (ndig <= 0) {
-		if (bufsize < 48)
+		if (bufsize < 48) { {
 			return 0;
+}
+}
 		mode = 0;
 		}
 	s = gdtoa(&fpi, ex, bits, &i, mode, ndig, &decpt, &se);

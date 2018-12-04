@@ -57,8 +57,10 @@ ULtodd(ULong *L, ULong *bits, Long exp, int k)
 				i = exp - 1;
 				exp = 0;
 				}
-			else
+			else { {
 				exp -= i;
+}
+}
 			if (i > 0) {
 				bits[1] = bits[1] << i | bits[0] >> (32-i);
 				bits[0] = bits[0] << i & (ULong)0xffffffffL;
@@ -70,8 +72,10 @@ ULtodd(ULong *L, ULong *bits, Long exp, int k)
 				i = exp - 1;
 				exp = 0;
 				}
-			else
+			else { {
 				exp -= i;
+}
+}
 			if (i < 32) {
 				bits[1] = bits[0] >> (32 - i);
 				bits[0] = bits[0] << i & (ULong)0xffffffffL;
@@ -90,12 +94,18 @@ ULtodd(ULong *L, ULong *bits, Long exp, int k)
 		break;
 
 	  case STRTOG_Denormal:
-		if (bits[3])
+		if (bits[3]) { {
 			goto nearly_normal;
-		if (bits[2])
+}
+}
+		if (bits[2]) { {
 			goto partly_normal;
-		if (bits[1] & 0xffe00000)
+}
+}
+		if (bits[1] & 0xffe00000) { {
 			goto hardly_normal;
+}
+}
 		/* completely denormal */
 		L[2] = L[3] = 0;
 		L[_1] = bits[0];

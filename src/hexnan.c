@@ -33,9 +33,9 @@ THIS SOFTWARE.
 
  static void
 #ifdef KR_headers
-L_shift(x, x1, i) ULong *x; ULong *x1; int i;
+L_shift(x, x1, i) ULong *x; const ULong *x1; int i;
 #else
-L_shift(ULong *x, ULong *x1, int i)
+L_shift(ULong *x, const ULong *x1, int i)
 #endif
 {
 	int j;
@@ -62,27 +62,37 @@ hexnan( CONST char **sp, FPI *fpi, ULong *x0)
 	int havedig, hd0, i, nbits;
 
 	if (!hexdig['0'])
+	{
 		hexdig_init_D2A();
+	}
 	nbits = fpi->nbits;
 	x = x0 + (nbits >> kshift);
 	if (nbits & kmask)
+	{
 		x++;
+	}
 	*--x = 0;
 	x1 = xe = x;
 	havedig = hd0 = i = 0;
 	s = *sp;
 	/* allow optional initial 0x or 0X */
 	while((c = *(CONST unsigned char*)(s+1)) && c <= ' ')
+	{
 		++s;
+	}
 	if (s[1] == '0' && (s[2] == 'x' || s[2] == 'X')
 	 && *(CONST unsigned char*)(s+3) > ' ')
+	{
 		s += 2;
+	}
 	while((c = *(CONST unsigned char*)++s)) {
 		if (!(h = hexdig[c])) {
 			if (c <= ' ') {
 				if (hd0 < havedig) {
 					if (x < x1 && i < 8)
+					{
 						L_shift(x, x1, i);
+					}
 					if (x <= x0) {
 						i = 8;
 						continue;
@@ -93,10 +103,14 @@ hexnan( CONST char **sp, FPI *fpi, ULong *x0)
 					i = 0;
 					}
 				while(*(CONST unsigned char*)(s+1) <= ' ')
+				{
 					++s;
+				}
 				if (s[1] == '0' && (s[2] == 'x' || s[2] == 'X')
 				 && *(CONST unsigned char*)(s+3) > ' ')
+				{
 					s += 2;
+				}
 				continue;
 				}
 			if (/*(*/ c == ')' && havedig) {
@@ -116,31 +130,39 @@ hexnan( CONST char **sp, FPI *fpi, ULong *x0)
 		havedig++;
 		if (++i > 8) {
 			if (x <= x0)
+			{
 				continue;
+			}
 			i = 1;
 			*--x = 0;
 			}
 		*x = (*x << 4) | (h & 0xf);
 		}
 	if (!havedig)
+	{
 		return STRTOG_NaN;
+	}
 	if (x < x1 && i < 8)
+	{
 		L_shift(x, x1, i);
+	}
 	if (x > x0) {
 		x1 = x0;
-		do *x1++ = *x++;
-			while(x <= xe);
-		do *x1++ = 0;
-			while(x1 <= xe);
+		do {*x1++ = *x++; } while(x <= xe);
+		do {*x1++ = 0; } while(x1 <= xe);
 		}
 	else {
 		/* truncate high-order word if necessary */
 		if ( (i = nbits & (ULbits-1)) !=0)
+		{
 			*xe &= ((ULong)0xffffffff) >> (ULbits - i);
 		}
+	}
 	for(x1 = xe;; --x1) {
 		if (*x1 != 0)
+		{
 			break;
+		}
 		if (x1 == x0) {
 			*x1 = 1;
 			break;

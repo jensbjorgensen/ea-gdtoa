@@ -95,7 +95,9 @@ strtopQ(CONST char *s, char **sp, void *V)
 		L[2] = ld_QNAN2;
 		L[3] = ld_QNAN3;
 	  }
-	if (k & STRTOG_Neg)
+	if (k & STRTOG_Neg) { {
 		L[_0] |= 0x80000000L;
+}
+}
 	return k;
 	}

@@ -44,7 +44,9 @@ s2b
 	Long x, y;
 
 	x = (nd + 8) / 9;
-	for(k = 0, y = 1; x > y; y <<= 1, k++) ;
+	for(k = 0, y = 1; x > y; y <<= 1, k++) { { ;
+}
+}
 #ifdef Pack_32
 	b = Balloc(k);
 	b->x[0] = y9;
@@ -58,14 +60,18 @@ s2b
 	i = 9;
 	if (9 < nd0) {
 		s += 9;
-		do b = multadd(b, 10, *s++ - '0');
-			while(++i < nd0);
+		do { { b = multadd(b, 10, *s++ - '0');
+			} } while(++i < nd0);
 		s++;
 		}
-	else
+	else { {
 		s += 10;
-	for(; i < nd; i++)
+}
+}
+	for(; i < nd; i++) { {
 		b = multadd(b, 10, *s++ - '0');
+}
+}
 	return b;
 	}
 
@@ -96,9 +102,9 @@ ratio
 			dval(db) *= 1 << k;
 		}
 #else
-	if (k > 0)
+	if (k > 0) { {
 		word0(da) += (unsigned)(k*Exp_msk1);
-	else {
+	} } else {
 		k = -k;
 		word0(db) += (unsigned)(k*Exp_msk1);
 		}
@@ -146,8 +152,10 @@ copybits(ULong *c, int n, Bigint *b)
 	x = b->x;
 #ifdef Pack_32
 	xe = x + b->wds;
-	while(x < xe)
+	while(x < xe) { {
 		*c++ = *x++;
+}
+}
 #else
 	nw = b->wds;
 	nw1 = nw & 1;
@@ -156,8 +164,10 @@ copybits(ULong *c, int n, Bigint *b)
 	if (nw1)
 		*c++ = *x;
 #endif
-	while(c < ce)
+	while(c < ce) { {
 		*c++ = 0;
+}
+}
 	}
 
  ULong
@@ -173,19 +183,25 @@ any_on(Bigint *b, int k)
 	x = b->x;
 	nwds = b->wds;
 	n = k >> kshift;
-	if (n > nwds)
+	if (n > nwds) { {
 		n = nwds;
-	else if (n < nwds && (k &= kmask)) {
+	} } else if (n < nwds && (k &= kmask)) {
 		x1 = x2 = x[n];
 		x1 >>= k;
 		x1 <<= k;
-		if (x1 != x2)
+		if (x1 != x2) { {
 			return 1;
+}
+}
 		}
 	x0 = x;
 	x += n;
-	while(x > x0)
-		if (*--x)
+	while(x > x0) { {
+		if (*--x) { {
 			return 1;
+}
+}
+}
+}
 	return 0;
 	}
