@@ -47,47 +47,52 @@ THIS SOFTWARE.
 #define _2 0
 #endif
 
- int
+int
 #ifdef KR_headers
-strtopxL(s, sp, V) CONST char *s; char **sp; void *V;
+	strtopxL(s, sp, V) CONST char* s;
+char** sp;
+void* V;
 #else
 strtopxL(CONST char *s, char **sp, void *V)
 #endif
 {
-	static FPI fpi = { 64, 1-16383-64+1, 32766 - 16383 - 64 + 1, 1, SI };
+	static FPI fpi = {64, 1 - 16383 - 64 + 1, 32766 - 16383 - 64 + 1, 1, SI};
 	ULong bits[2];
 	Long exp;
 	int k;
-	ULong *L = (ULong*)V;
+	ULong* L = (ULong*)V;
 
 	k = strtodg(s, sp, &fpi, &exp, bits);
-	switch(k & STRTOG_Retmask) {
-	  case STRTOG_NoNumber:
-	  case STRTOG_Zero:
-		L[0] = L[1] = L[2] = 0;
-		break;
+	switch(k & STRTOG_Retmask)
+	{
+		case STRTOG_NoNumber:
+		case STRTOG_Zero:
+			L[0] = L[1] = L[2] = 0;
+			break;
 
-	  case STRTOG_Normal:
-	  case STRTOG_Denormal:
-	  case STRTOG_NaNbits:
-		L[_2] = bits[0];
-		L[_1] = bits[1];
-		L[_0] = (unsigned)((exp + 0x3fff + 63) << 16);
-		break;
+		case STRTOG_Normal:
+		case STRTOG_Denormal:
+		case STRTOG_NaNbits:
+			L[_2] = bits[0];
+			L[_1] = bits[1];
+			L[_0] = (unsigned)((exp + 0x3fff + 63) << 16);
+			break;
 
-	  case STRTOG_Infinite:
-		L[_0] = 0x7fff << 16;
-		L[_1] = L[_2] = 0;
-		break;
+		case STRTOG_Infinite:
+			L[_0] = 0x7fff << 16;
+			L[_1] = L[_2] = 0;
+			break;
 
-	  case STRTOG_NaN:
-		L[0] = ld_QNAN0;
-		L[1] = ld_QNAN1;
-		L[2] = ld_QNAN2;
-	  }
-	if (k & STRTOG_Neg) { {
-		L[_0] |= 0x80000000L;
-}
-}
-	return k;
+		case STRTOG_NaN:
+			L[0] = ld_QNAN0;
+			L[1] = ld_QNAN1;
+			L[2] = ld_QNAN2;
 	}
+	if(k & STRTOG_Neg)
+	{
+		{
+			L[_0] |= 0x80000000L;
+		}
+	}
+	return k;
+}

@@ -31,14 +31,16 @@ THIS SOFTWARE.
 
 #include "gdtoaimp.h"
 
- int
+int
 #ifdef KR_headers
-strtopd(s, sp, d) char *s; char **sp; double *d;
+	strtopd(s, sp, d) char* s;
+char** sp;
+double* d;
 #else
 strtopd(CONST char *s, char **sp, double *d)
 #endif
 {
-	static FPI fpi0 = { 53, 1-1023-53+1, 2046-1023-53+1, 1, SI };
+	static FPI fpi0 = {53, 1 - 1023 - 53 + 1, 2046 - 1023 - 53 + 1, 1, SI};
 	ULong bits[2];
 	Long exp;
 	int k;
@@ -46,4 +48,4 @@ strtopd(CONST char *s, char **sp, double *d)
 	k = strtodg(s, sp, &fpi0, &exp, bits);
 	ULtod((ULong*)d, bits, exp, k);
 	return k;
-	}
+}

@@ -32,12 +32,12 @@ THIS SOFTWARE.
 #include "gdtoaimp.h"
 
 #ifndef MULTIPLE_THREADS
- char *dtoa_result;
+char* dtoa_result;
 #endif
 
- char *
+char*
 #ifdef KR_headers
-rv_alloc(i) int i;
+	rv_alloc(i) int i;
 #else
 rv_alloc(int i)
 #endif
@@ -46,41 +46,45 @@ rv_alloc(int i)
 	size_t j;
 
 	j = sizeof(ULong);
-	for(k = 0;
-		sizeof(Bigint) - sizeof(ULong) - sizeof(int) + j <= (size_t)i;
-		j <<= 1)
+	for(k = 0; sizeof(Bigint) - sizeof(ULong) - sizeof(int) + j <= (size_t)i; j <<= 1)
 	{
-			k++;
+		k++;
 	}
 	r = (int*)Balloc(k);
 	*r = k;
 	return
 #ifndef MULTIPLE_THREADS
-	dtoa_result =
+		dtoa_result =
 #endif
-		(char *)(r+1);
-	}
+			(char*)(r + 1);
+}
 
- char *
+char *
 #ifdef KR_headers
-nrv_alloc(s, rve, n) char *s, **rve; int n;
+	nrv_alloc(s, rve, n) char *s,
+	**rve;
+int n;
 #else
-nrv_alloc(char *s, char **rve, int n)
+	nrv_alloc(char* s, char** rve, int n)
 #endif
 {
 	char *rv, *t;
 
 	t = rv = rv_alloc(n);
-	while((*t = *s++) !=0) { {
-		t++;
-}
-}
-	if (rve) { {
-		*rve = t;
-}
-}
-	return rv;
+	while((*t = *s++) != 0)
+	{
+		{
+			t++;
+		}
 	}
+	if(rve)
+	{
+		{
+			*rve = t;
+		}
+	}
+	return rv;
+}
 
 /* freedtoa(s) must be used to free values s returned by dtoa
  * when MULTIPLE_THREADS is #defined.  It should be used in all cases,
@@ -88,30 +92,30 @@ nrv_alloc(char *s, char **rve, int n)
  * when MULTIPLE_THREADS is not defined.
  */
 
- void
+void
 #ifdef KR_headers
-freedtoa(s) char *s;
+	freedtoa(s) char* s;
 #else
 freedtoa(char *s)
 #endif
 {
-	Bigint *b = (Bigint *)((void*)(s - sizeof(int*)));
+	Bigint* b = (Bigint*)((void*)(s - sizeof(int*)));
 	b->maxwds = 1 << (b->k = *(int*)b);
 	Bfree(b);
 #ifndef MULTIPLE_THREADS
-	if (s == dtoa_result)
+	if(s == dtoa_result)
 	{
 		dtoa_result = 0;
 	}
 #endif
-	}
+}
 
- int
-quorem
+int quorem
 #ifdef KR_headers
-	(b, S) Bigint *b, *S;
+	(b, S) Bigint *b,
+	*S;
 #else
-	(Bigint *b, Bigint *S)
+	(Bigint* b, Bigint* S)
 #endif
 {
 	int n;
@@ -127,26 +131,30 @@ quorem
 
 	n = S->wds;
 #ifdef DEBUG
-	/*debug*/ if (b->wds > n)
-	/*debug*/	Bug("oversize b in quorem");
+	/*debug*/ if(b->wds > n)
+		/*debug*/ Bug("oversize b in quorem");
 #endif
-	if (b->wds < n) { {
-		return 0;
-}
-}
+	if(b->wds < n)
+	{
+		{
+			return 0;
+		}
+	}
 	sx = S->x;
 	sxe = sx + --n;
 	bx = b->x;
 	bxe = bx + n;
-	q = *bxe / (*sxe + 1);	/* ensure q <= true quotient */
+	q = *bxe / (*sxe + 1); /* ensure q <= true quotient */
 #ifdef DEBUG
-	/*debug*/ if (q > 9)
-	/*debug*/	Bug("oversized quotient in quorem");
+	/*debug*/ if(q > 9)
+		/*debug*/ Bug("oversized quotient in quorem");
 #endif
-	if (q) {
+	if(q)
+	{
 		borrow = 0;
 		carry = 0;
-		do {
+		do
+		{
 #ifdef ULLong
 			ys = *sx++ * (ULLong)q + carry;
 			carry = ys >> 32;
@@ -172,24 +180,26 @@ quorem
 			*bx++ = y & 0xffff;
 #endif
 #endif
-			}
-			while(sx <= sxe);
-		if (!*bxe) {
+		} while(sx <= sxe);
+		if(!*bxe)
+		{
 			bx = b->x;
 			while(--bxe > bx && !*bxe)
 			{
 				--n;
 			}
 			b->wds = n;
-			}
 		}
-	if (cmp(b, S) >= 0) {
+	}
+	if(cmp(b, S) >= 0)
+	{
 		q++;
 		borrow = 0;
 		carry = 0;
 		bx = b->x;
 		sx = S->x;
-		do {
+		do
+		{
 #ifdef ULLong
 			ys = *sx++ + carry;
 			carry = ys >> 32;
@@ -215,19 +225,19 @@ quorem
 			*bx++ = y & 0xffff;
 #endif
 #endif
-			}
-			while(sx <= sxe);
+		} while(sx <= sxe);
 		bx = b->x;
 		bxe = bx + n;
-		if (!*bxe) {
+		if(!*bxe)
+		{
 			while(--bxe > bx && !*bxe)
 			{
 				--n;
 			}
 			b->wds = n;
-			}
 		}
-
-	//TODO: why is an int being returned?
-	return (int)q;
 	}
+
+	// TODO: why is an int being returned?
+	return (int)q;
+}

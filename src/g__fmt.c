@@ -35,81 +35,106 @@ THIS SOFTWARE.
 #include "locale.h"
 #endif
 
- char *
+char*
 #ifdef KR_headers
-g__fmt(b, s, se, decpt, sign) char *b; char *s; const char *se; int decpt; ULong sign;
+	g__fmt(b, s, se, decpt, sign) char* b;
+char* s;
+const char* se;
+int decpt;
+ULong sign;
 #else
 g__fmt(char *b, char *s, const char *se, int decpt, ULong sign)
 #endif
 {
 	int i, j, k;
-	char *s0 = s;
+	char* s0 = s;
 #ifdef USE_LOCALE
 	char decimalpoint = *localeconv()->decimal_point;
 #else
 #define decimalpoint '.'
 #endif
-	if (sign) { {
-		*b++ = '-';
-}
-}
-	if (decpt <= -4 || decpt > se - s + 5) {
+	if(sign)
+	{
+		{
+			*b++ = '-';
+		}
+	}
+	if(decpt <= -4 || decpt > se - s + 5)
+	{
 		*b++ = *s++;
-		if (*s) {
+		if(*s)
+		{
 			*b++ = decimalpoint;
-			while((*b = *s++) !=0)
+			while((*b = *s++) != 0)
 			{
 				b++;
 			}
 		}
 		*b++ = 'e';
 		/* sprintf(b, "%+.2d", decpt - 1); */
-		if (--decpt < 0) {
+		if(--decpt < 0)
+		{
 			*b++ = '-';
 			decpt = -decpt;
+		}
+		else
+		{
+			{
+				*b++ = '+';
 			}
-		else { {
-			*b++ = '+';
-}
-}
-		for(j = 2, k = 10; 10*k <= decpt; j++, k *= 10){}
-		for(;;) {
+		}
+		for(j = 2, k = 10; 10 * k <= decpt; j++, k *= 10)
+		{
+		}
+		for(;;)
+		{
 			i = decpt / k;
 			*b++ = (char)i + '0';
-			if (--j <= 0)
+			if(--j <= 0)
 			{
 				break;
 			}
-			decpt -= i*k;
+			decpt -= i * k;
 			decpt *= 10;
-			}
-		*b = 0;
 		}
-	else if (decpt <= 0) {
+		*b = 0;
+	}
+	else if(decpt <= 0)
+	{
 		*b++ = decimalpoint;
-		for(; decpt < 0; decpt++) { {
-			*b++ = '0';
-}
-}
-		while((*b = *s++) !=0) { {
-			b++;
-}
-}
-		}
-	else {
-		while((*b = *s++) !=0) {
-			b++;
-			if (--decpt == 0 && *s) { {
-				*b++ = decimalpoint;
-}
-}
+		for(; decpt < 0; decpt++)
+		{
+			{
+				*b++ = '0';
 			}
-		for(; decpt > 0; decpt--) { {
-			*b++ = '0';
-}
-}
-		*b = 0;
 		}
+		while((*b = *s++) != 0)
+		{
+			{
+				b++;
+			}
+		}
+	}
+	else
+	{
+		while((*b = *s++) != 0)
+		{
+			b++;
+			if(--decpt == 0 && *s)
+			{
+				{
+					*b++ = decimalpoint;
+				}
+			}
+		}
+		for(; decpt > 0; decpt--)
+		{
+			{
+				*b++ = '0';
+			}
+		}
+		*b = 0;
+	}
 	freedtoa(s0);
 	return b;
- 	}
+}

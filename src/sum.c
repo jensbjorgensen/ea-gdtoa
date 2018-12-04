@@ -31,22 +31,26 @@ THIS SOFTWARE.
 
 #include "gdtoaimp.h"
 
- Bigint *
+Bigint*
 #ifdef KR_headers
-sum(a, b) Bigint *a; Bigint *b;
+	sum(a, b) Bigint* a;
+Bigint* b;
 #else
-sum(Bigint *a, Bigint *b)
+	sum(Bigint* a, Bigint* b)
 #endif
 {
-	Bigint *c;
+	Bigint* c;
 	ULong carry, *xc, *xa, *xb, *xe, y;
 #ifdef Pack_32
 	ULong z;
 #endif
 
-	if (a->wds < b->wds) {
-		c = b; b = a; a = c;
-		}
+	if(a->wds < b->wds)
+	{
+		c = b;
+		b = a;
+		a = c;
+	}
 	c = Balloc(a->k);
 	c->wds = a->wds;
 	carry = 0;
@@ -55,44 +59,48 @@ sum(Bigint *a, Bigint *b)
 	xc = c->x;
 	xe = xc + b->wds;
 #ifdef Pack_32
-	do {
+	do
+	{
 		y = (*xa & 0xffff) + (*xb & 0xffff) + carry;
 		carry = (y & 0x10000) >> 16;
 		z = (*xa++ >> 16) + (*xb++ >> 16) + carry;
 		carry = (z & 0x10000) >> 16;
 		Storeinc(xc, z, y);
-		}
-		while(xc < xe);
+	} while(xc < xe);
 	xe += a->wds - b->wds;
-	while(xc < xe) {
+	while(xc < xe)
+	{
 		y = (*xa & 0xffff) + carry;
 		carry = (y & 0x10000) >> 16;
 		z = (*xa++ >> 16) + carry;
 		carry = (z & 0x10000) >> 16;
 		Storeinc(xc, z, y);
-		}
+	}
 #else
-	do {
+	do
+	{
 		y = *xa++ + *xb++ + carry;
 		carry = (y & 0x10000) >> 16;
 		*xc++ = y & 0xffff;
-		}
-		while(xc < xe);
+	} while(xc < xe);
 	xe += a->wds - b->wds;
-	while(xc < xe) {
+	while(xc < xe)
+	{
 		y = *xa++ + carry;
 		carry = (y & 0x10000) >> 16;
 		*xc++ = y & 0xffff;
-		}
+	}
 #endif
-	if (carry) {
-		if (c->wds == c->maxwds) {
+	if(carry)
+	{
+		if(c->wds == c->maxwds)
+		{
 			b = Balloc(c->k + 1);
 			Bcopy(b, c);
 			Bfree(c);
 			c = b;
-			}
-		c->x[c->wds++] = 1;
 		}
-	return c;
+		c->x[c->wds++] = 1;
 	}
+	return c;
+}

@@ -49,26 +49,33 @@ THIS SOFTWARE.
 #define _3 0
 #endif
 
- char*
+char*
 #ifdef KR_headers
-g_Qfmt(buf, V, ndig, bufsize) char *buf; char *V; int ndig; unsigned bufsize;
+	g_Qfmt(buf, V, ndig, bufsize) char* buf;
+char* V;
+int ndig;
+unsigned bufsize;
 #else
 g_Qfmt(char *buf, void *V, int ndig, unsigned bufsize)
 #endif
 {
-	static FPI fpi = { 113, 1-16383-113+1, 32766 - 16383 - 113 + 1, 1, 0 };
+	static FPI fpi = {113, 1 - 16383 - 113 + 1, 32766 - 16383 - 113 + 1, 1, 0};
 	char *b, *s, *se;
 	ULong bits[4], *L, sign;
 	int decpt, ex, i, mode;
 
-	if (ndig < 0) { {
-		ndig = 0;
-}
-}
-	if (bufsize < (unsigned)ndig + 10) { {
-		return 0;
-}
-}
+	if(ndig < 0)
+	{
+		{
+			ndig = 0;
+		}
+	}
+	if(bufsize < (unsigned)ndig + 10)
+	{
+		{
+			return 0;
+		}
+	}
 
 	L = (ULong*)V;
 	sign = L[_0] & 0x80000000L;
@@ -77,48 +84,64 @@ g_Qfmt(char *buf, void *V, int ndig, unsigned bufsize)
 	bits[1] = L[_2];
 	bits[0] = L[_3];
 	b = buf;
-	if ( (ex = (L[_0] & 0x7fff0000L) >> 16) !=0) {
-		if (ex == 0x7fff) {
+	if((ex = (L[_0] & 0x7fff0000L) >> 16) != 0)
+	{
+		if(ex == 0x7fff)
+		{
 			/* Infinity or NaN */
-			if (bits[0] | bits[1] | bits[2] | bits[3]) { {
-				b = strcp(b, "NaN");
-			} } else {
-				b = buf;
-				if (sign) { {
-					*b++ = '-';
-}
-}
-				b = strcp(b, "Infinity");
+			if(bits[0] | bits[1] | bits[2] | bits[3])
+			{
+				{
+					b = strcp(b, "NaN");
 				}
-			return b;
 			}
+			else
+			{
+				b = buf;
+				if(sign)
+				{
+					{
+						*b++ = '-';
+					}
+				}
+				b = strcp(b, "Infinity");
+			}
+			return b;
+		}
 		i = STRTOG_Normal;
 		bits[3] |= 0x10000;
-		}
-	else if (bits[0] | bits[1] | bits[2] | bits[3]) {
+	}
+	else if(bits[0] | bits[1] | bits[2] | bits[3])
+	{
 		i = STRTOG_Denormal;
 		ex = 1;
-		}
-	else {
+	}
+	else
+	{
 #ifndef IGNORE_ZERO_SIGN
-		if (sign) { {
-			*b++ = '-';
-}
-}
+		if(sign)
+		{
+			{
+				*b++ = '-';
+			}
+		}
 #endif
 		*b++ = '0';
 		*b = 0;
 		return b;
-		}
+	}
 	ex -= 0x3fff + 112;
 	mode = 2;
-	if (ndig <= 0) {
-		if (bufsize < 48) { {
-			return 0;
-}
-}
-		mode = 0;
+	if(ndig <= 0)
+	{
+		if(bufsize < 48)
+		{
+			{
+				return 0;
+			}
 		}
+		mode = 0;
+	}
 	s = gdtoa(&fpi, ex, bits, &i, mode, ndig, &decpt, &se);
 	return g__fmt(buf, s, se, decpt, sign);
-	}
+}

@@ -31,9 +31,12 @@ THIS SOFTWARE.
 #include "gdtoaimp.h"
 #include <string.h>
 
- char *
+char*
 #ifdef KR_headers
-g_ddfmt(buf, dd, ndig, bufsize) char *buf; double *dd; int ndig; unsigned bufsize;
+	g_ddfmt(buf, dd, ndig, bufsize) char* buf;
+double* dd;
+int ndig;
+unsigned bufsize;
 #else
 g_ddfmt(char *buf, double *dd, int ndig, unsigned bufsize)
 #endif
@@ -45,110 +48,145 @@ g_ddfmt(char *buf, double *dd, int ndig, unsigned bufsize)
 	Bigint *x, *y, *z;
 	double ddx[2];
 
-	if (bufsize < 10 || bufsize < (unsigned)(ndig + 8)) { {
-		return 0;
-}
-}
+	if(bufsize < 10 || bufsize < (unsigned)(ndig + 8))
+	{
+		{
+			return 0;
+		}
+	}
 
 	L = (ULong*)dd;
-	if ((L[_0] & 0x7ff00000L) == 0x7ff00000L) {
+	if((L[_0] & 0x7ff00000L) == 0x7ff00000L)
+	{
 		/* Infinity or NaN */
-		if (L[_0] & 0xfffff || L[_1]) {
- nanret:
+		if(L[_0] & 0xfffff || L[_1])
+		{
+		nanret:
 			return strcp(buf, "NaN");
+		}
+		if((L[2 + _0] & 0x7ff00000) == 0x7ff00000)
+		{
+			if(L[2 + _0] & 0xfffff || L[2 + _1])
+			{
+				{
+					goto nanret;
+				}
 			}
-		if ((L[2+_0] & 0x7ff00000) == 0x7ff00000) {
-			if (L[2+_0] & 0xfffff || L[2+_1]) { {
-				goto nanret;
-}
-}
-			if ((L[_0] ^ L[2+_0]) & 0x80000000L) { {
-				goto nanret;	/* Infinity - Infinity */
-}
-}
+			if((L[_0] ^ L[2 + _0]) & 0x80000000L)
+			{
+				{
+					goto nanret; /* Infinity - Infinity */
+				}
 			}
- infret:
+		}
+	infret:
 		b = buf;
-		if (L[_0] & 0x80000000L) { {
-			*b++ = '-';
-}
-}
+		if(L[_0] & 0x80000000L)
+		{
+			{
+				*b++ = '-';
+			}
+		}
 		return strcp(b, "Infinity");
-		}
-	if ((L[2+_0] & 0x7ff00000) == 0x7ff00000) {
+	}
+	if((L[2 + _0] & 0x7ff00000) == 0x7ff00000)
+	{
 		L += 2;
-		if (L[_0] & 0xfffff || L[_1]) { {
-			goto nanret;
-}
-}
-		goto infret;
+		if(L[_0] & 0xfffff || L[_1])
+		{
+			{
+				goto nanret;
+			}
 		}
-	if (dd[0] + dd[1] == 0.) {
+		goto infret;
+	}
+	if(dd[0] + dd[1] == 0.)
+	{
 		b = buf;
 #ifndef IGNORE_ZERO_SIGN
-		if (L[_0] & L[2+_0] & 0x80000000L) { {
-			*b++ = '-';
-}
-}
+		if(L[_0] & L[2 + _0] & 0x80000000L)
+		{
+			{
+				*b++ = '-';
+			}
+		}
 #endif
 		*b++ = '0';
 		*b = 0;
 		return b;
-		}
-	if ((L[_0] & 0x7ff00000L) < (L[2+_0] & 0x7ff00000L)) {
+	}
+	if((L[_0] & 0x7ff00000L) < (L[2 + _0] & 0x7ff00000L))
+	{
 		ddx[1] = dd[0];
 		ddx[0] = dd[1];
 		dd = ddx;
 		L = (ULong*)dd;
-		}
+	}
 	z = d2b(dd[0], &ex, &bx);
-	if (dd[1] == 0.) { {
-		goto no_y;
-}
-}
+	if(dd[1] == 0.)
+	{
+		{
+			goto no_y;
+		}
+	}
 	x = z;
 	y = d2b(dd[1], &ey, &by);
-	if ( (i = ex - ey) !=0) {
-		if (i > 0) {
+	if((i = ex - ey) != 0)
+	{
+		if(i > 0)
+		{
 			x = lshift(x, i);
 			ex = ey;
+		}
+		else
+		{
+			{
+				y = lshift(y, -i);
 			}
-		else { {
-			y = lshift(y, -i);
-}
-}
 		}
-	if ((L[_0] ^ L[2+_0]) & 0x80000000L) {
+	}
+	if((L[_0] ^ L[2 + _0]) & 0x80000000L)
+	{
 		z = diff(x, y);
-		if (L[_0] & 0x80000000L) { {
-			z->sign = 1 - z->sign;
-}
-}
+		if(L[_0] & 0x80000000L)
+		{
+			{
+				z->sign = 1 - z->sign;
+			}
 		}
-	else {
+	}
+	else
+	{
 		z = sum(x, y);
-		if (L[_0] & 0x80000000L) { {
-			z->sign = 1;
-}
-}
+		if(L[_0] & 0x80000000L)
+		{
+			{
+				z->sign = 1;
+			}
 		}
+	}
 	Bfree(x);
 	Bfree(y);
- no_y:
+no_y:
 	bits = zx = z->x;
-	for(i = 0; !*zx; zx++) { {
-		i += 32;
-}
-}
+	for(i = 0; !*zx; zx++)
+	{
+		{
+			i += 32;
+		}
+	}
 	i += lo0bits(zx);
-	if (i) {
+	if(i)
+	{
 		rshift(z, i);
 		ex += i;
-		}
-	fpi.nbits = z->wds * 32 - hi0bits(z->x[j = z->wds-1]);
-	if (fpi.nbits < 106) {
+	}
+	fpi.nbits = z->wds * 32 - hi0bits(z->x[j = z->wds - 1]);
+	if(fpi.nbits < 106)
+	{
 		fpi.nbits = 106;
-		if (j < 3) {
+		if(j < 3)
+		{
 			for(i = 0; i <= j; i++)
 			{
 				bits0[i] = bits[i];
@@ -158,18 +196,20 @@ g_ddfmt(char *buf, double *dd, int ndig, unsigned bufsize)
 				bits0[i++] = 0;
 			}
 			bits = bits0;
-			}
 		}
+	}
 	mode = 2;
-	if (ndig <= 0) {
-		if (bufsize < (unsigned)(fpi.nbits * .301029995664) + 10) {
+	if(ndig <= 0)
+	{
+		if(bufsize < (unsigned)(fpi.nbits * .301029995664) + 10)
+		{
 			Bfree(z);
 			return 0;
-			}
-		mode = 0;
 		}
-	fpi.emin = 1-1023-53+1;
-	fpi.emax = 2046-1023-106+1;
+		mode = 0;
+	}
+	fpi.emin = 1 - 1023 - 53 + 1;
+	fpi.emax = 2046 - 1023 - 106 + 1;
 	fpi.rounding = FPI_Round_near;
 	fpi.sudden_underflow = 0;
 	i = STRTOG_Normal;
@@ -177,4 +217,4 @@ g_ddfmt(char *buf, double *dd, int ndig, unsigned bufsize)
 	b = g__fmt(buf, s, se, decpt, (ULong)z->sign);
 	Bfree(z);
 	return b;
-	}
+}

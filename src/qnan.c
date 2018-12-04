@@ -42,8 +42,8 @@ SOFTWARE.
 /* had sizeof(long double) = 10.  Are such compilers still	*/
 /* distributed?							*/
 
-#include <stdio.h>
 #include "arith.h"
+#include <stdio.h>
 
 #ifndef Long
 #define Long long
@@ -65,11 +65,11 @@ typedef unsigned Long Ulong;
 
 #define UL (unsigned long)
 
- int
-main(void)
+int main(void)
 {
 #ifdef HAVE_IEEE
-	typedef union {
+	typedef union
+	{
 		float f;
 		double d;
 		Ulong L[4];
@@ -77,7 +77,7 @@ main(void)
 		unsigned short u[5];
 		long double D;
 #endif
-		} U;
+	} U;
 	U a, b, c;
 	int i;
 
@@ -86,7 +86,7 @@ main(void)
 	printf("#define f_QNAN 0x%lx\n", UL c.L[0]);
 	a.L[_0] = b.L[_0] = 0x7ff00000;
 	a.L[_1] = b.L[_1] = 0;
-	c.d = a.d - b.d;	/* quiet NaN */
+	c.d = a.d - b.d; /* quiet NaN */
 	printf("#define d_QNAN0 0x%lx\n", UL c.L[0]);
 	printf("#define d_QNAN1 0x%lx\n", UL c.L[1]);
 #ifdef NO_LONG_LONG
@@ -96,8 +96,8 @@ main(void)
 		printf("#define ldus_QNAN%d 0xffff\n", i);
 #else
 	b.D = c.D = a.d;
-	if (printf("") < 0)
-		c.D = 37;	/* never executed; just defeat optimization */
+	if(printf("") < 0)
+		c.D = 37; /* never executed; just defeat optimization */
 	a.L[2] = a.L[3] = 0;
 	a.D = b.D - c.D;
 	for(i = 0; i < 4; i++)
@@ -107,4 +107,4 @@ main(void)
 #endif
 #endif /* HAVE_IEEE */
 	return 0;
-	}
+}
