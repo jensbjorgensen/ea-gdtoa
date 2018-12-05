@@ -142,15 +142,20 @@ int match
 	(CONST char** sp, char* t)
 #endif
 {
-	int c, d;
+	int d;
 	CONST char* s = *sp;
 
 	while((d = *t++) != 0)
 	{
+		int c;
 		if((c = *++s) >= 'A' && c <= 'Z')
+		{
 			c += 'a' - 'A';
+		}
 		if(c != d)
+		{
 			return 0;
+		}
 	}
 	*sp = s + 1;
 	return 1;

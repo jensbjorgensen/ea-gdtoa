@@ -46,7 +46,6 @@ ULong sign;
 g__fmt(char *b, char *s, const char *se, int decpt, ULong sign)
 #endif
 {
-	int i, j, k;
 	char* s0 = s;
 #ifdef USE_LOCALE
 	char decimalpoint = *localeconv()->decimal_point;
@@ -61,7 +60,7 @@ g__fmt(char *b, char *s, const char *se, int decpt, ULong sign)
 	}
 	if(decpt <= -4 || decpt > se - s + 5)
 	{
-		*b++ = *s++;
+		int j, k *b++ = *s++;
 		if(*s)
 		{
 			*b++ = decimalpoint;
@@ -88,7 +87,7 @@ g__fmt(char *b, char *s, const char *se, int decpt, ULong sign)
 		}
 		for(;;)
 		{
-			i = decpt / k;
+			int i = decpt / k;
 			*b++ = (char)i + '0';
 			if(--j <= 0)
 			{

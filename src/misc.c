@@ -47,11 +47,7 @@ Bigint* Balloc
 	(int k)
 #endif
 {
-	int x;
 	Bigint* rv;
-#ifndef Omit_Private_Memory
-	unsigned int len;
-#endif
 
 	ACQUIRE_DTOA_LOCK(0);
 	if((rv = freelist[k]) != 0)
@@ -60,10 +56,13 @@ Bigint* Balloc
 	}
 	else
 	{
-		x = 1 << k;
+		int x = 1 << k;
 #ifdef Omit_Private_Memory
 		rv = (Bigint*)MALLOC(sizeof(Bigint) + (x - 1) * sizeof(ULong));
 #else
+#ifndef Omit_Private_Memory
+		unsigned int len;
+#endif
 		len = (sizeof(Bigint) + ((unsigned)x - 1) * sizeof(ULong) + sizeof(double) - 1) /
 			  sizeof(double);
 		if((unsigned)(pmem_next - private_mem + len) <= PRIVATE_mem)
@@ -423,11 +422,11 @@ int k;
 {
 	Bigint *b1, *p5, *p51;
 	int i;
-	static int p05[3] = {5, 25, 125};
 
 	if((i = k & 3) != 0)
 	{
 		{
+			static int p05[3] = {5, 25, 125};
 			b = multadd(b, p05[i - 1], 0);
 		}
 	}

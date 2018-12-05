@@ -73,7 +73,7 @@ strtodI(CONST char *s, char **sp, double *dd)
 
 	k = strtodg(s, sp, &fpi, &exp, bits);
 	u = (U2*)dd;
-	sign = k & STRTOG_Neg ? 0x80000000L : 0;
+	sign = (k & STRTOG_Neg) ? 0x80000000L : 0;
 	switch(k & STRTOG_Retmask)
 	{
 		case STRTOG_NoNumber:

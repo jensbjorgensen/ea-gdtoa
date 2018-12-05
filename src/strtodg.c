@@ -420,18 +420,16 @@ static int
 	if(L)
 #else
 	if((L = word1(d)) != 0)
-	{
-		{
 #endif
+	{
 		return P - lo0bits(&L);
-}
-}
+	}
 #ifdef VAX
-L = word0(d) << 16 | word0(d) >> 16 | Exp_msk11;
+	L = word0(d) << 16 | word0(d) >> 16 | Exp_msk11;
 #else
 	L = word0(d) | Exp_msk1;
 #endif
-return P - 32 - lo0bits(&L);
+	return P - 32 - lo0bits(&L);
 }
 
 int strtodg

@@ -39,14 +39,14 @@ int k;
 rshift(Bigint *b, int k)
 #endif
 {
-	ULong *x, *x1, *xe, y;
+	ULong *x, *x1, y;
 	int n;
 
 	x = x1 = b->x;
 	n = k >> kshift;
 	if(n < b->wds)
 	{
-		xe = x + b->wds;
+		ULong* xe = x + b->wds;
 		x += n;
 		if(k &= kmask)
 		{
