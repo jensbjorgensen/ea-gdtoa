@@ -60,7 +60,8 @@ g__fmt(char *b, char *s, const char *se, int decpt, ULong sign)
 	}
 	if(decpt <= -4 || decpt > se - s + 5)
 	{
-		int j, k *b++ = *s++;
+		int j, k;
+		*b++ = *s++;
 		if(*s)
 		{
 			*b++ = decimalpoint;
