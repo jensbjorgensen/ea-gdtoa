@@ -174,6 +174,7 @@ break2:
 	s0 = s;
 	y = z = 0;
 	for(nd = nf = 0; (c = *s) >= '0' && c <= '9'; nd++, s++)
+	{
 		if(nd < 9)
 		{
 			y = 10 * y + (unsigned)c - '0';
@@ -182,6 +183,7 @@ break2:
 		{
 			z = 10 * z + (unsigned)c - '0';
 		}
+	}
 	nd0 = nd;
 #ifdef USE_LOCALE
 	if(c == *localeconv()->decimal_point)
@@ -214,6 +216,7 @@ break2:
 			{
 				nf += nz;
 				for(i = 1; i < nz; i++)
+				{
 					if(nd++ < 9)
 					{
 						y *= 10;
@@ -222,6 +225,7 @@ break2:
 					{
 						z *= 10;
 					}
+				}
 				if(nd++ < 9)
 				{
 					y = 10 * y + (unsigned)c;
@@ -547,7 +551,9 @@ dig_done:
 				word1(rv) = Big1;
 			}
 			else
+			{
 				word0(rv) += P * Exp_msk1;
+			}
 		}
 	}
 	else if(e1 < 0)
@@ -569,10 +575,12 @@ dig_done:
 				scale = 2 * P;
 			}
 			for(j = 0; e1 > 0; j++, e1 >>= 1)
+			{
 				if(e1 & 1)
 				{
 					dval(rv) *= tinytens[j];
 				}
+			}
 			if(scale && (j = 2 * P + 1 - ((word0(rv) & Exp_mask) >> Exp_shift)) > 0)
 			{
 				/* scaled rv is denormal; zap j low bits */
@@ -589,14 +597,18 @@ dig_done:
 					}
 				}
 				else
+				{
 					word1(rv) &= 0xffffffff << j;
+				}
 			}
 #else
 			for(j = 0; e1 > 1; j++, e1 >>= 1)
+			{
 				if(e1 & 1)
 				{
 					dval(rv) *= tinytens[j];
 				}
+			}
 			/* The last multiplication could underflow. */
 			dval(rv0) = dval(rv);
 			dval(rv) *= tinytens[j];
@@ -705,7 +717,9 @@ for(;;)
 #endif
 	i = bb2 < bd2 ? bb2 : bd2;
 	if(i > bs2)
+	{
 		i = bs2;
+	}
 	if(i > 0)
 	{
 		bb2 -= i;
@@ -820,8 +834,10 @@ for(;;)
 			}
 		}
 #ifdef Avoid_Underflow
-		if(scale && (y = word0(rv) & Exp_mask) <= 2 * P * Exp_msk1)
+		if(scale && (y = word0(rv) & Exp_mask) <= (2 * P * Exp_msk1))
+		{
 			word0(adj) += (2 * P + 1) * Exp_msk1 - y;
+		}
 #else
 #ifdef Sudden_Underflow
 		if((word0(rv) & Exp_mask) <= P * Exp_msk1)
@@ -980,7 +996,9 @@ for(;;)
 			dval(rv) -= ulp(dval(rv));
 #ifndef Sudden_Underflow
 			if(fabs(dval(rv)) <= DBL_EPSILON)
+			{
 				goto undfl;
+			}
 #endif
 		}
 #ifdef Avoid_Underflow
@@ -1160,7 +1178,9 @@ for(;;)
 				}
 			}
 			else if(aadj < .4999999 / FLT_RADIX)
+			{
 				break;
+			}
 		}
 #ifdef Avoid_Underflow
 	}
