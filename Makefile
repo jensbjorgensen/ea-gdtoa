@@ -43,4 +43,4 @@ regen:
 
 .PHONY: format
 format:
-	$(Q)tools/format/clang-format-all.sh
+	@tools/format/clang-format-all.sh
