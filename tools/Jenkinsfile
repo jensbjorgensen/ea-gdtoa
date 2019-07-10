@@ -82,9 +82,6 @@ pipeline
             highTags: 'FIXME, FIX',
             ignoreCase: true,
           ),
-          cppCheck(
-            pattern: 'buildresults/**/cppcheck.xml',
-          ),
         ]
       )
 
