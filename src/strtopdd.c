@@ -151,9 +151,9 @@ strtopdd(CONST char *s, char **sp, double *dd)
 		nearly_normal:
 			i = hi0bits(bits[3]) - 11; /* i >= 12 */
 			j = 32 - i;
-			u->L[_0] = ((bits[3] << i | bits[2] >> j) & 0xfffff) | (unsigned)((65 - i) << 20);
-			u->L[_1] = (bits[2] << i | bits[1] >> j) & 0xffffffffL;
-			u->L[2 + _0] = bits[1] & (1L << j) - 1;
+			u->L[_0] = (((bits[3] << i) | (bits[2] >> j)) & 0xfffff) | (unsigned)((65 - i) << 20);
+			u->L[_1] = ((bits[2] << i) | (bits[1] >> j)) & 0xffffffffL;
+			u->L[2 + _0] = bits[1] & ((1L << j) - 1);
 			u->L[2 + _1] = bits[0];
 			break;
 
@@ -165,7 +165,7 @@ strtopdd(CONST char *s, char **sp, double *dd)
 				i += 32;
 				u->L[_0] = (bits[2] >> j & 0xfffff) | (unsigned)((33 + j) << 20);
 				u->L[_1] = (bits[2] << i | bits[1] >> j) & 0xffffffffL;
-				u->L[2 + _0] = bits[1] & (1L << j) - 1;
+				u->L[2 + _0] = bits[1] & ((1L << j) - 1);
 				u->L[2 + _1] = bits[0];
 				break;
 			}
@@ -181,7 +181,7 @@ strtopdd(CONST char *s, char **sp, double *dd)
 			u->L[_0] = ((bits[2] << i | bits[1] >> j) & 0xfffff) | (unsigned)((j + 1) << 20);
 			u->L[_1] = (bits[1] << i | bits[0] >> j) & 0xffffffffL;
 			u->L[2 + _0] = 0;
-			u->L[2 + _1] = bits[0] & (1L << j) - 1;
+			u->L[2 + _1] = bits[0] & ((1L << j) - 1);
 			break;
 
 		hardly_normal:
@@ -190,7 +190,7 @@ strtopdd(CONST char *s, char **sp, double *dd)
 			u->L[_0] = (bits[1] >> j & 0xfffff) | (unsigned)((j + 1) << 20);
 			u->L[_1] = (bits[1] << i | bits[0] >> j) & 0xffffffffL;
 			u->L[2 + _0] = 0;
-			u->L[2 + _1] = bits[0] & (1L << j) - 1;
+			u->L[2 + _1] = bits[0] & ((1L << j) - 1);
 			break;
 
 		case STRTOG_Infinite:

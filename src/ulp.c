@@ -39,7 +39,7 @@ double ulp
 #endif
 {
 	Long L;
-	double a;
+	double a = 0.0;
 
 	L = (word0(x) & Exp_mask) - (P - 1) * Exp_msk1;
 #ifndef Sudden_Underflow

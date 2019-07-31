@@ -52,11 +52,6 @@ strtof(CONST char *s, char **sp)
 	k = strtodg(s, sp, &fpi, &exp, bits);
 	switch(k & STRTOG_Retmask)
 	{
-		case STRTOG_NoNumber:
-		case STRTOG_Zero:
-			u.L[0] = 0;
-			break;
-
 		case STRTOG_Normal:
 		case STRTOG_NaNbits:
 			u.L[0] = (bits[0] & 0x7fffff) | (unsigned)((exp + 0x7f + 23) << 23);
@@ -72,6 +67,12 @@ strtof(CONST char *s, char **sp)
 
 		case STRTOG_NaN:
 			u.L[0] = f_QNAN;
+
+		case STRTOG_NoNumber:
+		case STRTOG_Zero:
+			default:
+			u.L[0] = 0;
+			break;
 	}
 	if(k & STRTOG_Neg)
 	{

@@ -444,7 +444,8 @@ ULong* bits;
 #endif
 {
 	int abe, abits, asub;
-	int bb0, bb2, bb5, bbe, bd2, bd5, bbbits, bs2, c, decpt, denorm;
+	int bb0, bb2, bb5, bbe, bd2, bd5, bbbits, bs2, c, denorm;
+	int __attribute__((unused)) decpt; // maybe unused if not compiling with IFNAN checks
 	int dsign, e, e1, e2, emin, esign, finished, i, inex, irv;
 	int j, k, nbits, nd, nd0, nf, nz, nz0, rd, rvbits, rve, rve1, sign;
 	int sudden_underflow = 0;
