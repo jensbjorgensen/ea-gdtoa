@@ -97,6 +97,10 @@ strtopQ(CONST char *s, char **sp, void *V)
 			L[1] = ld_QNAN1;
 			L[2] = ld_QNAN2;
 			L[3] = ld_QNAN3;
+			break;
+
+		default:
+			break;
 	}
 	if(k & STRTOG_Neg)
 	{

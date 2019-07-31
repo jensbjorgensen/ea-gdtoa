@@ -194,6 +194,10 @@ ULtodd(ULong *L, ULong *bits, Long exp, int k)
 			L[_0] = bits[2] >> 21 | bits[3] << 11 | (ULong)0x7ff00000L;
 			L[2 + _1] = bits[0];
 			L[2 + _0] = bits[1] | (ULong)0x7ff00000L;
+			break;
+
+		default:
+			break;
 	}
 	if(k & STRTOG_Neg)
 	{

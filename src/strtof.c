@@ -67,10 +67,11 @@ strtof(CONST char *s, char **sp)
 
 		case STRTOG_NaN:
 			u.L[0] = f_QNAN;
+			break;
 
 		case STRTOG_NoNumber:
 		case STRTOG_Zero:
-			default:
+		default:
 			u.L[0] = 0;
 			break;
 	}

@@ -310,7 +310,7 @@ char** rve;
 			break;
 		case 2:
 			leftright = 0;
-			/* no break */
+			/* fall through */
 		case 4:
 			if(ndigits <= 0)
 			{
@@ -322,7 +322,7 @@ char** rve;
 			break;
 		case 3:
 			leftright = 0;
-			/* no break */
+			/* fall through */
 		case 5:
 			i = ndigits + k + 1;
 			ilim = i;
@@ -333,6 +333,9 @@ char** rve;
 					i = 1;
 				}
 			}
+			break;
+		default:
+			break;
 	}
 	s = s0 = rv_alloc(i);
 
@@ -546,7 +549,7 @@ char** rve;
 			}
 #endif
 			*s++ = (char)('0' + (int)L);
-			if(dval(d) == 0.)
+			if(fabs(dval(d)) <= DBL_EPSILON)
 			{
 				{
 					break;

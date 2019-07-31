@@ -93,6 +93,10 @@ ULtox(UShort *L, const ULong *bits, Long exp, int k)
 			L[2] = ldus_QNAN2;
 			L[3] = ldus_QNAN3;
 			L[4] = ldus_QNAN4;
+			break;
+
+		default:
+			break;
 	}
 	if(k & STRTOG_Neg)
 	{

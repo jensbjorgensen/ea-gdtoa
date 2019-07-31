@@ -61,11 +61,11 @@ rv_alloc(int i)
 
 char *
 #ifdef KR_headers
-	nrv_alloc(s, rve, n) char *s,
-	**rve;
+	nrv_alloc(s, rve, n) const char *s,
+	char **rve;
 int n;
 #else
-	nrv_alloc(char* s, char** rve, int n)
+	nrv_alloc(const char* s, char** rve, int n)
 #endif
 {
 	char *rv, *t;

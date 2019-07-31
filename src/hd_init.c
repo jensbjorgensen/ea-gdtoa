@@ -51,8 +51,7 @@ int inc;
 
 void hexdig_init_D2A(Void)
 {
-#define USC (unsigned char*)
-	htinit(hexdig, USC "0123456789", 0x10);
-	htinit(hexdig, USC "abcdef", 0x10 + 10);
-	htinit(hexdig, USC "ABCDEF", 0x10 + 10);
+	htinit(hexdig, (const unsigned char *)"0123456789", 0x10);
+	htinit(hexdig, (const unsigned char *)"abcdef", 0x10 + 10);
+	htinit(hexdig, (const unsigned char *)"ABCDEF", 0x10 + 10);
 }

@@ -100,7 +100,7 @@ g_ddfmt(char *buf, double *dd, int ndig, unsigned bufsize)
 		}
 		goto infret;
 	}
-	if(dd[0] + dd[1] == 0.)
+	if(fabs(dd[0] + dd[1]) <= DBL_EPSILON)
 	{
 		b = buf;
 #ifndef IGNORE_ZERO_SIGN
@@ -123,7 +123,7 @@ g_ddfmt(char *buf, double *dd, int ndig, unsigned bufsize)
 		L = (ULong*)dd;
 	}
 	z = d2b(dd[0], &ex, &bx);
-	if(dd[1] == 0.)
+	if(fabs(dd[1]) <= DBL_EPSILON)
 	{
 		{
 			goto no_y;

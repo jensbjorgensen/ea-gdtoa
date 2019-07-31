@@ -92,13 +92,13 @@ CONST char** se;
 		{
 			case '-':
 				sign = 1;
-				/* no break */
+				/* fall through */
 			case '+':
 				if(*++s)
 				{
 					goto break2;
 				}
-				/* no break */
+				/* fall through */
 			case 0:
 				goto ret0;
 			case '\t':
@@ -137,6 +137,9 @@ break2:
 							break;
 						case FE_DOWNWARD:
 							fpi1.rounding = 3;
+							break;
+						default:
+							break;
 					}
 #else
 #define fpi1 fpi
@@ -158,6 +161,8 @@ break2:
 					}
 				}
 					goto ret;
+				default:
+					break;
 			}
 		}
 #endif
@@ -252,8 +257,12 @@ dig_done:
 		{
 			case '-':
 				esign = 1;
+				/* fall through */
 			case '+':
 				c = *++s;
+				break;
+			default:
+				break;
 		}
 		if(c >= '0' && c <= '9')
 		{
@@ -581,7 +590,7 @@ dig_done:
 					dval(rv) *= tinytens[j];
 				}
 			}
-			if(scale && (j = 2 * P + 1 - ((word0(rv) & Exp_mask) >> Exp_shift)) > 0)
+			if(scale && (j = (int)(((2 * P + 1) - ((word0(rv) & Exp_mask))) >> Exp_shift)) > 0)
 			{
 				/* scaled rv is denormal; zap j low bits */
 				if(j >= 32)
@@ -970,7 +979,7 @@ for(;;)
 						}
 					}
 #endif /*Avoid_Underflow*/
-					L = (word0(rv) & Exp_mask) - Exp_msk1;
+					L = (int)(word0(rv) & Exp_mask) - Exp_msk1;
 #endif /*Sudden_Underflow}*/
 			word0(rv) = (ULong)(L | Bndry_mask1);
 			word1(rv) = 0xffffffff;
@@ -1053,6 +1062,9 @@ for(;;)
 			case 0: /* towards 0 */
 			case 3: /* towards -infinity */
 				aadj1 += 0.5;
+				break;
+			default:
+				break;
 		}
 #else
 				if(Flt_Rounds == 0)

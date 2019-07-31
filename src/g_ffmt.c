@@ -73,7 +73,7 @@ g_ffmt(char *buf, float *f, int ndig, unsigned bufsize)
 		}
 		return strcp(b, "Infinity");
 	}
-	if(*f == 0.0F)
+	if(fabs(*f) <= DBL_EPSILON)
 	{
 		b = buf;
 #ifndef IGNORE_ZERO_SIGN

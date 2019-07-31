@@ -41,7 +41,7 @@ double ulp
 	Long L;
 	double a = 0.0;
 
-	L = (word0(x) & Exp_mask) - (P - 1) * Exp_msk1;
+	L = (Long)((word0(x) & Exp_mask) - ((P - 1) * Exp_msk1));
 #ifndef Sudden_Underflow
 	if(L > 0)
 	{
@@ -58,14 +58,14 @@ double ulp
 		L = -L >> Exp_shift;
 		if(L < Exp_shift)
 		{
-			word0(a) = 0x80000 >> L;
+			word0(a) = (ULong)(0x80000 >> L);
 			word1(a) = 0;
 		}
 		else
 		{
 			word0(a) = 0;
 			L -= Exp_shift;
-			word1(a) = L >= 31 ? 1 : 1 << (31 - L);
+			word1(a) = (L >= 31) ? 1U : (ULong)(1 << (31 - L));
 		}
 	}
 #endif

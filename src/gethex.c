@@ -140,9 +140,12 @@ pcheck:
 			{
 				case '-':
 					esign = 1;
-					/* no break */
+					/* fall through */
 				case '+':
 					s++;
+					break;
+				default:
+					break;
 			}
 			if((n = hexdig[*s]) == 0 || n > 0x19)
 			{
@@ -163,6 +166,9 @@ pcheck:
 				}
 			}
 			e += e1;
+			break;
+		default:
+			break;
 	}
 	*sp = (const char*)s;
 	if(zret)
@@ -215,7 +221,7 @@ pcheck:
 		{
 			lostbits = 1;
 			k = n - 1;
-			if(x[k >> kshift] & 1 << (k & kmask))
+			if(x[k >> kshift] & (ULong)(1 << (k & kmask)))
 			{
 				lostbits = 2;
 				if(k > 1 && any_on(b, k - 1))
@@ -273,10 +279,14 @@ pcheck:
 					{
 					one_bit:
 						*exp = fpi->emin;
-						x[0] = b->wds = 1;
+						x[0] = 1;
+						b->wds = 1;
 						*bp = b;
 						return STRTOG_Denormal | STRTOG_Inexhi | STRTOG_Underflow;
 					}
+					break;
+				default:
+					break;
 			}
 			Bfree(b);
 			*bp = 0;
@@ -295,7 +305,7 @@ pcheck:
 				lostbits = any_on(b, k);
 			}
 		}
-		if(x[k >> kshift] & 1 << (k & kmask))
+		if(x[k >> kshift] & (ULong)(1 << (k & kmask)))
 		{
 			{
 				lostbits |= 2;
@@ -325,6 +335,9 @@ pcheck:
 				break;
 			case FPI_Round_down:
 				up = sign;
+				break;
+			default:
+				break;
 		}
 		if(up)
 		{
@@ -333,7 +346,7 @@ pcheck:
 			x = b->x;
 			if(irv == STRTOG_Denormal)
 			{
-				if(nbits == fpi->nbits - 1 && x[nbits >> kshift] & 1 << (nbits & kmask))
+				if((nbits == (fpi->nbits - 1)) && (x[nbits >> kshift] & (ULong)(1 << (nbits & kmask))))
 				{
 					{
 						irv = STRTOG_Normal;

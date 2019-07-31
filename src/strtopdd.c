@@ -201,6 +201,10 @@ strtopdd(CONST char *s, char **sp, double *dd)
 		case STRTOG_NaN:
 			u->L[0] = u->L[2] = d_QNAN0;
 			u->L[1] = u->L[3] = d_QNAN1;
+			break;
+
+		default:
+			break;
 	}
 	if(rv & STRTOG_Neg)
 	{

@@ -332,7 +332,7 @@ char** rve;
 			break;
 		case 2:
 			leftright = 0;
-			/* no break */
+			/* fall through */
 		case 4:
 			if(ndigits <= 0)
 			{
@@ -344,7 +344,7 @@ char** rve;
 			break;
 		case 3:
 			leftright = 0;
-			/* no break */
+			/* fall through */
 		case 5:
 			i = ndigits + k + 1;
 			ilim = i;
@@ -353,6 +353,9 @@ char** rve;
 			{
 				i = 1;
 			}
+			break;
+		default:
+			break;
 	}
 	s = s0 = rv_alloc(i);
 
@@ -555,6 +558,8 @@ char** rve;
 							goto ret1;
 						case 2:
 							goto bump_up;
+						default:
+							break;
 					}
 				}
 	#endif
@@ -801,6 +806,8 @@ char** rve;
 								goto accept_dig;
 							case 2:
 								goto keep_dig;
+							default:
+								break;
 						}
 					}
 				}
@@ -889,6 +896,8 @@ char** rve;
 			goto trimzeros;
 		case 2:
 			goto roundoff;
+		default:
+			break;
 	}
 	#endif
 	b = lshift(b, 1);

@@ -67,6 +67,9 @@ ULtod(ULong *L, const ULong *bits, Long exp, int k)
 		case STRTOG_NaN:
 			L[0] = d_QNAN0;
 			L[1] = d_QNAN1;
+			break;
+		default:
+			break;
 	}
 	if(k & STRTOG_Neg)
 	{

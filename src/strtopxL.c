@@ -87,6 +87,10 @@ strtopxL(CONST char *s, char **sp, void *V)
 			L[0] = ld_QNAN0;
 			L[1] = ld_QNAN1;
 			L[2] = ld_QNAN2;
+			break;
+
+		default:
+			break;
 	}
 	if(k & STRTOG_Neg)
 	{

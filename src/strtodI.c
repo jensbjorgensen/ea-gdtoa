@@ -179,6 +179,10 @@ strtodI(CONST char *s, char **sp, double *dd)
 		case STRTOG_NaNbits:
 			u->L[_0] = u->L[2 + _0] = 0x7ff00000 | sign | bits[1];
 			u->L[_1] = u->L[2 + _1] = bits[0];
+			break;
+
+		default:
+			break;
 	}
 	return k;
 }
