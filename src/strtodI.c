@@ -88,9 +88,13 @@ strtodI(CONST char *s, char **sp, double *dd)
 			if(k & STRTOG_Inexact)
 			{
 				if(sign)
+				{
 					u->L[_0] = 0x80100000L;
+				}
 				else
+				{
 					u->L[2 + _0] = 0x100000L;
+				}
 			}
 			break;
 #else

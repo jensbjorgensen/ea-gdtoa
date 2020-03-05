@@ -292,31 +292,23 @@ int exact, rd, *irv;
 			k = bdif - 1;
 			if(k < 0)
 			{
-				{
-					goto trunc;
-				}
+				goto trunc;
 			}
 			if(!k)
 			{
 				if(!exact)
 				{
-					{
-						goto ret;
-					}
+					goto ret;
 				}
 				if(b->x[0] & 2)
 				{
-					{
-						break;
-					}
+					break;
 				}
 				goto trunc;
 			}
 			if(b->x[k >> kshift] & ((ULong)1 << (k & kmask)))
 			{
-				{
-					break;
-				}
+				break;
 			}
 			goto trunc;
 	}
@@ -339,17 +331,13 @@ trunc:
 			b = increment(b);
 			if((j = nb & kmask) != 0)
 			{
-				{
-					j = ULbits - j;
-				}
+				j = ULbits - j;
 			}
 			if(hi0bits(b->x[b->wds - 1]) != j)
 			{
 				if(!lostbits)
 				{
-					{
-						lostbits = b->x[0] & 1;
-					}
+					lostbits = b->x[0] & 1;
 				}
 				rshift(b, 1);
 				e++;
@@ -358,9 +346,7 @@ trunc:
 	}
 	else if(bdif < 0)
 	{
-		{
-			b = lshift(b, -bdif);
-		}
+		b = lshift(b, -bdif);
 	}
 	if(e < fpi->emin)
 	{
@@ -377,15 +363,11 @@ trunc:
 			k1 = k - 1;
 			if(k1 > 0 && !lostbits)
 			{
-				{
-					lostbits = any_on(b, k1);
-				}
+				lostbits = any_on(b, k1);
 			}
 			if(!lostbits && !exact)
 			{
-				{
-					goto ret;
-				}
+				goto ret;
 			}
 			carry = (ULong)(b->x[k1 >> kshift]) & (ULong)(1 << (k1 & kmask));
 			lostbits |= carry;
@@ -398,9 +380,7 @@ trunc:
 			}
 			else if(lostbits)
 			{
-				{
-					inex = STRTOG_Inexlo | STRTOG_Underflow;
-				}
+				inex = STRTOG_Inexlo | STRTOG_Underflow;
 			}
 		}
 	}
@@ -533,9 +513,7 @@ ULong* bits;
 				case '+':
 					if(*++s)
 					{
-						{
-							goto break2;
-						}
+						goto break2;
 					}
 					/* fall through */
 				case 0:
@@ -577,15 +555,11 @@ break2:
 		nz0 = 1;
 		while(*++s == '0')
 		{
-			{
-				;
-			}
+			;
 		}
 		if(!*s)
 		{
-			{
-				goto ret;
-			}
+			goto ret;
 		}
 	}
 	sudden_underflow = fpi->sudden_underflow;
@@ -617,9 +591,7 @@ break2:
 		{
 			for(; c == '0'; c = *++s)
 			{
-				{
-					nz++;
-				}
+				nz++;
 			}
 			if(c > '0' && c <= '9')
 			{
@@ -639,15 +611,13 @@ break2:
 				nf += nz;
 				for(i = 1; i < nz; i++)
 				{
+					if(nd++ < 9)
 					{
-						if(nd++ < 9)
-						{
-							y *= 10;
-						}
-						else if(nd <= DBL_DIG + 1)
-						{
-							z *= 10;
-						}
+						y *= 10;
+					}
+					else if(nd <= DBL_DIG + 1)
+					{
+						z *= 10;
 					}
 				}
 				if(nd++ < 9)
@@ -688,9 +658,7 @@ dig_done:
 		{
 			while(c == '0')
 			{
-				{
-					c = *++s;
-				}
+				c = *++s;
 			}
 			if(c > '0' && c <= '9')
 			{
@@ -698,44 +666,32 @@ dig_done:
 				s1 = s;
 				while((c = *++s) >= '0' && c <= '9')
 				{
-					{
-						L = 10 * L + c - '0';
-					}
+					L = 10 * L + c - '0';
 				}
 				if(s - s1 > 8 || L > 19999)
 				{
-					{
-						/* Avoid confusion from exponents
-						 * so large that e might overflow.
-						 */
-						e = 19999; /* safe for 16 bit ints */
-					}
+					/* Avoid confusion from exponents
+					 * so large that e might overflow.
+					 */
+					e = 19999; /* safe for 16 bit ints */
 				}
 				else
 				{
-					{
-						e = (int)L;
-					}
+					e = (int)L;
 				}
 				if(esign)
 				{
-					{
-						e = -e;
-					}
+					e = -e;
 				}
 			}
 			else
 			{
-				{
-					e = 0;
-				}
+				e = 0;
 			}
 		}
 		else
 		{
-			{
-				s = s00;
-			}
+			s = s00;
 		}
 	}
 	if(!nd)
@@ -753,7 +709,9 @@ dig_done:
 						{
 							--s;
 							if(!match(&s, "inity"))
+							{
 								++s;
+							}
 							irv = STRTOG_Infinite;
 							goto infnanexp;
 						}
@@ -766,7 +724,9 @@ dig_done:
 							*exp = fpi->emax + 1;
 #ifndef No_Hex_NaN
 							if(*s == '(') /*)*/
+							{
 								irv = hexnan(&s, fpi, bits);
+							}
 #endif
 							goto infnanexp;
 						}
@@ -803,17 +763,13 @@ dig_done:
 
 	if(!nd0)
 	{
-		{
-			nd0 = nd;
-		}
+		nd0 = nd;
 	}
 	k = nd < DBL_DIG + 1 ? nd : DBL_DIG + 1;
 	dval(rv) = y;
 	if(k > 9)
 	{
-		{
-			dval(rv) = tens[k - 9] * dval(rv) + z;
-		}
+		dval(rv) = tens[k - 9] * dval(rv) + z;
 	}
 	bd0 = 0;
 	if(nbits <= P && nd <= DBL_DIG)
@@ -822,9 +778,7 @@ dig_done:
 		{
 			if(rvOK(dval(rv), fpi, exp, bits, 1, rd, &irv))
 			{
-				{
-					goto ret;
-				}
+				goto ret;
 			}
 		}
 		else if(e > 0)
@@ -838,9 +792,7 @@ dig_done:
 				/* rv = */ rounded_product(dval(rv), tens[e]);
 				if(rvOK(dval(rv), fpi, exp, bits, i, rd, &irv))
 				{
-					{
-						goto ret;
-					}
+					goto ret;
 				}
 				e1 -= e;
 				goto rv_notOK;
@@ -872,9 +824,7 @@ dig_done:
 #endif
 				if(rvOK(dval(rv), fpi, exp, bits, 0, rd, &irv))
 				{
-					{
-						goto ret;
-					}
+					goto ret;
 				}
 				e1 -= e2;
 			}
@@ -885,9 +835,7 @@ dig_done:
 			/* rv = */ rounded_quotient(dval(rv), tens[-e]);
 			if(rvOK(dval(rv), fpi, exp, bits, 0, rd, &irv))
 			{
-				{
-					goto ret;
-				}
+				goto ret;
 			}
 			e1 -= e;
 		}
@@ -903,9 +851,7 @@ rv_notOK:
 	{
 		if((i = e1 & 15) != 0)
 		{
-			{
-				dval(rv) *= tens[i];
-			}
+			dval(rv) *= tens[i];
 		}
 		if(e1 &= ~15)
 		{
@@ -923,13 +869,9 @@ rv_notOK:
 			word0(rv) |= Bias << Exp_shift1;
 			for(j = 0; e1 > 0; j++, e1 >>= 1)
 			{
+				if(e1 & 1)
 				{
-					if(e1 & 1)
-					{
-						{
-							dval(rv) *= bigtens[j];
-						}
-					}
+					dval(rv) *= bigtens[j];
 				}
 			}
 		}
@@ -939,9 +881,7 @@ rv_notOK:
 		e1 = -e1;
 		if((i = e1 & 15) != 0)
 		{
-			{
-				dval(rv) /= tens[i];
-			}
+			dval(rv) /= tens[i];
 		}
 		if(e1 &= ~15)
 		{
@@ -959,13 +899,9 @@ rv_notOK:
 			word0(rv) |= Bias << Exp_shift1;
 			for(j = 0; e1 > 0; j++, e1 >>= 1)
 			{
+				if(e1 & 1)
 				{
-					if(e1 & 1)
-					{
-						{
-							dval(rv) *= tinytens[j];
-						}
-					}
+					dval(rv) *= tinytens[j];
 				}
 			}
 		}
@@ -990,9 +926,7 @@ rv_notOK:
 	e2 = rve + rvbits - nbits;
 	if(e2 > fpi->emax + 1)
 	{
-		{
-			goto huge;
-		}
+		goto huge;
 	}
 	rve1 = rve + rvbits - nbits;
 	if(e2 < (emin = fpi->emin))
@@ -1024,17 +958,13 @@ rv_notOK:
 			}
 			else
 			{
-				{
-					rshift(rvb, -j);
-				}
+				rshift(rvb, -j);
 			}
 		}
 		rve = rve1 = emin;
 		if(sudden_underflow && e2 + 1 < emin)
 		{
-			{
-				goto ufl;
-			}
+			goto ufl;
 		}
 	}
 
@@ -1066,33 +996,26 @@ rv_notOK:
 		}
 		if(bbe >= 0)
 		{
-			{
-				bb2 += bbe;
-			}
+			bb2 += bbe;
 		}
 		else
 		{
-			{
-				bd2 -= bbe;
-			}
+			bd2 -= bbe;
 		}
 		bs2 = bb2;
 		j = nbits + 1 - bbbits;
 		i = bbe + bbbits - nbits;
 		if(i < emin)
 		{
-			{ /* denormal */
-				j += i - emin;
-			}
+			/* denormal */
+			j += i - emin;
 		}
 		bb2 += j;
 		bd2 += j;
 		i = bb2 < bd2 ? bb2 : bd2;
 		if(i > bs2)
 		{
-			{
-				i = bs2;
-			}
+			i = bs2;
 		}
 		if(i > 0)
 		{
@@ -1110,42 +1033,30 @@ rv_notOK:
 		bb2 -= bb0;
 		if(bb2 > 0)
 		{
-			{
-				bb = lshift(bb, bb2);
-			}
+			bb = lshift(bb, bb2);
 		}
 		else if(bb2 < 0)
 		{
-			{
-				rshift(bb, -bb2);
-			}
+			rshift(bb, -bb2);
 		}
 		if(bd5 > 0)
 		{
-			{
-				bd = pow5mult(bd, bd5);
-			}
+			bd = pow5mult(bd, bd5);
 		}
 		if(bd2 > 0)
 		{
-			{
-				bd = lshift(bd, bd2);
-			}
+			bd = lshift(bd, bd2);
 		}
 		if(bs2 > 0)
 		{
-			{
-				bs = lshift(bs, bs2);
-			}
+			bs = lshift(bs, bs2);
 		}
 		asub = 1;
 		inex = STRTOG_Inexhi;
 		delta = diff(bb, bd);
 		if(delta->wds <= 1 && !delta->x[0])
 		{
-			{
-				break;
-			}
+			break;
 		}
 		dsign = delta->sign;
 		delta->sign = finished = 0;
@@ -1164,24 +1075,18 @@ rv_notOK:
 				irv |= STRTOG_Inexlo;
 				if(rve1 == emin)
 				{
-					{
-						goto adj1;
-					}
+					goto adj1;
 				}
 				for(i = 0, j = nbits; j >= ULbits; i++, j -= ULbits)
 				{
 					if(rvb->x[i] & ALL_ON)
 					{
-						{
-							goto adj1;
-						}
+						goto adj1;
 					}
 				}
 				if(j > 1 && lo0bits(rvb->x + i) < j - 1)
 				{
-					{
-						goto adj1;
-					}
+					goto adj1;
 				}
 				rve = rve1 - 1;
 				rvb = set_ones(rvb, rvbits = nbits);
@@ -1198,9 +1103,7 @@ rv_notOK:
 			irv = dsign ? STRTOG_Normal | STRTOG_Inexlo : STRTOG_Normal | STRTOG_Inexhi;
 			if(dsign || bbbits > 1 || denorm || rve1 == emin)
 			{
-				{
-					break;
-				}
+				break;
 			}
 			delta = lshift(delta, 1);
 			if(cmp(delta, bs) > 0)
@@ -1237,9 +1140,7 @@ rv_notOK:
 					irv = STRTOG_Normal | STRTOG_Inexhi;
 					if(rvb->wds == 1 && rvb->x[0] == 1)
 					{
-						{
-							sudden_underflow = 1;
-						}
+						sudden_underflow = 1;
 					}
 					break;
 				}
@@ -1249,15 +1150,11 @@ rv_notOK:
 			}
 			else
 			{
-				{
-					irv = STRTOG_Normal | STRTOG_Inexhi;
-				}
+				irv = STRTOG_Normal | STRTOG_Inexhi;
 			}
 			if(((bbbits < nbits) && !denorm) || !(rvb->x[0] & 1))
 			{
-				{
-					break;
-				}
+				break;
 			}
 			if(dsign)
 			{
@@ -1265,9 +1162,7 @@ rv_notOK:
 				j = kmask & (ULbits - (rvbits & kmask));
 				if(hi0bits(rvb->x[rvb->wds - 1]) != j)
 				{
-					{
-						rvbits++;
-					}
+					rvbits++;
 				}
 				irv = STRTOG_Normal | STRTOG_Inexhi;
 			}
@@ -1275,9 +1170,7 @@ rv_notOK:
 			{
 				if(bbbits == 1)
 				{
-					{
-						goto undfl;
-					}
+					goto undfl;
 				}
 				decrement(rvb);
 				irv = STRTOG_Normal | STRTOG_Inexlo;
@@ -1320,17 +1213,13 @@ rv_notOK:
 					case 0:
 						if(adj0 >= .5)
 						{
-							{
-								goto inc_L;
-							}
+							goto inc_L;
 						}
 						break;
 					case 1:
 						if(asub && adj0 > 0.)
 						{
-							{
-								goto inc_L;
-							}
+							goto inc_L;
 						}
 						break;
 					case 2:
@@ -1361,15 +1250,11 @@ rv_notOK:
 		ab = d2b(dval(adj), &abe, &abits);
 		if(abe < 0)
 		{
-			{
-				rshift(ab, -abe);
-			}
+			rshift(ab, -abe);
 		}
 		else if(abe > 0)
 		{
-			{
-				ab = lshift(ab, abe);
-			}
+			ab = lshift(ab, abe);
 		}
 		rvb0 = rvb;
 		if(asub)
@@ -1380,9 +1265,7 @@ rv_notOK:
 			k = rvb0->wds - 1;
 			if(denorm)
 			{
-				{
-					/* do nothing */;
-				}
+				/* do nothing */;
 			}
 			else if(rvb->wds <= k || hi0bits(rvb->x[k]) > hi0bits(rvb0->x[k]))
 			{
@@ -1411,9 +1294,7 @@ rv_notOK:
 				{
 					if(++rvbits == nbits)
 					{
-						{
-							denorm = 0;
-						}
+						denorm = 0;
 					}
 				}
 				else
@@ -1429,9 +1310,7 @@ rv_notOK:
 		Bfree(rvb0);
 		if(finished)
 		{
-			{
-				break;
-			}
+			break;
 		}
 
 		z = (ULong)(rve + rvbits);
@@ -1464,15 +1343,11 @@ rv_notOK:
 	{
 		if(j > 0)
 		{
-			{
-				rvb = lshift(rvb, j);
-			}
+			rvb = lshift(rvb, j);
 		}
 		else
 		{
-			{
-				rshift(rvb, -j);
-			}
+			rshift(rvb, -j);
 		}
 		rve -= j;
 	}
