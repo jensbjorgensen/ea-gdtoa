@@ -92,7 +92,7 @@ g__fmt(char *b, char *s, const char *se, int decpt, ULong sign)
 		for(;;)
 		{
 			int i = decpt / k;
-			*b++ = (char)i + '0';
+			*b++ = (char)(i + '0');
 
 			if(--j <= 0)
 			{

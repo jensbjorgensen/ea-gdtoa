@@ -84,7 +84,7 @@ g_xLfmt(char *buf, void *V, int ndig, unsigned bufsize)
 	bits[1] = L[_1];
 	bits[0] = L[_2];
 
-	if((ex = (L[_0] >> 16) & 0x7fff) != 0)
+	if((ex = (int)((L[_0] >> 16) & 0x7fff)) != 0)
 	{
 		if(ex == 0x7fff)
 		{

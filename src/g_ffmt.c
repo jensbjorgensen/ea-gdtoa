@@ -84,7 +84,7 @@ g_ffmt(char *buf, float *f, int ndig, unsigned bufsize)
 		return strcp(b, "Infinity");
 	}
 
-	if(fabs(*f) <= DBL_EPSILON)
+	if(fabs((double)(*f)) <= DBL_EPSILON)
 	{
 		b = buf;
 #ifndef IGNORE_ZERO_SIGN
@@ -101,7 +101,7 @@ g_ffmt(char *buf, float *f, int ndig, unsigned bufsize)
 
 	bits[0] = L[0] & 0x7fffff;
 
-	if((ex = (L[0] >> 23) & 0xff) != 0)
+	if((ex = (int)((L[0] >> 23) & 0xff)) != 0)
 	{
 		bits[0] |= 0x800000;
 	}

@@ -87,7 +87,7 @@ g_Qfmt(char *buf, void *V, int ndig, unsigned bufsize)
 	bits[1] = L[_2];
 	bits[0] = L[_3];
 	b = buf;
-	if((ex = (L[_0] & 0x7fff0000L) >> 16) != 0)
+	if((ex = (int)((L[_0] & 0x7fff0000L) >> 16)) != 0)
 	{
 		if(ex == 0x7fff)
 		{

@@ -103,7 +103,7 @@ g_dfmt(char *buf, double *d, int ndig, unsigned bufsize)
 	bits[0] = L[_1];
 	bits[1] = L[_0] & 0xfffff;
 
-	if((ex = (L[_0] >> 20) & 0x7ff) != 0)
+	if((ex = (int)((L[_0] >> 20) & 0x7ff)) != 0)
 	{
 		bits[1] |= 0x100000;
 	}

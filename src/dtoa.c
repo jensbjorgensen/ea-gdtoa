@@ -477,19 +477,23 @@ char** rve;
 			{
 				L = (int)dval(d);
 				dval(d) -= L;
-				*s++ = '0' + (char)L;
+				*s++ = (char)('0' + L);
+
 				if(dval(d) < dval(eps))
 				{
 					goto ret1;
 				}
+
 				if(1. - dval(d) < dval(eps))
 				{
 					goto bump_up;
 				}
+
 				if(++i >= ilim)
 				{
 					break;
 				}
+
 				dval(eps) *= 10.;
 				dval(d) *= 10.;
 			}
@@ -504,11 +508,14 @@ char** rve;
 				L = (Long)(dval(d));
 				// Formerly if(!(dval(d) -= L))
 				dval(d) -= L;
+
 				if(fabs(dval(d)) <= DBL_EPSILON)
 				{
 					ilim = i;
 				}
-				*s++ = '0' + (char)L;
+
+				*s++ = (char)('0' + L);
+
 				if(i == ilim)
 				{
 					if(dval(d) > 0.5 + dval(eps))
@@ -566,7 +573,7 @@ char** rve;
 				dval(d) += ds;
 			}
 	#endif
-			*s++ = '0' + (char)L;
+			*s++ = (char) ('0' + L);
 			if(fabs(dval(d)) <= DBL_EPSILON)
 			{
 	#ifdef SET_INEXACT
@@ -868,7 +875,7 @@ char** rve;
 					*s++ = '9';
 					goto roundoff;
 				}
-				*s++ = (char)dig + 1;
+				*s++ = (char)(dig + 1);
 				goto ret;
 			}
 	#ifdef Honor_FLT_ROUNDS
