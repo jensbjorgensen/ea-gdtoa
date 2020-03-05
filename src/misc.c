@@ -61,9 +61,7 @@ Bigint* Balloc
 #ifdef Omit_Private_Memory
 		rv = (Bigint*)MALLOC(sizeof(Bigint) + (x - 1) * sizeof(ULong));
 #else
-#ifndef Omit_Private_Memory
 		unsigned int len;
-#endif
 		len = (sizeof(Bigint) + ((unsigned)x - 1) * sizeof(ULong) + sizeof(double) - 1) /
 			  sizeof(double);
 		if((unsigned)(pmem_next - private_mem + len) <= PRIVATE_mem)
