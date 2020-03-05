@@ -70,15 +70,48 @@ CONST char** se;
 #ifdef Avoid_Underflow
 	int scale;
 #endif
-	int bb2, bb5, bbe, bd2, bd5, bbbits, bs2, c, decpt, dsign, e, e1, esign, i, j, k, nd, nd0, nf,
-		nz, nz0, sign;
-	CONST char *s, *s0, *s1;
-	double aadj, aadj1, adj, rv, rv0;
+	int bb2;
+	int bb5;
+	int bbe;
+	int bd2;
+	int bd5;
+	int bbbits;
+	int bs2;
+	int c;
+	int decpt;
+	int dsign;
+	int e;
+	int e1;
+	int esign;
+	int i;
+	int j;
+	int k;
+	int nd;
+	int nd0;
+	int nf;
+	int nz;
+	int nz0;
+	int sign;
+	CONST char *s;
+	CONST char *s0;
+	CONST char *s1;
+	double aadj;
+	double aadj1;
+	double adj;
+	double rv;
+	double rv0;
 	Long L;
-	ULong y, z;
-	Bigint *bb = NULL, *bb1 = NULL, *bd = NULL, *bd0 = NULL, *bs = NULL, *delta = NULL;
+	ULong y;
+	ULong z;
+	Bigint *bb = NULL;
+	Bigint *bb1 = NULL;
+	Bigint *bd = NULL;
+	Bigint *bd0 = NULL;
+	Bigint *bs = NULL;
+	Bigint *delta = NULL;
 #ifdef SET_INEXACT
-	int inexact, oldinexact;
+	int inexact;
+	int oldinexact;
 #endif
 #ifdef Honor_FLT_ROUNDS
 	int rounding;
@@ -112,6 +145,7 @@ CONST char** se;
 				goto break2;
 		}
 	}
+
 break2:
 	if(*s == '0')
 	{
@@ -167,6 +201,7 @@ break2:
 		}
 #endif
 		nz0 = 1;
+
 		while(*++s == '0')
 		{
 		}
@@ -176,8 +211,10 @@ break2:
 			goto ret;
 		}
 	}
+
 	s0 = s;
 	y = z = 0;
+
 	for(nd = nf = 0; (c = *s) >= '0' && c <= '9'; nd++, s++)
 	{
 		if(nd < 9)
@@ -189,7 +226,9 @@ break2:
 			z = 10 * z + (unsigned)c - '0';
 		}
 	}
+
 	nd0 = nd;
+
 #ifdef USE_LOCALE
 	if(c == *localeconv()->decimal_point)
 #else
@@ -198,12 +237,14 @@ break2:
 	{
 		decpt = 1;
 		c = *++s;
+
 		if(!nd)
 		{
 			for(; c == '0'; c = *++s)
 			{
 				nz++;
 			}
+
 			if(c > '0' && c <= '9')
 			{
 				s0 = s;
@@ -217,6 +258,7 @@ break2:
 		{
 		have_dig:
 			nz++;
+
 			if(c -= '0')
 			{
 				nf += nz;
@@ -231,6 +273,7 @@ break2:
 						z *= 10;
 					}
 				}
+
 				if(nd++ < 9)
 				{
 					y = 10 * y + (unsigned)c;
@@ -251,8 +294,10 @@ dig_done:
 		{
 			goto ret0;
 		}
+
 		s00 = s;
 		esign = 0;
+
 		switch(c = *++s)
 		{
 			case '-':
@@ -264,12 +309,14 @@ dig_done:
 			default:
 				break;
 		}
+
 		if(c >= '0' && c <= '9')
 		{
 			while(c == '0')
 			{
 				c = *++s;
 			}
+
 			if(c > '0' && c <= '9')
 			{
 				L = c - '0';
@@ -278,6 +325,7 @@ dig_done:
 				{
 					L = 10 * L + c - '0';
 				}
+
 				if(s - s1 > 8 || L > 19999)
 				{
 					/* Avoid confusion from exponents
@@ -304,6 +352,7 @@ dig_done:
 			s = s00;
 		}
 	}
+
 	if(!nd)
 	{
 		if(!nz && !nz0)
@@ -357,6 +406,7 @@ dig_done:
 		}
 		goto ret;
 	}
+
 	e1 = e -= nf;
 
 	/* Now we have nd0 digits, starting at s0, followed by a
@@ -368,8 +418,10 @@ dig_done:
 	{
 		nd0 = nd;
 	}
+
 	k = nd < DBL_DIG + 1 ? nd : DBL_DIG + 1;
 	dval(rv) = y;
+
 	if(k > 9)
 	{
 #ifdef SET_INEXACT
@@ -378,7 +430,9 @@ dig_done:
 #endif
 		dval(rv) = tens[k - 9] * dval(rv) + z;
 	}
+
 	bd0 = 0;
+
 	if(nd <= DBL_DIG
 #ifndef RND_PRODQUOT
 #ifndef Honor_FLT_ROUNDS
@@ -391,6 +445,7 @@ dig_done:
 		{
 			goto ret;
 		}
+
 		if(e > 0)
 		{
 			if(e <= Ten_pmax)
@@ -410,7 +465,9 @@ dig_done:
 				goto ret;
 #endif
 			}
+
 			i = DBL_DIG - nd;
+
 			if(e <= Ten_pmax + i)
 			{
 				/* A fancier test would sometimes let us do

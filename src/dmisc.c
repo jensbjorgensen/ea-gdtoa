@@ -121,13 +121,25 @@ int quorem
 #endif
 {
 	int n;
-	ULong *bx, *bxe, q, *sx, *sxe;
+	ULong *bx;
+	ULong *bxe;
+	ULong q;
+	ULong *sx;
+	ULong *sxe;
 #ifdef ULLong
-	ULLong borrow, carry, y, ys;
+	ULLong borrow;
+	ULLong carry;
+	ULLong y;
+	ULLong ys;
 #else
-	ULong borrow, carry, y, ys;
+	ULong borrow;
+	ULong carry;
+	ULong y;
+	ULong ys;
 #ifdef Pack_32
-	ULong si, z, zs;
+	ULong si;
+	ULong z;
+	ULong zs;
 #endif
 #endif
 
@@ -138,10 +150,9 @@ int quorem
 #endif
 	if(b->wds < n)
 	{
-		{
-			return 0;
-		}
+		return 0;
 	}
+
 	sx = S->x;
 	sxe = sx + --n;
 	bx = b->x;
@@ -149,12 +160,15 @@ int quorem
 	q = *bxe / (*sxe + 1); /* ensure q <= true quotient */
 #ifdef DEBUG
 	/*debug*/ if(q > 9)
+	{
 		/*debug*/ Bug("oversized quotient in quorem");
+	}
 #endif
 	if(q)
 	{
 		borrow = 0;
 		carry = 0;
+
 		do
 		{
 #ifdef ULLong
@@ -183,16 +197,20 @@ int quorem
 #endif
 #endif
 		} while(sx <= sxe);
+
 		if(!*bxe)
 		{
 			bx = b->x;
+
 			while(--bxe > bx && !*bxe)
 			{
 				--n;
 			}
+
 			b->wds = n;
 		}
 	}
+
 	if(cmp(b, S) >= 0)
 	{
 		q++;
@@ -200,6 +218,7 @@ int quorem
 		carry = 0;
 		bx = b->x;
 		sx = S->x;
+
 		do
 		{
 #ifdef ULLong
@@ -228,14 +247,17 @@ int quorem
 #endif
 #endif
 		} while(sx <= sxe);
+
 		bx = b->x;
 		bxe = bx + n;
+
 		if(!*bxe)
 		{
 			while(--bxe > bx && !*bxe)
 			{
 				--n;
 			}
+
 			b->wds = n;
 		}
 	}

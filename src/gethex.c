@@ -47,10 +47,23 @@ gethex( CONST char **sp, FPI *fpi, Long *exp, Bigint **bp, int sign)
 #endif
 {
 	Bigint* b;
-	CONST unsigned char *decpt, *s0, *s, *s1;
-	int esign, havedig, irv, k, n, nbits, up, zret;
-	ULong L, lostbits, *x;
-	Long e, e1;
+	CONST unsigned char *decpt;
+	CONST unsigned char *s0;
+	CONST unsigned char *s;
+	CONST unsigned char *s1;
+	int esign;
+	int havedig;
+	int irv;
+	int k;
+	int n;
+	int nbits;
+	int up;
+	int zret;
+	ULong L;
+	ULong lostbits;
+	ULong *x;
+	Long e;
+	Long e1;
 #ifdef USE_LOCALE
 	unsigned char decimalpoint = *localeconv()->decimal_point;
 #else
@@ -59,83 +72,83 @@ gethex( CONST char **sp, FPI *fpi, Long *exp, Bigint **bp, int sign)
 
 	if(!hexdig['0'])
 	{
-		{
-			hexdig_init_D2A();
-		}
+		hexdig_init_D2A();
 	}
+
 	havedig = 0;
 	s0 = *(CONST unsigned char**)sp + 2;
+
 	while(s0[havedig] == '0')
 	{
-		{
-			havedig++;
-		}
+		havedig++;
 	}
+
 	s0 += havedig;
 	s = s0;
 	decpt = 0;
 	zret = 0;
 	e = 0;
+
 	if(!hexdig[*s])
 	{
 		zret = 1;
+
 		if(*s != decimalpoint)
 		{
-			{
-				goto pcheck;
-			}
+			goto pcheck;
 		}
+
 		decpt = ++s;
+
 		if(!hexdig[*s])
 		{
-			{
-				goto pcheck;
-			}
+			goto pcheck;
 		}
+
 		while(*s == '0')
 		{
-			{
-				s++;
-			}
+			s++;
 		}
+
 		if(hexdig[*s])
 		{
-			{
-				zret = 0;
-			}
+			zret = 0;
 		}
+
 		havedig = 1;
 		s0 = s;
 	}
+
 	while(hexdig[*s])
 	{
 		{
 			s++;
 		}
 	}
+
 	if(*s == decimalpoint && !decpt)
 	{
 		decpt = ++s;
 		while(hexdig[*s])
 		{
-			{
-				s++;
-			}
+			s++;
 		}
 	}
+
 	if(decpt)
 	{
-		{
-			e = -(((Long)(s - decpt)) << 2);
-		}
+		e = -(((Long)(s - decpt)) << 2);
 	}
+
 pcheck:
 	s1 = s;
+
 	switch(*s)
 	{
 		case 'p':
 		case 'P':
 			esign = 0;
+
 			switch(*++s)
 			{
 				case '-':
@@ -147,51 +160,56 @@ pcheck:
 				default:
 					break;
 			}
+
 			if((n = hexdig[*s]) == 0 || n > 0x19)
 			{
 				s = s1;
 				break;
 			}
+
 			e1 = n - 0x10;
+
 			while((n = hexdig[*++s]) != 0 && n <= 0x19)
 			{
-				{
-					e1 = 10 * e1 + n - 0x10;
-				}
+				e1 = 10 * e1 + n - 0x10;
 			}
+
 			if(esign)
 			{
-				{
-					e1 = -e1;
-				}
+				e1 = -e1;
 			}
 			e += e1;
 			break;
 		default:
 			break;
 	}
+
 	*sp = (const char*)s;
+
 	if(zret)
 	{
 		if(!havedig)
 		{
-			{
-				*sp = (const char*)s0 - 1;
-			}
+			*sp = (const char*)s0 - 1;
 		}
+
 		return STRTOG_Zero;
 	}
+
 	n = (int)(s1 - s0 - 1);
+
 	for(k = 0; n > 7; n >>= 1)
 	{
 		{
 			k++;
 		}
 	}
+
 	b = Balloc(k);
 	x = b->x;
 	n = 0;
 	L = 0;
+
 	while(s1 > s0)
 	{
 		if(*--s1 == decimalpoint)
@@ -207,6 +225,7 @@ pcheck:
 		L |= (unsigned)((hexdig[*s1] & 0x0f) << n);
 		n += 4;
 	}
+
 	*x++ = L;
 	n = (int)(x - b->x);
 	b->wds = n;
@@ -214,9 +233,11 @@ pcheck:
 	nbits = fpi->nbits;
 	lostbits = 0;
 	x = b->x;
+
 	if(n > nbits)
 	{
 		n -= nbits;
+
 		if(any_on(b, n))
 		{
 			lostbits = 1;
@@ -226,9 +247,7 @@ pcheck:
 				lostbits = 2;
 				if(k > 1 && any_on(b, k - 1))
 				{
-					{
-						lostbits = 3;
-					}
+					lostbits = 3;
 				}
 			}
 		}
@@ -242,6 +261,7 @@ pcheck:
 		e -= n;
 		x = b->x;
 	}
+
 	if(e > fpi->emax)
 	{
 	ovfl:
@@ -249,11 +269,14 @@ pcheck:
 		*bp = 0;
 		return STRTOG_Infinite | STRTOG_Overflow | STRTOG_Inexhi;
 	}
+
 	irv = STRTOG_Normal;
+
 	if(e < fpi->emin)
 	{
 		irv = STRTOG_Denormal;
 		n = fpi->emin - e;
+
 		if(n >= nbits)
 		{
 			switch(fpi->rounding)
@@ -261,17 +284,13 @@ pcheck:
 				case FPI_Round_near:
 					if(n == nbits && (n < 2 || any_on(b, n - 1)))
 					{
-						{
-							goto one_bit;
-						}
+						goto one_bit;
 					}
 					break;
 				case FPI_Round_up:
 					if(!sign)
 					{
-						{
-							goto one_bit;
-						}
+						goto one_bit;
 					}
 					break;
 				case FPI_Round_down:
@@ -288,36 +307,38 @@ pcheck:
 				default:
 					break;
 			}
+
 			Bfree(b);
 			*bp = 0;
+
 			return STRTOG_Zero | STRTOG_Inexlo | STRTOG_Underflow;
 		}
+
 		k = n - 1;
+
 		if(lostbits)
 		{
-			{
-				lostbits = 1;
-			}
+			lostbits = 1;
 		}
 		else if(k > 0)
 		{
-			{
-				lostbits = any_on(b, k);
-			}
+			lostbits = any_on(b, k);
 		}
+
 		if(x[k >> kshift] & (ULong)(1 << (k & kmask)))
 		{
-			{
-				lostbits |= 2;
-			}
+			lostbits |= 2;
 		}
+
 		nbits -= n;
 		rshift(b, n);
 		e = fpi->emin;
 	}
+
 	if(lostbits)
 	{
 		up = 0;
+
 		switch(fpi->rounding)
 		{
 			case FPI_Round_zero:
@@ -325,9 +346,7 @@ pcheck:
 			case FPI_Round_near:
 				if(lostbits & 2 && ((lostbits & 1) | (x[0] & 1)))
 				{
-					{
-						up = 1;
-					}
+					up = 1;
 				}
 				break;
 			case FPI_Round_up:
@@ -339,40 +358,39 @@ pcheck:
 			default:
 				break;
 		}
+
 		if(up)
 		{
 			k = b->wds;
 			b = increment(b);
 			x = b->x;
+
 			if(irv == STRTOG_Denormal)
 			{
 				if((nbits == (fpi->nbits - 1)) && (x[nbits >> kshift] & (ULong)(1 << (nbits & kmask))))
 				{
-					{
-						irv = STRTOG_Normal;
-					}
+					irv = STRTOG_Normal;
 				}
 			}
 			else if(b->wds > k || (((n = nbits & kmask) != 0) && (hi0bits(x[k - 1]) < (32 - n))))
 			{
 				rshift(b, 1);
+
 				if(++e > fpi->emax)
 				{
-					{
-						goto ovfl;
-					}
+					goto ovfl;
 				}
 			}
 			irv |= STRTOG_Inexhi;
 		}
 		else
 		{
-			{
-				irv |= STRTOG_Inexlo;
-			}
+			irv |= STRTOG_Inexlo;
 		}
 	}
+
 	*bp = b;
 	*exp = e;
+
 	return irv;
 }

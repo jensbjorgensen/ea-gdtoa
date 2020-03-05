@@ -50,6 +50,7 @@ Bigint* Balloc
 	Bigint* rv;
 
 	ACQUIRE_DTOA_LOCK(0);
+
 	if((rv = freelist[k]) != 0)
 	{
 		freelist[k] = rv->next;
@@ -72,16 +73,16 @@ Bigint* Balloc
 		}
 		else
 		{
-			{
-				rv = (Bigint*)MALLOC(len * sizeof(double));
-			}
+			rv = (Bigint*)MALLOC(len * sizeof(double));
 		}
 #endif
 		rv->k = k;
 		rv->maxwds = x;
 	}
+
 	FREE_DTOA_LOCK(0);
 	rv->sign = rv->wds = 0;
+
 	return rv;
 }
 
@@ -108,58 +109,66 @@ int lo0bits
 	(ULong* y)
 #endif
 {
-	register int k;
-	register ULong x = *y;
+	int k;
+	ULong x = *y;
 
 	if(x & 7)
 	{
 		if(x & 1)
 		{
-			{
-				return 0;
-			}
+			return 0;
 		}
+
 		if(x & 2)
 		{
 			*y = x >> 1;
 			return 1;
 		}
+
 		*y = x >> 2;
+
 		return 2;
 	}
+
 	k = 0;
+
 	if(!(x & 0xffff))
 	{
 		k = 16;
 		x >>= 16;
 	}
+
 	if(!(x & 0xff))
 	{
 		k += 8;
 		x >>= 8;
 	}
+
 	if(!(x & 0xf))
 	{
 		k += 4;
 		x >>= 4;
 	}
+
 	if(!(x & 0x3))
 	{
 		k += 2;
 		x >>= 2;
 	}
+
 	if(!(x & 1))
 	{
 		k++;
 		x >>= 1;
+
 		if(!x)
 		{
-			{
-				return 32;
-			}
+			return 32;
 		}
 	}
+
 	*y = x;
+
 	return k;
 }
 
@@ -171,14 +180,19 @@ int m, a;
 	(Bigint* b, int m, int a) /* multiply by m and add a */
 #endif
 {
-	int i, wds;
+	int i;
+	int wds;
 #ifdef ULLong
 	ULong* x;
-	ULLong carry, y;
+	ULLong carry;
+	ULLong y;
 #else
-	ULong carry, *x, y;
+	ULong carry;
+	ULong *x;
+	ULong y;
 #ifdef Pack_32
-	ULong xi, z;
+	ULong xi;
+	ULong z;
 #endif
 #endif
 	Bigint* b1;
@@ -187,6 +201,7 @@ int m, a;
 	x = b->x;
 	i = 0;
 	carry = (unsigned long long)a;
+
 	do
 	{
 #ifdef ULLong
@@ -207,6 +222,7 @@ int m, a;
 #endif
 #endif
 	} while(++i < wds);
+
 	if(carry)
 	{
 		if(wds >= b->maxwds)
@@ -216,9 +232,11 @@ int m, a;
 			Bfree(b);
 			b = b1;
 		}
+
 		b->x[wds++] = (ULong)carry;
 		b->wds = wds;
 	}
+
 	return b;
 }
 
@@ -229,38 +247,42 @@ int hi0bits_D2A
 	(register ULong x)
 #endif
 {
-	register int k = 0;
+	int k = 0;
 
 	if(!(x & 0xffff0000))
 	{
 		k = 16;
 		x <<= 16;
 	}
+
 	if(!(x & 0xff000000))
 	{
 		k += 8;
 		x <<= 8;
 	}
+
 	if(!(x & 0xf0000000))
 	{
 		k += 4;
 		x <<= 4;
 	}
+
 	if(!(x & 0xc0000000))
 	{
 		k += 2;
 		x <<= 2;
 	}
+
 	if(!(x & 0x80000000))
 	{
 		k++;
+
 		if(!(x & 0x40000000))
 		{
-			{
-				return 32;
-			}
+			return 32;
 		}
 	}
+
 	return k;
 }
 
@@ -276,6 +298,7 @@ Bigint* i2b
 	b = Balloc(1);
 	b->x[0] = (ULong)i;
 	b->wds = 1;
+
 	return b;
 }
 
@@ -288,13 +311,24 @@ Bigint *mult
 #endif
 {
 	Bigint* c;
-	int k, wa, wb, wc;
-	ULong *x, *xa, *xae, *xb, *xbe, *xc, *xc0;
+	int k;
+	int wa;
+	int wb;
+	int wc;
+	ULong *x;
+	ULong *xa;
+	ULong *xae;
+	ULong *xb;
+	ULong *xbe;
+	ULong *xc;
+	ULong *xc0;
 	ULong y;
 #ifdef ULLong
-	ULLong carry, z;
+	ULLong carry;
+	ULLong z;
 #else
-	ULong carry, z;
+	ULong carry;
+	ULong z;
 #ifdef Pack_32
 	ULong z2;
 #endif
@@ -306,28 +340,30 @@ Bigint *mult
 		a = b;
 		b = c;
 	}
+
 	k = a->k;
 	wa = a->wds;
 	wb = b->wds;
 	wc = wa + wb;
+
 	if(wc > a->maxwds)
 	{
-		{
-			k++;
-		}
+		k++;
 	}
+
 	c = Balloc(k);
+
 	for(x = c->x, xa = x + wc; x < xa; x++)
 	{
-		{
-			*x = 0;
-		}
+		*x = 0;
 	}
+
 	xa = a->x;
 	xae = xa + wa;
 	xb = b->x;
 	xbe = xb + wb;
 	xc0 = c->x;
+
 #ifdef ULLong
 	for(; xb < xbe; xc0++)
 	{
@@ -336,12 +372,14 @@ Bigint *mult
 			x = xa;
 			xc = xc0;
 			carry = 0;
+
 			do
 			{
 				z = *x++ * (ULLong)y + *xc + carry;
 				carry = z >> 32;
 				*xc++ = z & 0xffffffffUL;
 			} while(x < xae);
+
 			*xc = (ULong)carry;
 		}
 	}
@@ -354,6 +392,7 @@ Bigint *mult
 			x = xa;
 			xc = xc0;
 			carry = 0;
+
 			do
 			{
 				z = (*x & 0xffff) * y + (*xc & 0xffff) + carry;
@@ -362,14 +401,17 @@ Bigint *mult
 				carry = z2 >> 16;
 				Storeinc(xc, z2, z);
 			} while(x < xae);
+
 			*xc = carry;
 		}
+
 		if((y = *xb >> 16) != 0)
 		{
 			x = xa;
 			xc = xc0;
 			carry = 0;
 			z2 = *xc;
+
 			do
 			{
 				z = (*x & 0xffff) * y + (*xc >> 16) + carry;
@@ -378,6 +420,7 @@ Bigint *mult
 				z2 = (*x++ >> 16) * y + (*xc & 0xffff) + carry;
 				carry = z2 >> 16;
 			} while(x < xae);
+
 			*xc = z2;
 		}
 	}
@@ -389,12 +432,14 @@ Bigint *mult
 			x = xa;
 			xc = xc0;
 			carry = 0;
+
 			do
 			{
 				z = *x++ * y + *xc + carry;
 				carry = z >> 16;
 				*xc++ = z & 0xffff;
 			} while(x < xae);
+
 			*xc = carry;
 		}
 	}
@@ -402,11 +447,11 @@ Bigint *mult
 #endif
 	for(xc0 = c->x, xc = xc0 + wc; wc > 0 && !*--xc; --wc)
 	{
-		{
-			;
-		}
+		;
 	}
+
 	c->wds = wc;
+
 	return c;
 }
 
@@ -420,22 +465,20 @@ int k;
 	(Bigint* b, int k)
 #endif
 {
-	Bigint *b1, *p5, *p51;
+	Bigint *b1;
+	Bigint *p5;
+	Bigint *p51;
 	int i;
 
 	if((i = k & 3) != 0)
 	{
-		{
-			static int p05[3] = {5, 25, 125};
-			b = multadd(b, p05[i - 1], 0);
-		}
+		static int p05[3] = {5, 25, 125};
+		b = multadd(b, p05[i - 1], 0);
 	}
 
 	if(!(k >>= 2))
 	{
-		{
-			return b;
-		}
+		return b;
 	}
 	if((p5 = p5s) == 0)
 	{
@@ -463,9 +506,7 @@ int k;
 		}
 		if(!(k >>= 1))
 		{
-			{
-				break;
-			}
+			break;
 		}
 		if((p51 = p5->next) == 0)
 		{
@@ -495,70 +536,79 @@ int k;
 	(Bigint* b, int k)
 #endif
 {
-	int i, k1, n, n1;
+	int i;
+	int k1;
+	int n;
+	int n1;
 	Bigint* b1;
-	ULong *x, *x1, *xe, z;
+	ULong *x;
+	ULong *x1;
+	ULong *xe;
+	ULong z;
 
 	n = k >> kshift;
 	k1 = b->k;
 	n1 = n + b->wds + 1;
+
 	for(i = b->maxwds; n1 > i; i <<= 1)
 	{
-		{
-			k1++;
-		}
+		k1++;
 	}
+
 	b1 = Balloc(k1);
 	x1 = b1->x;
+
 	for(i = 0; i < n; i++)
 	{
-		{
-			*x1++ = 0;
-		}
+		*x1++ = 0;
 	}
+
 	x = b->x;
 	xe = x + b->wds;
+
 	if(k &= kmask)
 	{
 #ifdef Pack_32
 		k1 = 32 - k;
 		z = 0;
+
 		do
 		{
 			*x1++ = *x << k | z;
 			z = *x++ >> k1;
 		} while(x < xe);
+
 		if((*x1 = z) != 0)
 		{
-			{
-				++n1;
-			}
+			++n1;
 		}
 #else
 		k1 = 16 - k;
 		z = 0;
+
 		do
 		{
 			*x1++ = *x << k & 0xffff | z;
 			z = *x++ >> k1;
 		} while(x < xe);
+
 		if(*x1 = z)
+		{
 			++n1;
+		}
 #endif
 	}
 	else
 	{
+		do
 		{
-			do
-			{
-				{
-					*x1++ = *x++;
-				}
-			} while(x < xe);
-		}
+			*x1++ = *x++;
+		} while(x < xe);
 	}
+
 	b1->wds = n1 - 1;
 	Bfree(b);
+
 	return b1;
 }
 
@@ -570,42 +620,49 @@ int cmp
 	(Bigint* a, Bigint* b)
 #endif
 {
-	ULong *xa, *xa0, *xb, *xb0;
-	int i, j;
+	ULong *xa;
+	ULong *xa0;
+	ULong *xb;
+	ULong *xb0;
+	int i;
+	int j;
 
 	i = a->wds;
 	j = b->wds;
 #ifdef DEBUG
 	if(i > 1 && !a->x[i - 1])
+	{
 		Bug("cmp called with a->x[a->wds-1] == 0");
+	}
+
 	if(j > 1 && !b->x[j - 1])
+	{
 		Bug("cmp called with b->x[b->wds-1] == 0");
+	}
 #endif
 	if(i -= j)
 	{
-		{
-			return i;
-		}
+		return i;
 	}
+
 	xa0 = a->x;
 	xa = xa0 + j;
 	xb0 = b->x;
 	xb = xb0 + j;
+
 	for(;;)
 	{
 		if(*--xa != *--xb)
 		{
-			{
-				return *xa < *xb ? -1 : 1;
-			}
+			return *xa < *xb ? -1 : 1;
 		}
+
 		if(xa <= xa0)
 		{
-			{
-				break;
-			}
+			break;
 		}
 	}
+
 	return 0;
 }
 
@@ -618,25 +675,36 @@ Bigint *diff
 #endif
 {
 	Bigint* c;
-	int i, wa, wb;
-	ULong *xa, *xae, *xb, *xbe, *xc;
+	int i;
+	int wa;
+	int wb;
+	ULong *xa;
+	ULong *xae;
+	ULong *xb;
+	ULong *xbe;
+	ULong *xc;
 #ifdef ULLong
-	ULLong borrow, y;
+	ULLong borrow;
+	ULLong y;
 #else
-	ULong borrow, y;
+	ULong borrow;
+	ULong y;
 #ifdef Pack_32
 	ULong z;
 #endif
 #endif
 
 	i = cmp(a, b);
+
 	if(!i)
 	{
 		c = Balloc(0);
 		c->wds = 1;
 		c->x[0] = 0;
+
 		return c;
 	}
+
 	if(i < 0)
 	{
 		c = a;
@@ -646,10 +714,9 @@ Bigint *diff
 	}
 	else
 	{
-		{
-			i = 0;
-		}
+		i = 0;
 	}
+
 	c = Balloc(a->k);
 	c->sign = i;
 	wa = a->wds;
@@ -660,6 +727,7 @@ Bigint *diff
 	xbe = xb + wb;
 	xc = c->x;
 	borrow = 0;
+
 #ifdef ULLong
 	do
 	{
@@ -667,6 +735,7 @@ Bigint *diff
 		borrow = y >> 32 & 1UL;
 		*xc++ = y & 0xffffffffUL;
 	} while(xb < xbe);
+
 	while(xa < xae)
 	{
 		y = *xa++ - borrow;
@@ -683,6 +752,7 @@ Bigint *diff
 		borrow = (z & 0x10000) >> 16;
 		Storeinc(xc, z, y);
 	} while(xb < xbe);
+
 	while(xa < xae)
 	{
 		y = (*xa & 0xffff) - borrow;
@@ -698,6 +768,7 @@ Bigint *diff
 		borrow = (y & 0x10000) >> 16;
 		*xc++ = y & 0xffff;
 	} while(xb < xbe);
+
 	while(xa < xae)
 	{
 		y = *xa++ - borrow;
@@ -708,11 +779,11 @@ Bigint *diff
 #endif
 	while(!*--xc)
 	{
-		{
-			wa--;
-		}
+		wa--;
 	}
+
 	c->wds = wa;
+
 	return c;
 }
 
@@ -724,11 +795,16 @@ int* e;
 	(Bigint* a, int* e)
 #endif
 {
-	ULong *xa, *xa0, w, y, z;
+	ULong *xa;
+	ULong *xa0;
+	ULong w;
+	ULong y;
+	ULong z;
 	int k;
 	double d;
 #ifdef VAX
-	ULong d0, d1;
+	ULong d0;
+	ULong d1;
 #else
 #define d0 word0(d)
 #define d1 word1(d)
@@ -751,7 +827,9 @@ int* e;
 		d1 = y << ((32 - Ebits) + k) | w >> (Ebits - k);
 		goto ret_d;
 	}
+
 	z = xa > xa0 ? *--xa : 0;
+
 	if(k -= Ebits)
 	{
 		d0 = Exp_1 | y << k | z >> (32 - k);
@@ -773,6 +851,7 @@ int* e;
 		d1 = z << k + 16 - Ebits | w << k - Ebits | y >> 16 + Ebits - k;
 		goto ret_d;
 	}
+
 	z = xa > xa0 ? *--xa : 0;
 	w = xa > xa0 ? *--xa : 0;
 	k -= Ebits + 16;
@@ -780,11 +859,13 @@ int* e;
 	y = xa > xa0 ? *--xa : 0;
 	d1 = w << k + 16 | y << k;
 #endif
+
 ret_d:
 #ifdef VAX
 	word0(d) = d0 >> 16 | d0 << 16;
 	word1(d) = d1 >> 16 | d1 << 16;
 #endif
+
 	return dval(d);
 }
 #undef d0
@@ -802,8 +883,11 @@ int *e, *bits;
 #ifndef Sudden_Underflow
 	int i;
 #endif
-	int de, k;
-	ULong *x, y, z;
+	int de;
+	int k;
+	ULong *x;
+	ULong y;
+	ULong z;
 #ifdef VAX
 	ULong d0, d1;
 	d0 = word0(d) >> 16 | word0(d) << 16;
@@ -830,9 +914,7 @@ int *e, *bits;
 #else
 	if((de = (int)(d0 >> Exp_shift)) != 0)
 	{
-		{
-			z |= Exp_msk1;
-		}
+		z |= Exp_msk1;
 	}
 #endif
 #ifdef Pack_32
@@ -845,9 +927,7 @@ int *e, *bits;
 		}
 		else
 		{
-			{
-				x[0] = y;
-			}
+			x[0] = y;
 		}
 #ifndef Sudden_Underflow
 		i =
@@ -868,6 +948,7 @@ int *e, *bits;
 	if((y = d1) != 0)
 	{
 		if((k = lo0bits(&y)) != 0)
+		{
 			if(k >= 16)
 			{
 				x[0] = y | z << 32 - k & 0xffff;
@@ -883,6 +964,7 @@ int *e, *bits;
 				x[3] = z >> k + 16;
 				i = 3;
 			}
+		}
 		else
 		{
 			x[0] = y & 0xffff;
@@ -899,6 +981,7 @@ int *e, *bits;
 			Bug("Zero passed to d2b");
 #endif
 		k = lo0bits(&z);
+
 		if(k >= 16)
 		{
 			x[0] = z;
@@ -910,10 +993,15 @@ int *e, *bits;
 			x[1] = z >> 16;
 			i = 1;
 		}
+
 		k += 32;
 	}
+
 	while(!x[i])
+	{
 		--i;
+	}
+
 	b->wds = i + 1;
 #endif
 #ifndef Sudden_Underflow
@@ -998,10 +1086,9 @@ strcp_D2A(char *a, CONST char *b)
 {
 	while((*a = *b++))
 	{
-		{
-			a++;
-		}
+		a++;
 	}
+
 	return a;
 }
 
@@ -1016,10 +1103,14 @@ size_t len;
 memcpy_D2A(void *a1, void *b1, size_t len)
 #endif
 {
-	register char *a = (char*)a1, *ae = a + len;
-	register char *b = (char*)b1, *a0 = a;
+	char *a = (char*)a1, *ae = a + len;
+	char *b = (char*)b1, *a0 = a;
+
 	while(a < ae)
+	{
 		*a++ = *b++;
+	}
+
 	return a0;
 }
 

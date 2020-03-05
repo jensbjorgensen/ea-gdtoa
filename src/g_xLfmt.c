@@ -58,14 +58,22 @@ g_xLfmt(char *buf, void *V, int ndig, unsigned bufsize)
 #endif
 {
 	static FPI fpi = {64, 1 - 16383 - 64 + 1, 32766 - 16383 - 64 + 1, 1, 0};
-	char *b, *s, *se;
-	ULong bits[2], *L, sign;
-	int decpt, ex, i, mode;
+	char *b;
+	char *s;
+	char *se;
+	ULong bits[2];
+	ULong *L;
+	ULong sign;
+	int decpt;
+	int ex;
+	int i;
+	int mode;
 
 	if(ndig < 0)
 	{
 		ndig = 0;
 	}
+
 	if(bufsize < (unsigned)ndig + 10)
 	{
 		return 0;
@@ -75,6 +83,7 @@ g_xLfmt(char *buf, void *V, int ndig, unsigned bufsize)
 	sign = L[_0] & 0x80000000L;
 	bits[1] = L[_1];
 	bits[0] = L[_2];
+
 	if((ex = (L[_0] >> 16) & 0x7fff) != 0)
 	{
 		if(ex == 0x7fff)
@@ -82,23 +91,23 @@ g_xLfmt(char *buf, void *V, int ndig, unsigned bufsize)
 			/* Infinity or NaN */
 			if(bits[0] | bits[1])
 			{
-				{
-					b = strcp(buf, "NaN");
-				}
+				b = strcp(buf, "NaN");
 			}
 			else
 			{
 				b = buf;
+
 				if(sign)
 				{
-					{
-						*b++ = '-';
-					}
+					*b++ = '-';
 				}
+
 				b = strcp(b, "Infinity");
 			}
+
 			return b;
 		}
+
 		i = STRTOG_Normal;
 	}
 	else if(bits[0] | bits[1])
@@ -111,27 +120,29 @@ g_xLfmt(char *buf, void *V, int ndig, unsigned bufsize)
 #ifndef IGNORE_ZERO_SIGN
 		if(sign)
 		{
-			{
-				*b++ = '-';
-			}
+			*b++ = '-';
 		}
 #endif
 		*b++ = '0';
 		*b = 0;
+
 		return b;
 	}
+
 	ex -= 0x3fff + 63;
 	mode = 2;
+
 	if(ndig <= 0)
 	{
 		if(bufsize < 32)
 		{
-			{
-				return 0;
-			}
+			return 0;
 		}
+
 		mode = 0;
 	}
+
 	s = gdtoa(&fpi, ex, bits, &i, mode, ndig, &decpt, &se);
+
 	return g__fmt(buf, s, se, decpt, sign);
 }

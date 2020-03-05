@@ -118,21 +118,50 @@ char** rve;
 		   to hold the suppressed trailing zeros.
 	   */
 
-	int bbits, b2, b5, be, dig, i, ieps, ilim = 0, ilim0, ilim1 = 0, j, j1, k, k0, k_check,
-										 leftright, m2, m5, s2, s5, spec_case, try_quick;
+	int bbits;
+	int b2;
+	int b5;
+	int be;
+	int dig;
+	int i;
+	int ieps;
+	int ilim = 0;
+	int ilim0;
+	int ilim1 = 0;
+	int j;
+	int j1;
+	int k;
+	int k0;
+	int k_check;
+	int leftright;
+	int m2;
+	int m5;
+	int s2;
+	int s5;
+	int spec_case;
+	int try_quick;
 	Long L;
 #ifndef Sudden_Underflow
 	int denorm;
 	ULong x;
 #endif
-	Bigint *b, *b1, *delta, *mlo = NULL, *mhi, *S;
-	double d2, ds, eps;
-	char *s, *s0;
+	Bigint *b;
+	Bigint *b1;
+	Bigint *delta;
+	Bigint *mlo = NULL;
+	Bigint *mhi;
+	Bigint *S;
+	double d2;
+	double ds;
+	double eps;
+	char *s;
+	char *s0;
 #ifdef Honor_FLT_ROUNDS
 	int rounding;
 #endif
 #ifdef SET_INEXACT
-	int inexact, oldinexact;
+	int inexact;
+	int oldinexact;
 #endif
 
 #ifndef MULTIPLE_THREADS
@@ -151,9 +180,7 @@ char** rve;
 	}
 	else
 	{
-		{
-			*sign = 0;
-		}
+		*sign = 0;
 	}
 
 #if defined(IEEE_Arith) + defined(VAX)

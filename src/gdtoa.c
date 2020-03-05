@@ -42,24 +42,32 @@ int* bbits;
 	bitstob(ULong* bits, int nbits, int* bbits)
 #endif
 {
-	int i, k;
+	int i;
+	int k;
 	Bigint* b;
-	ULong *be, *x, *x0;
+	ULong *be;
+	ULong *x;
+	ULong *x0;
 
 	i = ULbits;
 	k = 0;
+
 	while(i < nbits)
 	{
 		i <<= 1;
 		k++;
 	}
+
 #ifndef Pack_32
 	if(!k)
+	{
 		k = 1;
+	}
 #endif
 	b = Balloc(k);
 	be = bits + ((nbits - 1) >> kshift);
 	x = x0 = b->x;
+
 	do
 	{
 		*x++ = *bits & ALL_ON;
@@ -67,20 +75,22 @@ int* bbits;
 		*x++ = (*bits >> 16) & ALL_ON;
 #endif
 	} while(++bits <= be);
+
 	i = (int)(x - x0); // TODO: can we fix types here?
+
 	while(!x0[--i])
 	{
+		if(!i)
 		{
-			if(!i)
-			{
-				b->wds = 0;
-				*bbits = 0;
-				goto ret;
-			}
+			b->wds = 0;
+			*bbits = 0;
+			goto ret;
 		}
 	}
+
 	b->wds = i + 1;
 	*bbits = i * ULbits + 32 - hi0bits(b->x[i]);
+
 ret:
 	return b;
 }
@@ -164,13 +174,46 @@ char** rve;
 		   to hold the suppressed trailing zeros.
 	   */
 
-	int bbits, b2, b5, be0, dig, i, ieps, ilim = 0, ilim0, ilim1 = 0, inex;
-	int j, j1, k, k0, k_check, kind, leftright, m2, m5, nbits;
-	int rdir, s2, s5, spec_case, try_quick;
+	int bbits;
+	int b2;
+	int b5;
+	int be0;
+	int dig;
+	int i;
+	int ieps;
+	int ilim = 0;
+	int ilim0;
+	int ilim1 = 0;
+	int inex;
+	int j;
+	int j1;
+	int k;
+	int k0;
+	int k_check;
+	int kind;
+	int leftright;
+	int m2;
+	int m5;
+	int nbits;
+	int rdir;
+	int s2;
+	int s5;
+	int spec_case;
+	int try_quick;
 	Long L;
-	Bigint *b, *b1, *delta, *mlo = NULL, *mhi, *mhi1, *S;
-	double d, d2, ds, eps;
-	char *s, *s0;
+	Bigint *b;
+	Bigint *b1;
+	Bigint *delta;
+	Bigint *mlo = NULL;
+	Bigint *mhi;
+	Bigint *mhi1;
+	Bigint *S;
+	double d;
+	double d2;
+	double ds;
+	double eps;
+	char *s;
+	char *s0;
 
 #ifndef MULTIPLE_THREADS
 	if(dtoa_result)
@@ -197,19 +240,23 @@ char** rve;
 		default:
 			return 0;
 	}
+
 	b = bitstob(bits, nbits = fpi->nbits, &bbits);
 	be0 = be;
+
 	if((i = trailz(b)) != 0)
 	{
 		rshift(b, i);
 		be += i;
 		bbits -= i;
 	}
+
 	if(!b->wds)
 	{
 		Bfree(b);
 	ret_zero:
 		*decpt = 1;
+
 		return nrv_alloc("0", rve, 1);
 	}
 
@@ -246,27 +293,34 @@ char** rve;
 	{
 		j = -j;
 	}
+
 	if((j -= 1077) > 0)
 	{
 		ds += j * 7e-17;
 	}
 
 	k = (int)ds;
+
 	if(ds < 0. && (fabs(ds - k) > DBL_EPSILON))
 	{
 		k--; /* want k = floor(ds) */
 	}
+
 	k_check = 1;
 	word0(d) += (unsigned)((be + bbits - 1) << Exp_shift);
+
 	if(k >= 0 && k <= Ten_pmax)
 	{
 		if(dval(d) < tens[k])
 		{
 			k--;
 		}
+
 		k_check = 0;
 	}
+
 	j = bbits - i - 1;
+
 	if(j >= 0)
 	{
 		b2 = 0;
@@ -277,6 +331,7 @@ char** rve;
 		b2 = -j;
 		s2 = 0;
 	}
+
 	if(k >= 0)
 	{
 		b5 = 0;
@@ -289,17 +344,22 @@ char** rve;
 		b5 = -k;
 		s5 = 0;
 	}
+
 	if(mode < 0 || mode > 9)
 	{
 		mode = 0;
 	}
+
 	try_quick = 1;
+
 	if(mode > 5)
 	{
 		mode -= 4;
 		try_quick = 0;
 	}
+
 	leftright = 1;
+
 	switch(mode)
 	{
 		case 0:
@@ -314,10 +374,9 @@ char** rve;
 		case 4:
 			if(ndigits <= 0)
 			{
-				{
-					ndigits = 1;
-				}
+				ndigits = 1;
 			}
+
 			ilim = ilim1 = i = ndigits;
 			break;
 		case 3:
@@ -327,11 +386,10 @@ char** rve;
 			i = ndigits + k + 1;
 			ilim = i;
 			ilim1 = i - 1;
+
 			if(i <= 0)
 			{
-				{
-					i = 1;
-				}
+				i = 1;
 			}
 			break;
 		default:
@@ -343,15 +401,12 @@ char** rve;
 	{
 		if(rdir < 0)
 		{
-			{
-				rdir = 2;
-			}
+			rdir = 2;
 		}
+
 		if(kind & STRTOG_Neg)
 		{
-			{
-				rdir = 3 - rdir;
-			}
+			rdir = 3 - rdir;
 		}
 	}
 
@@ -370,10 +425,12 @@ char** rve;
 		k0 = k;
 		ilim0 = ilim;
 		ieps = 2; /* conservative */
+
 		if(k > 0)
 		{
 			ds = tens[k & 0xf];
 			j = k >> 4;
+
 			if(j & Bletch)
 			{
 				/* prevent overflows */
@@ -381,68 +438,69 @@ char** rve;
 				dval(d) /= bigtens[n_bigtens - 1];
 				ieps++;
 			}
+
 			for(; j; j >>= 1, i++)
 			{
+				if(j & 1)
 				{
-					if(j & 1)
-					{
-						ieps++;
-						ds *= bigtens[i];
-					}
+					ieps++;
+					ds *= bigtens[i];
 				}
 			}
 		}
 		else
 		{
 			ds = 1.;
+
 			if((j1 = -k) != 0)
 			{
 				dval(d) *= tens[j1 & 0xf];
 				for(j = j1 >> 4; j; j >>= 1, i++)
 				{
+
+					if(j & 1)
 					{
-						if(j & 1)
-						{
-							ieps++;
-							dval(d) *= bigtens[i];
-						}
+						ieps++;
+						dval(d) *= bigtens[i];
 					}
 				}
 			}
 		}
+
 		if(k_check && dval(d) < 1. && ilim > 0)
 		{
 			if(ilim1 <= 0)
 			{
-				{
-					goto fast_failed;
-				}
+				goto fast_failed;
 			}
+
 			ilim = ilim1;
 			k--;
 			dval(d) *= 10.;
 			ieps++;
 		}
+
 		dval(eps) = ieps * dval(d) + 7.;
 		word0(eps) -= (P - 1) * Exp_msk1;
+
 		if(ilim == 0)
 		{
 			S = mhi = 0;
 			dval(d) -= 5.;
+
 			if(dval(d) > dval(eps))
 			{
-				{
-					goto one_digit;
-				}
+				goto one_digit;
 			}
+
 			if(dval(d) < -dval(eps))
 			{
-				{
-					goto no_digits;
-				}
+				goto no_digits;
 			}
+
 			goto fast_failed;
 		}
+
 #ifndef No_leftright
 		if(leftright)
 		{
@@ -450,11 +508,13 @@ char** rve;
 			 * generating digits needed.
 			 */
 			dval(eps) = ds * 0.5 / tens[ilim - 1] - dval(eps);
+
 			for(i = 0;;)
 			{
 				L = (Long)(dval(d) / ds);
 				dval(d) -= L * ds;
 				*s++ = (char)('0' + (int)L);
+
 				if(dval(d) < dval(eps))
 				{
 					if(dval(d) > 0.0)
@@ -463,14 +523,17 @@ char** rve;
 					}
 					goto ret1;
 				}
+
 				if(ds - dval(d) < dval(eps))
 				{
 					goto bump_up;
 				}
+
 				if(++i >= ilim)
 				{
 					break;
 				}
+
 				dval(eps) *= 10.;
 				dval(d) *= 10.;
 			}
@@ -480,16 +543,20 @@ char** rve;
 #endif
 			/* Generate ilim digits, then fix them up. */
 			dval(eps) *= tens[ilim - 1];
+
 			for(i = 1;; i++, dval(d) *= 10.)
 			{
 				if((L = (Long)(dval(d) / ds)) != 0)
 				{
 					dval(d) -= L * ds;
 				}
+
 				*s++ = (char)('0' + (int)L);
+
 				if(i == ilim)
 				{
 					ds *= 0.5;
+
 					if(dval(d) > ds + dval(eps))
 					{
 						goto bump_up;
@@ -499,13 +566,17 @@ char** rve;
 						while(*--s == '0')
 						{
 						}
+
 						s++;
+
 						if(dval(d) > 0.0)
 						{
 							inex = STRTOG_Inexlo;
 						}
+
 						goto ret1;
 					}
+
 					break;
 				}
 			}
@@ -525,21 +596,23 @@ char** rve;
 	{
 		/* Yes. */
 		ds = tens[k];
+
 		if(ndigits < 0 && ilim <= 0)
 		{
 			S = mhi = 0;
 			if(ilim < 0 || dval(d) <= 5 * ds)
 			{
-				{
-					goto no_digits;
-				}
+				goto no_digits;
 			}
+
 			goto one_digit;
 		}
+
 		for(i = 1;; i++, dval(d) *= 10.)
 		{
 			L = (int)(dval(d) / ds);
 			dval(d) -= L * ds;
+
 #ifdef Check_FLT_ROUNDS
 			/* If FLT_ROUNDS == 2, L will usually be high by 1 */
 			if(dval(d) < 0)
@@ -549,48 +622,46 @@ char** rve;
 			}
 #endif
 			*s++ = (char)('0' + (int)L);
+
 			if(fabs(dval(d)) <= DBL_EPSILON)
 			{
-				{
-					break;
-				}
+				break;
 			}
+
 			if(i == ilim)
 			{
 				if(rdir)
 				{
 					if(rdir == 1)
 					{
-						{
-							goto bump_up;
-						}
+						goto bump_up;
 					}
+
 					inex = STRTOG_Inexlo;
 					goto ret1;
 				}
+
 				dval(d) += dval(d);
+
 				if((dval(d) > ds) || ((fabs(dval(d) - ds) <= DBL_EPSILON) && (L & 1)))
 				{
 				bump_up:
 					inex = STRTOG_Inexhi;
 					while(*--s == '9')
 					{
+						if(s == s0)
 						{
-							if(s == s0)
-							{
-								k++;
-								*s = '0';
-								break;
-							}
+							k++;
+							*s = '0';
+							break;
 						}
 					}
+
 					++*s++;
 				}
 				else
 				{
-					{
-						inex = STRTOG_Inexlo;
-					}
+					inex = STRTOG_Inexlo;
 				}
 				break;
 			}
@@ -601,27 +672,26 @@ char** rve;
 	m2 = b2;
 	m5 = b5;
 	mhi = mlo = 0;
+
 	if(leftright)
 	{
 		if(mode < 2)
 		{
 			i = nbits - bbits;
+
 			if(be - i++ < fpi->emin)
 			{
-				{
-					/* denormal */
-					i = be - fpi->emin + 1;
-				}
+				/* denormal */
+				i = be - fpi->emin + 1;
 			}
 		}
 		else
 		{
 			j = ilim - 1;
+
 			if(m5 >= j)
 			{
-				{
-					m5 -= j;
-				}
+				m5 -= j;
 			}
 			else
 			{
@@ -629,16 +699,19 @@ char** rve;
 				b5 += j;
 				m5 = 0;
 			}
+
 			if((i = ilim) < 0)
 			{
 				m2 -= i;
 				i = 0;
 			}
 		}
+
 		b2 += i;
 		s2 += i;
 		mhi = i2b(1);
 	}
+
 	if(m2 > 0 && s2 > 0)
 	{
 		i = m2 < s2 ? m2 : s2;
@@ -646,6 +719,7 @@ char** rve;
 		m2 -= i;
 		s2 -= i;
 	}
+
 	if(b5 > 0)
 	{
 		if(leftright)
@@ -657,31 +731,29 @@ char** rve;
 				Bfree(b);
 				b = b1;
 			}
+
 			if((j = b5 - m5) != 0)
 			{
-				{
-					b = pow5mult(b, j);
-				}
+				b = pow5mult(b, j);
 			}
 		}
 		else
 		{
-			{
-				b = pow5mult(b, b5);
-			}
+			b = pow5mult(b, b5);
 		}
 	}
+
 	S = i2b(1);
+
 	if(s5 > 0)
 	{
-		{
-			S = pow5mult(S, s5);
-		}
+		S = pow5mult(S, s5);
 	}
 
 	/* Check for special case that d is a normalized power of 2. */
 
 	spec_case = 0;
+
 	if(mode < 2)
 	{
 		if(bbits == 1 && be0 > fpi->emin + 1)
@@ -703,14 +775,15 @@ char** rve;
 #ifdef Pack_32
 	if((i = ((s5 ? 32 - hi0bits(S->x[S->wds - 1]) : 1) + s2) & 0x1f) != 0)
 	{
-		{
-			i = 32 - i;
-		}
+		i = 32 - i;
 	}
 #else
 	if((i = ((s5 ? 32 - hi0bits(S->x[S->wds - 1]) : 1) + s2) & 0xf) != 0)
+	{
 		i = 16 - i;
+	}
 #endif
+
 	if(i > 4)
 	{
 		i -= 4;
@@ -725,33 +798,37 @@ char** rve;
 		m2 += i;
 		s2 += i;
 	}
+
 	if(b2 > 0)
 	{
 		{
 			b = lshift(b, b2);
 		}
 	}
+
 	if(s2 > 0)
 	{
 		{
 			S = lshift(S, s2);
 		}
 	}
+
 	if(k_check)
 	{
 		if(cmp(b, S) < 0)
 		{
 			k--;
 			b = multadd(b, 10, 0); /* we botched the k estimate */
+
 			if(leftright)
 			{
-				{
-					mhi = multadd(mhi, 10, 0);
-				}
+				mhi = multadd(mhi, 10, 0);
 			}
+
 			ilim = ilim1;
 		}
 	}
+
 	if(ilim <= 0 && mode > 2)
 	{
 		if(ilim < 0 || cmp(b, S = multadd(S, 5, 0)) <= 0)
@@ -762,19 +839,20 @@ char** rve;
 			inex = STRTOG_Inexlo;
 			goto ret;
 		}
+
 	one_digit:
 		inex = STRTOG_Inexhi;
 		*s++ = '1';
 		k++;
+
 		goto ret;
 	}
+
 	if(leftright)
 	{
 		if(m2 > 0)
 		{
-			{
-				mhi = lshift(mhi, m2);
-			}
+			mhi = lshift(mhi, m2);
 		}
 
 		/* Compute mlo -- check for special case
@@ -782,6 +860,7 @@ char** rve;
 		 */
 
 		mlo = mhi;
+
 		if(spec_case)
 		{
 			mhi = Balloc(mhi->k);
@@ -804,17 +883,14 @@ char** rve;
 			{
 				if(dig == '9')
 				{
-					{
-						goto round_9_up;
-					}
+					goto round_9_up;
 				}
+
 				if(j <= 0)
 				{
 					if(b->wds > 1 || b->x[0])
 					{
-						{
-							inex = STRTOG_Inexlo;
-						}
+						inex = STRTOG_Inexlo;
 					}
 				}
 				else
@@ -822,7 +898,9 @@ char** rve;
 					dig++;
 					inex = STRTOG_Inexhi;
 				}
+
 				*s++ = (char)dig;
+
 				goto ret;
 			}
 #endif
@@ -839,51 +917,51 @@ char** rve;
 						inex = STRTOG_Inexlo;
 						goto accept;
 					}
+
 					while(cmp(S, mhi) > 0)
 					{
 						*s++ = (char)dig;
 						mhi1 = multadd(mhi, 10, 0);
 						if(mlo == mhi)
 						{
-							{
-								mlo = mhi1;
-							}
+							mlo = mhi1;
 						}
+
 						mhi = mhi1;
 						b = multadd(b, 10, 0);
 						dig = quorem(b, S) + '0';
 					}
+
 					if(dig++ == '9')
 					{
-						{
-							goto round_9_up;
-						}
+						goto round_9_up;
 					}
+
 					inex = STRTOG_Inexhi;
+
 					goto accept;
 				}
 				if(j1 > 0)
 				{
 					b = lshift(b, 1);
 					j1 = cmp(b, S);
+
 					if(((j1 > 0) || (j1 == 0 && dig & 1)) && (dig++ == '9'))
 					{
-						{
-							goto round_9_up;
-						}
+						goto round_9_up;
 					}
+
 					inex = STRTOG_Inexhi;
 				}
 				if(b->wds > 1 || b->x[0])
 				{
-					{
-						inex = STRTOG_Inexlo;
-					}
+					inex = STRTOG_Inexlo;
 				}
 			accept:
 				*s++ = (char)dig;
 				goto ret;
 			}
+
 			if(j1 > 0 && rdir != 2)
 			{
 				if(dig == '9')
@@ -893,23 +971,25 @@ char** rve;
 					inex = STRTOG_Inexhi;
 					goto roundoff;
 				}
+
 				inex = STRTOG_Inexhi;
 				*s++ = (char)(dig + 1);
+
 				goto ret;
 			}
+
 			*s++ = (char)dig;
+
 			if(i == ilim)
 			{
-				{
-					break;
-				}
+				break;
 			}
+
 			b = multadd(b, 10, 0);
+
 			if(mlo == mhi)
 			{
-				{
-					mlo = mhi = multadd(mhi, 10, 0);
-				}
+				mlo = mhi = multadd(mhi, 10, 0);
 			}
 			else
 			{
@@ -920,19 +1000,17 @@ char** rve;
 	}
 	else
 	{
+		for(i = 1;; i++)
 		{
-			for(i = 1;; i++)
+			dig = quorem(b, S) + '0';
+			*s++ = (char)dig;
+
+			if(i >= ilim)
 			{
-				dig = quorem(b, S) + '0';
-				*s++ = (char)dig;
-				if(i >= ilim)
-				{
-					{
-						break;
-					}
-				}
-				b = multadd(b, 10, 0);
+				break;
 			}
+
+			b = multadd(b, 10, 0);
 		}
 	}
 
@@ -942,29 +1020,30 @@ char** rve;
 	{
 		if((rdir == 2) || ((b->wds <= 1) && !b->x[0]))
 		{
-			{
-				goto chopzeros;
-			}
+			goto chopzeros;
 		}
+
 		goto roundoff;
 	}
+
 	b = lshift(b, 1);
 	j = cmp(b, S);
+
 	if((j > 0) || ((j == 0) && (dig & 1)))
 	{
 	roundoff:
 		inex = STRTOG_Inexhi;
+
 		while(*--s == '9')
 		{
+			if(s == s0)
 			{
-				if(s == s0)
-				{
-					k++;
-					*s++ = '1';
-					goto ret;
-				}
+				k++;
+				*s++ = '1';
+				goto ret;
 			}
 		}
+
 		++*s++;
 	}
 	else
@@ -972,13 +1051,13 @@ char** rve;
 	chopzeros:
 		if(b->wds > 1 || b->x[0])
 		{
-			{
-				inex = STRTOG_Inexlo;
-			}
+			inex = STRTOG_Inexlo;
 		}
+
 		while(*--s == '0')
 		{
 		}
+
 		s++;
 	}
 ret:
@@ -987,22 +1066,23 @@ ret:
 	{
 		if(mlo && mlo != mhi)
 		{
-			{
-				Bfree(mlo);
-			}
+			Bfree(mlo);
 		}
+
 		Bfree(mhi);
 	}
+
 ret1:
 	Bfree(b);
 	*s = 0;
 	*decpt = k + 1;
+
 	if(rve)
 	{
-		{
-			*rve = s;
-		}
+		*rve = s;
 	}
+
 	*kindp |= inex;
+
 	return s0;
 }

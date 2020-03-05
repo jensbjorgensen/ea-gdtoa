@@ -39,49 +39,49 @@ int k;
 rshift(Bigint *b, int k)
 #endif
 {
-	ULong *x, *x1, y;
+	ULong *x;
+	ULong *x1;
+	ULong y;
 	int n;
 
 	x = x1 = b->x;
 	n = k >> kshift;
+
 	if(n < b->wds)
 	{
 		ULong* xe = x + b->wds;
 		x += n;
+
 		if(k &= kmask)
 		{
 			n = ULbits - k;
 			y = *x++ >> k;
+
 			while(x < xe)
 			{
 				*x1++ = (y | (*x << n)) & ALL_ON;
 				y = *x++ >> k;
 			}
+
 			if((*x1 = y) != 0)
 			{
-				{
-					x1++;
-				}
+				x1++;
 			}
 		}
 		else
 		{
+			while(x < xe)
 			{
-				while(x < xe)
-				{
-					{
-						*x1++ = *x++;
-					}
-				}
+				*x1++ = *x++;
 			}
 		}
 	}
+
 	b->wds = (int)(x1 - b->x);
+
 	if((b->wds) == 0)
 	{
-		{
-			b->x[0] = 0;
-		}
+		b->x[0] = 0;
 	}
 }
 
@@ -92,21 +92,24 @@ int
 trailz(Bigint *b)
 #endif
 {
-	ULong L, *x, *xe;
+	ULong L;
+	ULong *x;
+	ULong *xe;
 	int n = 0;
 
 	x = b->x;
 	xe = x + b->wds;
+
 	for(n = 0; x < xe && !*x; x++)
 	{
-		{
-			n += ULbits;
-		}
+		n += ULbits;
 	}
+
 	if(x < xe)
 	{
 		L = *x;
 		n += lo0bits(&L);
 	}
+
 	return n;
 }

@@ -54,24 +54,27 @@ g__fmt(char *b, char *s, const char *se, int decpt, ULong sign)
 #endif
 	if(sign)
 	{
-		{
-			*b++ = '-';
-		}
+		*b++ = '-';
 	}
+
 	if(decpt <= -4 || decpt > se - s + 5)
 	{
-		int j, k;
+		int j;
+		int k;
 		*b++ = *s++;
 		if(*s)
 		{
 			*b++ = decimalpoint;
+
 			while((*b = *s++) != 0)
 			{
 				b++;
 			}
 		}
+
 		*b++ = 'e';
 		/* sprintf(b, "%+.2d", decpt - 1); */
+
 		if(--decpt < 0)
 		{
 			*b++ = '-';
@@ -79,40 +82,41 @@ g__fmt(char *b, char *s, const char *se, int decpt, ULong sign)
 		}
 		else
 		{
-			{
-				*b++ = '+';
-			}
+			*b++ = '+';
 		}
+
 		for(j = 2, k = 10; 10 * k <= decpt; j++, k *= 10)
 		{
 		}
+
 		for(;;)
 		{
 			int i = decpt / k;
 			*b++ = (char)i + '0';
+
 			if(--j <= 0)
 			{
 				break;
 			}
+
 			decpt -= i * k;
 			decpt *= 10;
 		}
+
 		*b = 0;
 	}
 	else if(decpt <= 0)
 	{
 		*b++ = decimalpoint;
+
 		for(; decpt < 0; decpt++)
 		{
-			{
-				*b++ = '0';
-			}
+			*b++ = '0';
 		}
+
 		while((*b = *s++) != 0)
 		{
-			{
-				b++;
-			}
+			b++;
 		}
 	}
 	else
@@ -120,21 +124,21 @@ g__fmt(char *b, char *s, const char *se, int decpt, ULong sign)
 		while((*b = *s++) != 0)
 		{
 			b++;
+
 			if(--decpt == 0 && *s)
 			{
-				{
-					*b++ = decimalpoint;
-				}
+				*b++ = decimalpoint;
 			}
 		}
+
 		for(; decpt > 0; decpt--)
 		{
-			{
-				*b++ = '0';
-			}
+			*b++ = '0';
 		}
+
 		*b = 0;
 	}
+
 	freedtoa(s0);
 	return b;
 }

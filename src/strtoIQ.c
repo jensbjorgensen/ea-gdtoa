@@ -44,14 +44,17 @@ strtoIQ(CONST char *s, char **sp, void *a, void *b)
 	static FPI fpi = {113, 1 - 16383 - 113 + 1, 32766 - 16383 - 113 + 1, 1, SI};
 	Long exp[2];
 	Bigint* B[2];
-	int k, rv[2];
-	ULong *L = (ULong*)a, *M = (ULong*)b;
+	int k;
+	int rv[2];
+	ULong *L = (ULong*)a;
+	ULong *M = (ULong*)b;
 
 	B[0] = Balloc(2);
 	B[0]->wds = 4;
 	k = strtoIg(s, sp, &fpi, exp, B, rv);
 	ULtoQ(L, B[0]->x, exp[0], rv[0]);
 	Bfree(B[0]);
+
 	if(B[1])
 	{
 		ULtoQ(M, B[1]->x, exp[1], rv[1]);
@@ -64,5 +67,6 @@ strtoIQ(CONST char *s, char **sp, void *a, void *b)
 		M[2] = L[2];
 		M[3] = L[3];
 	}
+
 	return k;
 }

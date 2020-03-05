@@ -44,8 +44,10 @@ strtoIx(CONST char *s, char **sp, void *a, void *b)
 	static FPI fpi = {64, 1 - 16383 - 64 + 1, 32766 - 16383 - 64 + 1, 1, SI};
 	Long exp[2];
 	Bigint* B[2];
-	int k, rv[2];
-	UShort *L = (UShort*)a, *M = (UShort*)b;
+	int k;
+	int rv[2];
+	UShort *L = (UShort*)a;
+	UShort *M = (UShort*)b;
 
 	B[0] = Balloc(1);
 	B[0]->wds = 2;

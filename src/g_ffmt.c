@@ -42,14 +42,22 @@ g_ffmt(char *buf, float *f, int ndig, unsigned bufsize)
 #endif
 {
 	static FPI fpi = {24, 1 - 127 - 24 + 1, 254 - 127 - 24 + 1, 1, 0};
-	char *b, *s, *se;
-	ULong bits[1], *L, sign;
-	int decpt, ex, i, mode;
+	char *b;
+	char *s;
+	char *se;
+	ULong bits[1];
+	ULong *L;
+	ULong sign;
+	int decpt;
+	int ex;
+	int i;
+	int mode;
 
 	if(ndig < 0)
 	{
 		ndig = 0;
 	}
+
 	if(bufsize < (unsigned)(ndig + 10))
 	{
 		return 0;
@@ -57,6 +65,7 @@ g_ffmt(char *buf, float *f, int ndig, unsigned bufsize)
 
 	L = (ULong*)f;
 	sign = L[0] & 0x80000000L;
+
 	if((L[0] & 0x7f800000) == 0x7f800000)
 	{
 		/* Infinity or NaN */
@@ -64,54 +73,58 @@ g_ffmt(char *buf, float *f, int ndig, unsigned bufsize)
 		{
 			return strcp(buf, "NaN");
 		}
+
 		b = buf;
+
 		if(sign)
 		{
-			{
-				*b++ = '-';
-			}
+			*b++ = '-';
 		}
+
 		return strcp(b, "Infinity");
 	}
+
 	if(fabs(*f) <= DBL_EPSILON)
 	{
 		b = buf;
 #ifndef IGNORE_ZERO_SIGN
 		if(L[0] & 0x80000000L)
 		{
-			{
-				*b++ = '-';
-			}
+			*b++ = '-';
 		}
 #endif
 		*b++ = '0';
 		*b = 0;
+
 		return b;
 	}
+
 	bits[0] = L[0] & 0x7fffff;
+
 	if((ex = (L[0] >> 23) & 0xff) != 0)
 	{
-		{
-			bits[0] |= 0x800000;
-		}
+		bits[0] |= 0x800000;
 	}
 	else
 	{
-		{
-			ex = 1;
-		}
+		ex = 1;
 	}
+
 	ex -= 0x7f + 23;
 	mode = 2;
+
 	if(ndig <= 0)
 	{
 		if(bufsize < 16)
 		{
 			return 0;
 		}
+
 		mode = 0;
 	}
+
 	i = STRTOG_Normal;
 	s = gdtoa(&fpi, ex, bits, &i, mode, ndig, &decpt, &se);
+
 	return g__fmt(buf, s, se, decpt, sign);
 }
