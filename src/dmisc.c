@@ -42,7 +42,8 @@ char*
 rv_alloc(int i)
 #endif
 {
-	int k, *r;
+	int k;
+	int *r;
 	size_t j;
 
 	j = sizeof(ULong);
@@ -68,7 +69,8 @@ int n;
 	nrv_alloc(const char* s, char** rve, int n)
 #endif
 {
-	char *rv, *t;
+	char *rv;
+	char *t;
 
 	t = rv = rv_alloc(n);
 	while((*t = *s++) != 0)

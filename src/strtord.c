@@ -90,7 +90,8 @@ strtord(CONST char *s, char **sp, int rounding, double *d)
 #endif
 {
 	static FPI fpi0 = {53, 1 - 1023 - 53 + 1, 2046 - 1023 - 53 + 1, 1, SI};
-	FPI *fpi, fpi1;
+	FPI *fpi;
+	FPI fpi1;
 	ULong bits[2];
 	Long exp;
 	int k;

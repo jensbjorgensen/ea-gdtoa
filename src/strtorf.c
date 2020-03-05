@@ -86,7 +86,8 @@ strtorf(CONST char *s, char **sp, int rounding, float *f)
 #endif
 {
 	static FPI fpi0 = {24, 1 - 127 - 24 + 1, 254 - 127 - 24 + 1, 1, SI};
-	FPI *fpi, fpi1;
+	FPI *fpi;
+	FPI fpi1;
 	ULong bits[1];
 	Long exp;
 	int k;

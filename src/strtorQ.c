@@ -115,7 +115,8 @@ strtorQ(CONST char *s, char **sp, int rounding, void *L)
 #endif
 {
 	static FPI fpi0 = {113, 1 - 16383 - 113 + 1, 32766 - 16383 - 113 + 1, 1, SI};
-	FPI *fpi, fpi1;
+	FPI *fpi;
+	FPI fpi1;
 	ULong bits[4];
 	Long exp;
 	int k;

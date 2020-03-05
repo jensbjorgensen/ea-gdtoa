@@ -47,7 +47,9 @@ strtopdd(CONST char *s, char **sp, double *dd)
 #endif
 	ULong bits[4];
 	Long exp;
-	int i, j, rv;
+	int i;
+	int j;
+	int rv;
 	typedef union
 	{
 		double d[2];

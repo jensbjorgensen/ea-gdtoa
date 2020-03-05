@@ -40,7 +40,12 @@ Bigint* b;
 #endif
 {
 	Bigint* c;
-	ULong carry, *xc, *xa, *xb, *xe, y;
+	ULong carry;
+	ULong *xc;
+	ULong *xa;
+	ULong *xb;
+	ULong *xe;
+	ULong y;
 #ifdef Pack_32
 	ULong z;
 #endif

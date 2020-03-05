@@ -73,10 +73,12 @@ Bigint*
 	increment(Bigint* b)
 #endif
 {
-	ULong *x, *xe;
+	ULong *x;
+	ULong *xe;
 	Bigint* b1;
 #ifdef Pack_16
-	ULong carry = 1, y;
+	ULong carry = 1;
+	ULong y;
 #endif
 
 	x = b->x;
@@ -122,9 +124,11 @@ int
 decrement(Bigint *b)
 #endif
 {
-	ULong *x, *xe;
+	ULong *x;
+	ULong *xe;
 #ifdef Pack_16
-	ULong borrow = 1, y;
+	ULong borrow = 1;
+	ULong y;
 #endif
 
 	x = b->x;
@@ -158,7 +162,8 @@ int n;
 	all_on(Bigint* b, int n)
 #endif
 {
-	ULong *x, *xe;
+	ULong *x;
+	ULong *xe;
 
 	x = b->x;
 	xe = x + (n >> kshift);
@@ -191,7 +196,8 @@ int n;
 #endif
 {
 	int k;
-	ULong *x, *xe;
+	ULong *x;
+	ULong *xe;
 
 	k = (n + ((1 << kshift) - 1)) >> kshift;
 	if(b->k < k)
@@ -236,8 +242,16 @@ int exact, rd, *irv;
 #endif
 {
 	Bigint* b;
-	ULong carry = 0, inex, lostbits;
-	int bdif, e, j, k, k1, nb, rv = 0;
+	ULong carry = 0;
+	ULong inex;
+	ULong lostbits;
+	int bdif;
+	int e;
+	int j;
+	int k;
+	int k1;
+	int nb;
+	int rv = 0;
 
 	b = d2b(d, &e, &bdif);
 	bdif -= nb = fpi->nbits;
@@ -445,17 +459,63 @@ ULong* bits;
 	(CONST char* s00, char** se, FPI* fpi, Long* exp, ULong* bits)
 #endif
 {
-	int abe, abits, asub;
-	int bb0, bb2, bb5, bbe, bd2, bd5, bbbits, bs2, c, denorm;
+	int abe;
+	int abits;
+	int asub;
+	int bb0;
+	int bb2;
+	int bb5;
+	int bbe;
+	int bd2;
+	int bd5;
+	int bbbits;
+	int bs2;
+	int c;
+	int denorm;
 	int __attribute__((unused)) decpt; // maybe unused if not compiling with IFNAN checks
-	int dsign, e, e1, e2, emin, esign, finished, i, inex, irv;
-	int j, k, nbits, nd, nd0, nf, nz, nz0, rd, rvbits, rve, rve1, sign;
+	int dsign;
+	int e;
+	int e1;
+	int e2;
+	int emin;
+	int esign;
+	int finished;
+	int i;
+	int inex;
+	int irv;
+	int j;
+	int k;
+	int nbits;
+	int nd;
+	int nd0;
+	int nf;
+	int nz;
+	int nz0;
+	int rd;
+	int rvbits;
+	int rve;
+	int rve1;
+	int sign;
 	int sudden_underflow = 0;
-	CONST char *s, *s0, *s1;
-	double adj, adj0, rv, tol;
+	CONST char *s;
+	CONST char *s0;
+	CONST char *s1;
+	double adj;
+	double adj0;
+	double rv;
+	double tol;
 	Long L;
-	ULong y, z;
-	Bigint *ab, *bb, *bb1, *bd, *bd0, *bs, *delta, *rvb, *rvb0;
+	ULong y;
+	ULong z;
+	Bigint *ab;
+	Bigint *bb;
+	Bigint *bb1;
+	Bigint *bd;
+	Bigint *bd0;
+	Bigint *bs;
+	Bigint *delta;
+	Bigint *rvb;
+	Bigint *rvb0;
 
 	irv = STRTOG_Zero;
 	denorm = sign = nz0 = nz = 0;

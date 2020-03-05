@@ -41,7 +41,8 @@ int k;
 ULtodd(ULong *L, ULong *bits, Long exp, int k)
 #endif
 {
-	int i, j;
+	int i;
+	int j;
 
 	switch(k & STRTOG_Retmask)
 	{
@@ -221,7 +222,8 @@ strtordd(CONST char *s, char **sp, int rounding, double *dd)
 #else
 	static FPI fpi0 = {106, 1 - 1023 - 53 + 1, 2046 - 1023 - 106 + 1, 1, 0};
 #endif
-	FPI *fpi, fpi1;
+	FPI *fpi;
+	FPI fpi1;
 	ULong bits[4];
 	Long exp;
 	int k;

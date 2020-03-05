@@ -61,9 +61,11 @@ strtodI(CONST char *s, char **sp, double *dd)
 #endif
 {
 	static FPI fpi = {53, 1 - 1023 - 53 + 1, 2046 - 1023 - 53 + 1, 1, SI};
-	ULong bits[2], sign;
+	ULong bits[2];
+	ULong sign;
 	Long exp;
-	int j, k;
+	int j;
+	int k;
 	typedef union
 	{
 		double d[2];

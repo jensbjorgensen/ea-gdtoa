@@ -41,7 +41,8 @@ strtopf(CONST char *s, char **sp, float *f)
 #endif
 {
 	static FPI fpi = {24, 1 - 127 - 24 + 1, 254 - 127 - 24 + 1, 1, SI};
-	ULong bits[1], *L;
+	ULong bits[1];
+	ULong *L;
 	Long exp;
 	int k;
 
