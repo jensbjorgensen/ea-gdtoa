@@ -146,7 +146,9 @@ int quorem
 	n = S->wds;
 #ifdef DEBUG
 	/*debug*/ if(b->wds > n)
+	{
 		/*debug*/ Bug("oversize b in quorem");
+	}
 #endif
 	if(b->wds < n)
 	{

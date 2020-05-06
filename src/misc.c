@@ -813,7 +813,9 @@ int* e;
 	y = *--xa;
 #ifdef DEBUG
 	if(!y)
+	{
 		Bug("zero y in b2d");
+	}
 #endif
 	k = hi0bits(y);
 	*e = 32 - k;
@@ -976,7 +978,9 @@ int *e, *bits;
 	{
 #ifdef DEBUG
 		if(!z)
+		{
 			Bug("Zero passed to d2b");
+		}
 #endif
 		k = lo0bits(&z);
 
