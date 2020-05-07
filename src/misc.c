@@ -64,7 +64,7 @@ Bigint* Balloc
 		unsigned int len;
 		len = (sizeof(Bigint) + ((unsigned)x - 1) * sizeof(ULong) + sizeof(double) - 1) /
 			  sizeof(double);
-		if((unsigned)(pmem_next - private_mem + len) <= PRIVATE_mem)
+		if(((unsigned)(pmem_next - private_mem) + len) <= PRIVATE_mem)
 		{
 			rv = (Bigint*)pmem_next;
 			pmem_next += len;

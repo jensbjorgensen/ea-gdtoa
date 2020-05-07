@@ -89,7 +89,7 @@ strtoIg(CONST char *s00, char **se, FPI *fpi, Long *exp, Bigint **B, int *rvp)
 			goto swapcheck;
 		}
 
-		if(b1->wds > nw || (nb1 && b1->x[nw1] & 1L << nb1))
+		if(b1->wds > nw || (nb1 && b1->x[nw1] & 1UL << nb1))
 		{
 			if(++e1 > fpi->emax)
 			{
@@ -100,7 +100,7 @@ strtoIg(CONST char *s00, char **se, FPI *fpi, Long *exp, Bigint **B, int *rvp)
 		}
 		else if((rv & STRTOG_Retmask) == STRTOG_Denormal)
 		{
-			if(b1->x[nw1] & 1L << nb11)
+			if(b1->x[nw1] & 1UL << nb11)
 			{
 				rv1 += STRTOG_Normal - STRTOG_Denormal;
 				rv1 &= ~STRTOG_Underflow;
@@ -134,7 +134,7 @@ strtoIg(CONST char *s00, char **se, FPI *fpi, Long *exp, Bigint **B, int *rvp)
 			goto swapcheck;
 		}
 
-		if(!(b1->x[nw1] & 1L << nb11))
+		if(!(b1->x[nw1] & 1UL << nb11))
 		{
 			if(e1 == fpi->emin)
 			{

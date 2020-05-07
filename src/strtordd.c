@@ -140,7 +140,7 @@ ULtodd(ULong *L, ULong *bits, Long exp, int k)
 			j = 32 - i;
 			L[_0] = ((bits[3] << i | bits[2] >> j) & 0xfffff) | (unsigned)((65 - i) << 20);
 			L[_1] = (bits[2] << i | bits[1] >> j) & 0xffffffffL;
-			L[2 + _0] = bits[1] & (((ULong)1L << j) - 1);
+			L[2 + _0] = bits[1] & (((ULong)1UL << j) - 1);
 			L[2 + _1] = bits[0];
 			break;
 
@@ -152,7 +152,7 @@ ULtodd(ULong *L, ULong *bits, Long exp, int k)
 				i += 32;
 				L[_0] = (bits[2] >> j & 0xfffff) | (unsigned)((33 + j) << 20);
 				L[_1] = (bits[2] << i | bits[1] >> j) & 0xffffffffL;
-				L[2 + _0] = bits[1] & (((ULong)1L << j) - 1);
+				L[2 + _0] = bits[1] & (((ULong)1UL << j) - 1);
 				L[2 + _1] = bits[0];
 				break;
 			}
@@ -168,7 +168,7 @@ ULtodd(ULong *L, ULong *bits, Long exp, int k)
 			L[_0] = ((bits[2] << i | bits[1] >> j) & 0xfffff) | (unsigned)((j + 1) << 20);
 			L[_1] = (bits[1] << i | bits[0] >> j) & 0xffffffffL;
 			L[2 + _0] = 0;
-			L[2 + _1] = bits[0] & ((1L << j) - 1);
+			L[2 + _1] = bits[0] & ((1UL << j) - 1);
 			break;
 
 		hardly_normal:
@@ -177,7 +177,7 @@ ULtodd(ULong *L, ULong *bits, Long exp, int k)
 			L[_0] = (bits[1] >> j & 0xfffff) | (unsigned)((j + 1) << 20);
 			L[_1] = (bits[1] << i | bits[0] >> j) & 0xffffffffL;
 			L[2 + _0] = 0;
-			L[2 + _1] = bits[0] & (((ULong)1L << j) - 1);
+			L[2 + _1] = bits[0] & (((ULong)1UL << j) - 1);
 			break;
 
 		case STRTOG_Infinite:
