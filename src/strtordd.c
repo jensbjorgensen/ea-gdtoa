@@ -168,7 +168,7 @@ ULtodd(ULong *L, ULong *bits, Long exp, int k)
 			L[_0] = ((bits[2] << i | bits[1] >> j) & 0xfffff) | (unsigned)((j + 1) << 20);
 			L[_1] = (bits[1] << i | bits[0] >> j) & 0xffffffffL;
 			L[2 + _0] = 0;
-			L[2 + _1] = bits[0] & ((1UL << j) - 1);
+			L[2 + _1] = (ULong)bits[0] & (((ULong)1 << j) - 1);
 			break;
 
 		hardly_normal:
