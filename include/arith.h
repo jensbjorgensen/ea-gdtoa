@@ -35,7 +35,7 @@
 #define Intcast (int)(long)
 #define Double_Align
 #define X64_bit_pointers
-#elif defined(__arm__)
+#elif defined(__arm__) || defined(__aarch64__)
 #if __VFP_FP__
 #define IEEE_8087
 #else
