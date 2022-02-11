@@ -3,4 +3,4 @@
 	url = https://github.com/embeddedartistry/premake-buildsystem
 [submodule "tools/format"]
 	path = tools/format
-	url = https://github.com/embeddedartistry/forma
+	url = https://github.com/embeddedartistry/format
