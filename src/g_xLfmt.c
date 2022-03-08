@@ -34,17 +34,12 @@ THIS SOFTWARE.
 #undef _0
 #undef _1
 
-/* one or the other of IEEE_MC68k or IEEE_8087 should be #defined */
-
-#ifdef IEEE_MC68k
-#define _0 0
-#define _1 1
-#define _2 2
-#endif
 #ifdef IEEE_8087
 #define _0 2
 #define _1 1
 #define _2 0
+#else
+#error Something went wrong, IEEE8087 is not defined
 #endif
 
 char*

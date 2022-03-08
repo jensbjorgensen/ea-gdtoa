@@ -208,11 +208,10 @@ extern Char* MALLOC ANSI((size_t));
 
 #undef IEEE_Arith
 #undef Avoid_Underflow
-#ifdef IEEE_MC68k
-#define IEEE_Arith
-#endif
 #ifdef IEEE_8087
 #define IEEE_Arith
+#else
+#error Something went wrong, IEEE8087 is not defined
 #endif
 
 #ifndef NO_ERRNO
@@ -277,8 +276,8 @@ extern Char* MALLOC ANSI((size_t));
 extern "C" {
 #endif
 
-#if defined(IEEE_8087) + defined(IEEE_MC68k) + defined(VAX) + defined(IBM) != 1
-Exactly one of IEEE_8087, IEEE_MC68k, VAX, or IBM should be defined.
+#if defined(IEEE_8087) + defined(VAX) + defined(IBM) != 1
+Exactly one of IEEE_8087, VAX, or IBM should be defined.
 #endif
 
 											   typedef union

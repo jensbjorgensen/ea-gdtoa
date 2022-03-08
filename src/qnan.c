@@ -56,11 +56,8 @@ typedef unsigned Long Ulong;
 #define _0 1
 #define _1 0
 #define HAVE_IEEE
-#endif
-#ifdef IEEE_MC68k
-#define _0 0
-#define _1 1
-#define HAVE_IEEE
+#else
+#error Something went wrong, IEEE8087 is not defined
 #endif
 
 #define UL (unsigned long)
