@@ -44,7 +44,7 @@ THIS SOFTWARE.
 #error Something went wrong, IEEE8087 is not defined
 #endif
 
-void ULtox(UShort *L, const ULong *bits, Long exp, int k)
+void ULtox(uint16_t *L, const uint32_t *bits, int32_t exp, int k)
 {
 	switch(k & STRTOG_Retmask)
 	{
@@ -59,12 +59,12 @@ void ULtox(UShort *L, const ULong *bits, Long exp, int k)
 
 		case STRTOG_Normal:
 		case STRTOG_NaNbits:
-			L[_0] = (UShort)(exp + 0x3fff + 63);
+			L[_0] = (uint16_t)(exp + 0x3fff + 63);
 		normal_bits:
-			L[_4] = (UShort)bits[0];
-			L[_3] = (UShort)(bits[0] >> 16);
-			L[_2] = (UShort)bits[1];
-			L[_1] = (UShort)(bits[1] >> 16);
+			L[_4] = (uint16_t)bits[0];
+			L[_3] = (uint16_t)(bits[0] >> 16);
+			L[_2] = (uint16_t)bits[1];
+			L[_1] = (uint16_t)(bits[1] >> 16);
 			break;
 
 		case STRTOG_Infinite:
@@ -96,8 +96,8 @@ int strtorx(const char *s, char **sp, int rounding, void *L)
 	static FPI fpi0 = {64, 1 - 16383 - 64 + 1, 32766 - 16383 - 64 + 1, 1, SI};
 	FPI *fpi;
 	FPI fpi1;
-	ULong bits[2];
-	Long exp;
+	uint32_t bits[2];
+	int32_t exp;
 	int k;
 
 	fpi = &fpi0;
@@ -108,6 +108,6 @@ int strtorx(const char *s, char **sp, int rounding, void *L)
 		fpi = &fpi1;
 	}
 	k = strtodg(s, sp, fpi, &exp, bits);
-	ULtox((UShort*)L, bits, exp, k);
+	ULtox((uint16_t*)L, bits, exp, k);
 	return k;
 }

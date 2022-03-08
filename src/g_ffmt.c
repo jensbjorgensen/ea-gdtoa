@@ -37,9 +37,9 @@ char* g_ffmt(char *buf, float *f, int ndig, unsigned bufsize)
 	char *b;
 	char *s;
 	char *se;
-	ULong bits[1];
-	ULong *L;
-	ULong sign;
+	uint32_t bits[1];
+	uint32_t *L;
+	uint32_t sign;
 	int decpt;
 	int ex;
 	int i;
@@ -55,7 +55,7 @@ char* g_ffmt(char *buf, float *f, int ndig, unsigned bufsize)
 		return 0;
 	}
 
-	L = (ULong*)f;
+	L = (uint32_t*)f;
 	sign = L[0] & 0x80000000L;
 
 	if((L[0] & 0x7f800000) == 0x7f800000)

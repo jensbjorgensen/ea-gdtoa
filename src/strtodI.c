@@ -34,7 +34,7 @@ THIS SOFTWARE.
 static double ulpdown(double* d)
 {
 	double u;
-	ULong* L = (ULong*)d;
+	uint32_t* L = (uint32_t*)d;
 
 	u = ulp(*d);
 	if(!(L[_1] | (L[_0] & 0xfffff)) && (L[_0] & 0x7ff00000) > 0x00100000)
@@ -49,21 +49,21 @@ static double ulpdown(double* d)
 int strtodI(const char *s, char **sp, double *dd)
 {
 	static FPI fpi = {53, 1 - 1023 - 53 + 1, 2046 - 1023 - 53 + 1, 1, SI};
-	ULong bits[2];
-	ULong sign;
-	Long exp;
+	uint32_t bits[2];
+	uint32_t sign;
+	int32_t exp;
 	int j;
 	int k;
 	typedef union
 	{
 		double d[2];
-		ULong L[4];
+		uint32_t L[4];
 	} U2;
 	U2* u;
 
 	k = strtodg(s, sp, &fpi, &exp, bits);
 	u = (U2*)dd;
-	sign = (ULong)((k & STRTOG_Neg) ? 0x80000000L : 0);
+	sign = (uint32_t)((k & STRTOG_Neg) ? 0x80000000L : 0);
 	switch(k & STRTOG_Retmask)
 	{
 		case STRTOG_NoNumber:

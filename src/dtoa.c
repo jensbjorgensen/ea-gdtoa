@@ -63,7 +63,7 @@ THIS SOFTWARE.
  *	   guarantee that the floating-point calculation has given
  *	   the correctly rounded result.  For k requested digits and
  *	   "uniformly" distributed input, the probability is
- *	   something like 10^(k-15) that we must resort to the Long
+ *	   something like 10^(k-15) that we must resort to the int32_t
  *	   calculation.
  */
 
@@ -133,10 +133,10 @@ char* dtoa(double d, int mode, int ndigits, int* decpt, int* sign, char** rve)
 	int s5;
 	int spec_case;
 	int try_quick;
-	Long L;
+	int32_t L;
 #ifndef Sudden_Underflow
 	int denorm;
-	ULong x;
+	uint32_t x;
 #endif
 	Bigint *b;
 	Bigint *b1;
@@ -498,7 +498,7 @@ char* dtoa(double d, int mode, int ndigits, int* decpt, int* sign, char** rve)
 			dval(eps) *= tens[ilim - 1];
 			for(i = 1;; i++, dval(d) *= 10.)
 			{
-				L = (Long)(dval(d));
+				L = (int32_t)(dval(d));
 				// Formerly if(!(dval(d) -= L))
 				dval(d) -= L;
 
@@ -556,7 +556,7 @@ char* dtoa(double d, int mode, int ndigits, int* decpt, int* sign, char** rve)
 		}
 		for(i = 1;; i++, dval(d) *= 10.)
 		{
-			L = (Long)(dval(d) / ds);
+			L = (int32_t)(dval(d) / ds);
 			dval(d) -= L * ds;
 	#ifdef Check_FLT_ROUNDS
 			/* If FLT_ROUNDS == 2, L will usually be high by 1 */

@@ -48,9 +48,9 @@ char* g_xLfmt(char *buf, void *V, int ndig, unsigned bufsize)
 	char *b;
 	char *s;
 	char *se;
-	ULong bits[2];
-	ULong *L;
-	ULong sign;
+	uint32_t bits[2];
+	uint32_t *L;
+	uint32_t sign;
 	int decpt;
 	int ex;
 	int i;
@@ -66,7 +66,7 @@ char* g_xLfmt(char *buf, void *V, int ndig, unsigned bufsize)
 		return 0;
 	}
 
-	L = (ULong*)V;
+	L = (uint32_t*)V;
 	sign = L[_0] & 0x80000000L;
 	bits[1] = L[_1];
 	bits[0] = L[_2];

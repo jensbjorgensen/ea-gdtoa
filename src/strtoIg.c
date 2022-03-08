@@ -31,7 +31,7 @@ THIS SOFTWARE.
 
 #include "gdtoaimp.h"
 
-int strtoIg(const char *s00, char **se, FPI *fpi, Long *exp, Bigint **B, int *rvp)
+int strtoIg(const char *s00, char **se, FPI *fpi, int32_t *exp, Bigint **B, int *rvp)
 {
 	Bigint *b;
 	Bigint *b1;
@@ -44,7 +44,7 @@ int strtoIg(const char *s00, char **se, FPI *fpi, Long *exp, Bigint **B, int *rv
 	int swap;
 	unsigned nb1;
 	unsigned nb11;
-	Long e1;
+	int32_t e1;
 
 	b = *B;
 	rv = strtodg(s00, se, fpi, exp, b->x);
@@ -73,7 +73,7 @@ int strtoIg(const char *s00, char **se, FPI *fpi, Long *exp, Bigint **B, int *rv
 		if(fpi->sudden_underflow && (rv & STRTOG_Retmask) == STRTOG_Zero)
 		{
 			b1->x[0] = 0;
-			b1->x[nw1] = (ULong)(1L << nb11);
+			b1->x[nw1] = (uint32_t)(1L << nb11);
 			rv1 += STRTOG_Normal - STRTOG_Zero;
 			rv1 &= ~STRTOG_Underflow;
 			goto swapcheck;

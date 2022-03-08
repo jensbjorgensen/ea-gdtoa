@@ -47,10 +47,10 @@ THIS SOFTWARE.
 int strtopx(const char *s, char **sp, void *V)
 {
 	static FPI fpi = {64, 1 - 16383 - 64 + 1, 32766 - 16383 - 64 + 1, 1, SI};
-	ULong bits[2];
-	Long exp;
+	uint32_t bits[2];
+	int32_t exp;
 	int k;
-	UShort* L = (UShort*)V;
+	uint16_t* L = (uint16_t*)V;
 
 	k = strtodg(s, sp, &fpi, &exp, bits);
 	switch(k & STRTOG_Retmask)
@@ -66,12 +66,12 @@ int strtopx(const char *s, char **sp, void *V)
 
 		case STRTOG_Normal:
 		case STRTOG_NaNbits:
-			L[_0] = (UShort)(exp + 0x3fff + 63);
+			L[_0] = (uint16_t)(exp + 0x3fff + 63);
 		normal_bits:
-			L[_4] = (UShort)bits[0];
-			L[_3] = (UShort)(bits[0] >> 16);
-			L[_2] = (UShort)bits[1];
-			L[_1] = (UShort)(bits[1] >> 16);
+			L[_4] = (uint16_t)bits[0];
+			L[_3] = (uint16_t)(bits[0] >> 16);
+			L[_2] = (uint16_t)bits[1];
+			L[_1] = (uint16_t)(bits[1] >> 16);
 			break;
 
 		case STRTOG_Infinite:

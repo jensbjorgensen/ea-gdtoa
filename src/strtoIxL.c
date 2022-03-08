@@ -34,12 +34,12 @@ THIS SOFTWARE.
 int strtoIxL(const char *s, char **sp, void *a, void *b)
 {
 	static FPI fpi = {64, 1 - 16383 - 64 + 1, 32766 - 16383 - 64 + 1, 1, SI};
-	Long exp[2];
+	int32_t exp[2];
 	Bigint* B[2];
 	int k;
 	int rv[2];
-	ULong *L = (ULong*)a;
-	ULong *M = (ULong*)b;
+	uint32_t *L = (uint32_t*)a;
+	uint32_t *M = (uint32_t*)b;
 
 	B[0] = Balloc(1);
 	B[0]->wds = 2;

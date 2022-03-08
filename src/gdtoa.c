@@ -33,14 +33,14 @@ THIS SOFTWARE.
 #include <float.h>
 #include <math.h>
 
-static Bigint* bitstob(ULong* bits, int nbits, int* bbits)
+static Bigint* bitstob(uint32_t* bits, int nbits, int* bbits)
 {
 	int i;
 	int k;
 	Bigint* b;
-	ULong *be;
-	ULong *x;
-	ULong *x0;
+	uint32_t *be;
+	uint32_t *x;
+	uint32_t *x0;
 
 	i = ULbits;
 	k = 0;
@@ -118,11 +118,11 @@ ret:
  *	   guarantee that the floating-point calculation has given
  *	   the correctly rounded result.  For k requested digits and
  *	   "uniformly" distributed input, the probability is
- *	   something like 10^(k-15) that we must resort to the Long
+ *	   something like 10^(k-15) that we must resort to the int32_t
  *	   calculation.
  */
 
-char* gdtoa(FPI* fpi, int be, ULong* bits, int* kindp, int mode, int ndigits, int* decpt, char** rve)
+char* gdtoa(FPI* fpi, int be, uint32_t* bits, int* kindp, int mode, int ndigits, int* decpt, char** rve)
 {
 	/*	Arguments ndigits and decpt are similar to the second and third
 	   arguments of ecvt and fcvt; trailing zeros are suppressed from
@@ -184,7 +184,7 @@ char* gdtoa(FPI* fpi, int be, ULong* bits, int* kindp, int mode, int ndigits, in
 	int s5;
 	int spec_case;
 	int try_quick;
-	Long L;
+	int32_t L;
 	Bigint *b;
 	Bigint *b1;
 	Bigint *delta;
@@ -495,7 +495,7 @@ char* gdtoa(FPI* fpi, int be, ULong* bits, int* kindp, int mode, int ndigits, in
 
 			for(i = 0;;)
 			{
-				L = (Long)(dval(d) / ds);
+				L = (int32_t)(dval(d) / ds);
 				dval(d) -= L * ds;
 				*s++ = (char)('0' + (int)L);
 
@@ -530,7 +530,7 @@ char* gdtoa(FPI* fpi, int be, ULong* bits, int* kindp, int mode, int ndigits, in
 
 			for(i = 1;; i++, dval(d) *= 10.)
 			{
-				if((L = (Long)(dval(d) / ds)) != 0)
+				if((L = (int32_t)(dval(d) / ds)) != 0)
 				{
 					dval(d) -= L * ds;
 				}

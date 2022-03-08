@@ -45,11 +45,11 @@ SOFTWARE.
 #include "arith.h"
 #include <stdio.h>
 
-#ifndef Long
-#define Long long
+#ifndef int32_t
+#define int32_t long
 #endif
 
-typedef unsigned Long Ulong;
+typedef unsigned int32_t Ulong;
 
 #undef HAVE_IEEE
 #ifdef IEEE_8087

@@ -31,13 +31,13 @@ THIS SOFTWARE.
 
 #include "gdtoaimp.h"
 
-Bigint* s2b(const char* s, int nd0, int nd, ULong y9)
+Bigint* s2b(const char* s, int nd0, int nd, uint32_t y9)
 {
 	Bigint* b;
 	int i;
 	int k;
-	Long x;
-	Long y;
+	int32_t x;
+	int32_t y;
 
 	x = (nd + 8) / 9;
 
@@ -159,11 +159,11 @@ int match(const char** sp, char* t)
 }
 #endif /* INFNAN_CHECK */
 
-void copybits(ULong *c, int n, Bigint *b)
+void copybits(uint32_t *c, int n, Bigint *b)
 {
-	ULong *ce;
-	ULong *x;
-	ULong *xe;
+	uint32_t *ce;
+	uint32_t *x;
+	uint32_t *xe;
 #ifdef Pack_16
 	int nw;
 	int nw1;
@@ -200,14 +200,14 @@ void copybits(ULong *c, int n, Bigint *b)
 	}
 }
 
-ULong any_on(Bigint *b, int k)
+uint32_t any_on(Bigint *b, int k)
 {
 	int n;
 	int nwds;
-	ULong *x;
-	ULong *x0;
-	ULong x1;
-	ULong x2;
+	uint32_t *x;
+	uint32_t *x0;
+	uint32_t x1;
+	uint32_t x2;
 
 	x = b->x;
 	nwds = b->wds;

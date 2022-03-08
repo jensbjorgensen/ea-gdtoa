@@ -83,7 +83,7 @@ THIS SOFTWARE.
  *	significant byte has the lowest address.
  * #define IEEE_MC68k for IEEE-arithmetic machines where the most
  *	significant byte has the lowest address.
- * #define Long int on machines with 32-bit ints and 64-bit longs.
+ * #define int32_t int on machines with 32-bit ints and 64-bit longs.
  * #define Sudden_Underflow for IEEE-format machines without gradual
  *	underflow (i.e., that flush to zero on underflow).
  * #define IBM for IBM mainframe-style floating-point arithmetic.
@@ -99,13 +99,13 @@ THIS SOFTWARE.
  *	products but inaccurate quotients, e.g., for Intel i860.
  * #define NO_LONG_LONG on machines that do not have a "long long"
  *	integer type (of >= 64 bits).  On such machines, you can
- *	#define Just_16 to store 16 bits per 32-bit Long when doing
+ *	#define Just_16 to store 16 bits per 32-bit int32_t when doing
  *	high-precision integer arithmetic.  Whether this speeds things
  *	up or slows things down depends on the machine and the number
  *	being converted.  If long long is available and the name is
- *	something other than "long long", #define Llong to be the name,
- *	and if "unsigned Llong" does not work as an unsigned version of
- *	Llong, #define #ULLong to be the corresponding unsigned type.
+ *	something other than "long long", #define int64_t to be the name,
+ *	and if "unsigned int64_t" does not work as an unsigned version of
+ *	int64_t, #define #uint64_t to be the corresponding unsigned type.
  * #define Bad_float_h if your system lacks a float.h or if it does not
  *	define some or all of DBL_DIG, DBL_MAX_10_EXP, DBL_MAX_EXP,
  *	FLT_RADIX, FLT_ROUNDS, and DBL_MAX.
@@ -160,7 +160,7 @@ THIS SOFTWARE.
  *	On some K&R systems, it may also be necessary to
  *	#define DECLARE_SIZE_T in this case.
  * #define YES_ALIAS to permit aliasing certain double values with
- *	arrays of ULongs.  This leads to slightly better code with
+ *	arrays of uint32_ts.  This leads to slightly better code with
  *	some compilers and was always used prior to 19990916, but it
  *	is not strictly legal and can cause trouble with aggressively
  *	optimizing compilers (e.g., gcc 2.95.1 under -O2).
@@ -282,17 +282,17 @@ Exactly one of IEEE_8087, VAX, or IBM should be defined.
 											   typedef union
 {
 	double d;
-	ULong L[2];
+	uint32_t L[2];
 } U;
 
 #ifdef YES_ALIAS
 #define dval(x) x
 #ifdef IEEE_8087
-#define word0(x) ((ULong*)&x)[1]
-#define word1(x) ((ULong*)&x)[0]
+#define word0(x) ((uint32_t*)&x)[1]
+#define word1(x) ((uint32_t*)&x)[0]
 #else
-#define word0(x) ((ULong*)&x)[0]
-#define word1(x) ((ULong*)&x)[1]
+#define word0(x) ((uint32_t*)&x)[0]
+#define word1(x) ((uint32_t*)&x)[1]
 #endif
 #else /* !YES_ALIAS */
 #ifdef IEEE_8087
@@ -441,22 +441,14 @@ extern double rnd_prod(double, double), rnd_quot(double, double);
 #endif
 
 #ifdef NO_LONG_LONG
-#undef ULLong
 #ifdef Just_16
 #undef Pack_32
 #define Pack_16
-/* When Pack_32 is not defined, we store 16 bits per 32-bit Long.
+/* When Pack_32 is not defined, we store 16 bits per 32-bit int32_t.
  * This makes some inner loops simpler and sometimes saves work
  * during multiplications, but it often seems to make things slightly
- * slower.  Hence the default is now to store 32 bits per Long.
+ * slower.  Hence the default is now to store 32 bits per int32_t.
  */
-#endif
-#else /* long long available */
-#ifndef Llong
-#define Llong long long
-#endif
-#ifndef ULLong
-#define ULLong unsigned Llong
 #endif
 #endif /* NO_LONG_LONG */
 
@@ -483,7 +475,7 @@ struct Bigint
 {
 	struct Bigint* next;
 	int k, maxwds, sign, wds;
-	ULong x[1];
+	uint32_t x[1];
 };
 
 typedef struct Bigint Bigint;
@@ -494,9 +486,9 @@ typedef unsigned int size_t;
 #endif
 extern void memcpy_D2A(void*, const void*, size_t);
 #define Bcopy(x, y) \
-	memcpy_D2A(&x->sign, &y->sign, (size_t)(y->wds) * sizeof(ULong) + 2 * sizeof(int))
+	memcpy_D2A(&x->sign, &y->sign, (size_t)(y->wds) * sizeof(uint32_t) + 2 * sizeof(int))
 #else /* !NO_STRING_H */
-#define Bcopy(x, y) memcpy(&x->sign, &y->sign, (size_t)(y->wds) * sizeof(ULong) + 2 * sizeof(int))
+#define Bcopy(x, y) memcpy(&x->sign, &y->sign, (size_t)(y->wds) * sizeof(uint32_t) + 2 * sizeof(int))
 #endif /* NO_STRING_H */
 
 #define Balloc Balloc_D2A
@@ -520,7 +512,7 @@ extern void memcpy_D2A(void*, const void*, size_t);
 #define gethex gethex_D2A
 #define hexdig hexdig_D2A
 #define hexnan hexnan_D2A
-#define hi0bits(x) hi0bits_D2A((ULong)(x))
+#define hi0bits(x) hi0bits_D2A((uint32_t)(x))
 #define i2b i2b_D2A
 #define increment increment_D2A
 #define lo0bits lo0bits_D2A
@@ -551,27 +543,27 @@ extern unsigned char hexdig[];
 
 extern Bigint* Balloc(int);
 extern void Bfree(Bigint*);
-extern void ULtof(ULong*, const ULong*, Long, int);
-extern void ULtod(ULong*, const ULong*, Long, int);
-extern void ULtodd(ULong*, ULong*, Long, int);
-extern void ULtoQ(ULong*, const ULong*, Long, int);
-extern void ULtox(UShort*, const ULong*, Long, int);
-extern void ULtoxL(ULong*, const ULong*, Long, int);
-extern ULong any_on(Bigint*, int);
+extern void ULtof(uint32_t*, const uint32_t*, int32_t, int);
+extern void ULtod(uint32_t*, const uint32_t*, int32_t, int);
+extern void ULtodd(uint32_t*, uint32_t*, int32_t, int);
+extern void ULtoQ(uint32_t*, const uint32_t*, int32_t, int);
+extern void ULtox(uint16_t*, const uint32_t*, int32_t, int);
+extern void ULtoxL(uint32_t*, const uint32_t*, int32_t, int);
+extern uint32_t any_on(Bigint*, int);
 extern double b2d(Bigint*, int*);
 extern int cmp(Bigint*, Bigint*);
-extern void copybits(ULong*, int, Bigint*);
+extern void copybits(uint32_t*, int, Bigint*);
 extern Bigint* d2b(double, int*, int*);
 extern int decrement(Bigint*);
 extern Bigint* diff(Bigint*, Bigint*);
-extern char* g__fmt(char*, char*, const char*, int, ULong);
-extern int gethex(const char**, FPI*, Long*, Bigint**, int);
+extern char* g__fmt(char*, char*, const char*, int, uint32_t);
+extern int gethex(const char**, FPI*, int32_t*, Bigint**, int);
 extern void hexdig_init_D2A(void);
-extern int hexnan(const char**, FPI*, ULong*);
-extern int hi0bits_D2A(ULong);
+extern int hexnan(const char**, FPI*, uint32_t*);
+extern int hi0bits_D2A(uint32_t);
 extern Bigint* i2b(int);
 extern Bigint* increment(Bigint*);
-extern int lo0bits(ULong*);
+extern int lo0bits(uint32_t*);
 extern Bigint* lshift(Bigint*, int);
 extern int match(const char**, char*);
 extern Bigint* mult(Bigint*, Bigint*);
@@ -582,10 +574,10 @@ extern int quorem(Bigint*, Bigint*);
 extern double ratio(Bigint*, Bigint*);
 extern void rshift(Bigint*, int);
 extern char* rv_alloc(int);
-extern Bigint* s2b(const char*, int, int, ULong);
+extern Bigint* s2b(const char*, int, int, uint32_t);
 extern Bigint* set_ones(Bigint*, int);
 extern char* strcp(char*, const char*);
-extern int strtoIg(const char*, char**, FPI*, Long*, Bigint**, int*);
+extern int strtoIg(const char*, char**, FPI*, int32_t*, Bigint**, int*);
 extern Bigint* sum(Bigint*, Bigint*);
 extern int trailz(Bigint*);
 extern double ulp(double);

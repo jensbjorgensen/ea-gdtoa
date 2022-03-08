@@ -35,7 +35,7 @@ THIS SOFTWARE.
 #include "locale.h"
 #endif
 
-char* g__fmt(char *b, char *s, const char *se, int decpt, ULong sign)
+char* g__fmt(char *b, char *s, const char *se, int decpt, uint32_t sign)
 {
 	char* s0 = s;
 #ifdef USE_LOCALE

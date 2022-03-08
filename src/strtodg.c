@@ -68,12 +68,12 @@ static const int fivesbits[] = {0,
 
 Bigint* increment(Bigint* b)
 {
-	ULong *x;
-	ULong *xe;
+	uint32_t *x;
+	uint32_t *xe;
 	Bigint* b1;
 #ifdef Pack_16
-	ULong carry = 1;
-	ULong y;
+	uint32_t carry = 1;
+	uint32_t y;
 #endif
 
 	x = b->x;
@@ -81,7 +81,7 @@ Bigint* increment(Bigint* b)
 #ifdef Pack_32
 	do
 	{
-		if(*x < (ULong)0xffffffffL)
+		if(*x < (uint32_t)0xffffffffL)
 		{
 			++*x;
 			return b;
@@ -114,11 +114,11 @@ Bigint* increment(Bigint* b)
 
 int decrement(Bigint *b)
 {
-	ULong *x;
-	ULong *xe;
+	uint32_t *x;
+	uint32_t *xe;
 #ifdef Pack_16
-	ULong borrow = 1;
-	ULong y;
+	uint32_t borrow = 1;
+	uint32_t y;
 #endif
 
 	x = b->x;
@@ -152,8 +152,8 @@ int n;
 	all_on(Bigint* b, int n)
 #endif
 {
-	ULong *x;
-	ULong *xe;
+	uint32_t *x;
+	uint32_t *xe;
 
 	x = b->x;
 	xe = x + (n >> kshift);
@@ -186,8 +186,8 @@ int n;
 #endif
 {
 	int k;
-	ULong *x;
-	ULong *xe;
+	uint32_t *x;
+	uint32_t *xe;
 
 	k = (n + ((1 << kshift) - 1)) >> kshift;
 	if(b->k < k)
@@ -224,17 +224,17 @@ static int rvOK
 #ifdef KR_headers
 	(d, fpi, exp, bits, exact, rd, irv) double d;
 FPI* fpi;
-Long* exp;
-ULong* bits;
+int32_t* exp;
+uint32_t* bits;
 int exact, rd, *irv;
 #else
-	(double d, FPI* fpi, Long* exp, ULong* bits, int exact, int rd, int* irv)
+	(double d, FPI* fpi, int32_t* exp, uint32_t* bits, int exact, int rd, int* irv)
 #endif
 {
 	Bigint* b;
-	ULong carry = 0;
-	ULong inex;
-	ULong lostbits;
+	uint32_t carry = 0;
+	uint32_t inex;
+	uint32_t lostbits;
 	int bdif;
 	int e;
 	int j;
@@ -296,7 +296,7 @@ int exact, rd, *irv;
 				}
 				goto trunc;
 			}
-			if(b->x[k >> kshift] & ((ULong)1 << (k & kmask)))
+			if(b->x[k >> kshift] & ((uint32_t)1 << (k & kmask)))
 			{
 				break;
 			}
@@ -359,7 +359,7 @@ trunc:
 			{
 				goto ret;
 			}
-			carry = (ULong)(b->x[k1 >> kshift]) & (ULong)(1 << (k1 & kmask));
+			carry = (uint32_t)(b->x[k1 >> kshift]) & (uint32_t)(1 << (k1 & kmask));
 			lostbits |= carry;
 			rshift(b, k);
 			*irv = STRTOG_Denormal;
@@ -400,7 +400,7 @@ static int
 	mantbits(double d)
 #endif
 {
-	ULong L;
+	uint32_t L;
 #ifdef VAX
 	L = word1(d) << 16 | word1(d) >> 16;
 	if(L)
@@ -423,10 +423,10 @@ int strtodg
 	(s00, se, fpi, exp, bits) const char* s00;
 char** se;
 FPI* fpi;
-Long* exp;
-ULong* bits;
+int32_t* exp;
+uint32_t* bits;
 #else
-	(const char* s00, char** se, FPI* fpi, Long* exp, ULong* bits)
+	(const char* s00, char** se, FPI* fpi, int32_t* exp, uint32_t* bits)
 #endif
 {
 	int abe;
@@ -474,9 +474,9 @@ ULong* bits;
 	double adj0;
 	double rv;
 	double tol;
-	Long L;
-	ULong y;
-	ULong z;
+	int32_t L;
+	uint32_t y;
+	uint32_t z;
 	Bigint *ab;
 	Bigint *bb;
 	Bigint *bb1;
@@ -1226,7 +1226,7 @@ rv_notOK:
 				dval(adj) = L;
 			}
 		}
-		y = (ULong)(rve + rvbits);
+		y = (uint32_t)(rve + rvbits);
 
 		/* adj *= ulp(dval(rv)); */
 		/* if (asub) rv -= adj; else rv += adj; */
@@ -1303,7 +1303,7 @@ rv_notOK:
 			break;
 		}
 
-		z = (ULong)(rve + rvbits);
+		z = (uint32_t)(rve + rvbits);
 		if(y == z && L)
 		{
 			/* Can we stop now? */

@@ -34,7 +34,7 @@ THIS SOFTWARE.
 int strtoId(const char *s, char **sp, double *f0, double *f1)
 {
 	static FPI fpi = {53, 1 - 1023 - 53 + 1, 2046 - 1023 - 53 + 1, 1, SI};
-	Long exp[2];
+	int32_t exp[2];
 	Bigint* B[2];
 	int k;
 	int rv[2];
@@ -42,18 +42,18 @@ int strtoId(const char *s, char **sp, double *f0, double *f1)
 	B[0] = Balloc(1);
 	B[0]->wds = 2;
 	k = strtoIg(s, sp, &fpi, exp, B, rv);
-	ULtod((ULong*)f0, B[0]->x, exp[0], rv[0]);
+	ULtod((uint32_t*)f0, B[0]->x, exp[0], rv[0]);
 	Bfree(B[0]);
 
 	if(B[1])
 	{
-		ULtod((ULong*)f1, B[1]->x, exp[1], rv[1]);
+		ULtod((uint32_t*)f1, B[1]->x, exp[1], rv[1]);
 		Bfree(B[1]);
 	}
 	else
 	{
-		((ULong*)f1)[0] = ((ULong*)f0)[0];
-		((ULong*)f1)[1] = ((ULong*)f0)[1];
+		((uint32_t*)f1)[0] = ((uint32_t*)f0)[0];
+		((uint32_t*)f1)[1] = ((uint32_t*)f0)[1];
 	}
 
 	return k;

@@ -34,13 +34,13 @@ THIS SOFTWARE.
 int strtopf(const char *s, char **sp, float *f)
 {
 	static FPI fpi = {24, 1 - 127 - 24 + 1, 254 - 127 - 24 + 1, 1, SI};
-	ULong bits[1];
-	ULong *L;
-	Long exp;
+	uint32_t bits[1];
+	uint32_t *L;
+	int32_t exp;
 	int k;
 
 	k = strtodg(s, sp, &fpi, &exp, bits);
-	L = (ULong*)f;
+	L = (uint32_t*)f;
 	switch(k & STRTOG_Retmask)
 	{
 		case STRTOG_NoNumber:

@@ -34,14 +34,14 @@ THIS SOFTWARE.
 Bigint* sum(Bigint* a, Bigint* b)
 {
 	Bigint* c;
-	ULong carry;
-	ULong *xc;
-	ULong *xa;
-	ULong *xb;
-	ULong *xe;
-	ULong y;
+	uint32_t carry;
+	uint32_t *xc;
+	uint32_t *xa;
+	uint32_t *xb;
+	uint32_t *xe;
+	uint32_t y;
 #ifdef Pack_32
-	ULong z;
+	uint32_t z;
 #endif
 
 	if(a->wds < b->wds)

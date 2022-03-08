@@ -41,8 +41,8 @@ char* rv_alloc(int i)
 	int *r;
 	size_t j;
 
-	j = sizeof(ULong);
-	for(k = 0; sizeof(Bigint) - sizeof(ULong) - sizeof(int) + j <= (size_t)i; j <<= 1)
+	j = sizeof(uint32_t);
+	for(k = 0; sizeof(Bigint) - sizeof(uint32_t) - sizeof(int) + j <= (size_t)i; j <<= 1)
 	{
 		k++;
 	}
@@ -98,25 +98,25 @@ void freedtoa(char *s)
 int quorem(Bigint* b, Bigint* S)
 {
 	int n;
-	ULong *bx;
-	ULong *bxe;
-	ULong q;
-	ULong *sx;
-	ULong *sxe;
-#ifdef ULLong
-	ULLong borrow;
-	ULLong carry;
-	ULLong y;
-	ULLong ys;
+	uint32_t *bx;
+	uint32_t *bxe;
+	uint32_t q;
+	uint32_t *sx;
+	uint32_t *sxe;
+#ifdef uint64_t
+	uint64_t borrow;
+	uint64_t carry;
+	uint64_t y;
+	uint64_t ys;
 #else
-	ULong borrow;
-	ULong carry;
-	ULong y;
-	ULong ys;
+	uint32_t borrow;
+	uint32_t carry;
+	uint32_t y;
+	uint32_t ys;
 #ifdef Pack_32
-	ULong si;
-	ULong z;
-	ULong zs;
+	uint32_t si;
+	uint32_t z;
+	uint32_t zs;
 #endif
 #endif
 
@@ -150,8 +150,8 @@ int quorem(Bigint* b, Bigint* S)
 
 		do
 		{
-#ifdef ULLong
-			ys = *sx++ * (ULLong)q + carry;
+#ifdef uint64_t
+			ys = *sx++ * (uint64_t)q + carry;
 			carry = ys >> 32;
 			y = *bx - (ys & 0xffffffffUL) - borrow;
 			borrow = y >> 32 & 1UL;
@@ -200,7 +200,7 @@ int quorem(Bigint* b, Bigint* S)
 
 		do
 		{
-#ifdef ULLong
+#ifdef uint64_t
 			ys = *sx++ + carry;
 			carry = ys >> 32;
 			y = *bx - (ys & 0xffffffffUL) - borrow;

@@ -31,7 +31,7 @@ THIS SOFTWARE.
 
 #include "gdtoaimp.h"
 
-static void L_shift(ULong* x, const ULong* x1, int i)
+static void L_shift(uint32_t* x, const uint32_t* x1, int i)
 {
 	int j;
 
@@ -46,13 +46,13 @@ static void L_shift(ULong* x, const ULong* x1, int i)
 	} while(++x < x1);
 }
 
-int hexnan( const char **sp, FPI *fpi, ULong *x0)
+int hexnan( const char **sp, FPI *fpi, uint32_t *x0)
 {
-	ULong c;
-	ULong h;
-	ULong *x;
-	ULong *x1;
-	ULong *xe;
+	uint32_t c;
+	uint32_t h;
+	uint32_t *x;
+	uint32_t *x1;
+	uint32_t *xe;
 	const char* s;
 	int havedig;
 	int hd0;
@@ -141,7 +141,7 @@ int hexnan( const char **sp, FPI *fpi, ULong *x0)
 					*sp = s + 1;
 					break;
 				}
-			} while((c = (ULong) * ++s));
+			} while((c = (uint32_t) * ++s));
 #endif
 
 			return STRTOG_NaN;
@@ -191,7 +191,7 @@ int hexnan( const char **sp, FPI *fpi, ULong *x0)
 		/* truncate high-order word if necessary */
 		if((i = nbits & (ULbits - 1)) != 0)
 		{
-			*xe &= ((ULong)0xffffffff) >> (ULbits - i);
+			*xe &= ((uint32_t)0xffffffff) >> (ULbits - i);
 		}
 	}
 

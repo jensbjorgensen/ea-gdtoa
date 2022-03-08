@@ -38,15 +38,15 @@ int strtopdd(const char *s, char **sp, double *dd)
 #else
 	static FPI fpi = {106, 1 - 1023 - 53 + 1, 2046 - 1023 - 106 + 1, 1, 0};
 #endif
-	ULong bits[4];
-	Long exp;
+	uint32_t bits[4];
+	int32_t exp;
 	int i;
 	int j;
 	int rv;
 	typedef union
 	{
 		double d[2];
-		ULong L[4];
+		uint32_t L[4];
 	} U2;
 	U2* u;
 
@@ -148,7 +148,7 @@ int strtopdd(const char *s, char **sp, double *dd)
 			j = 32 - i;
 			u->L[_0] = (((bits[3] << i) | (bits[2] >> j)) & 0xfffff) | (unsigned)((65 - i) << 20);
 			u->L[_1] = ((bits[2] << i) | (bits[1] >> j)) & 0xffffffffL;
-			u->L[2 + _0] = bits[1] & (((ULong)1 << j) - 1);
+			u->L[2 + _0] = bits[1] & (((uint32_t)1 << j) - 1);
 			u->L[2 + _1] = bits[0];
 			break;
 
@@ -160,7 +160,7 @@ int strtopdd(const char *s, char **sp, double *dd)
 				i += 32;
 				u->L[_0] = (bits[2] >> j & 0xfffff) | (unsigned)((33 + j) << 20);
 				u->L[_1] = (bits[2] << i | bits[1] >> j) & 0xffffffffL;
-				u->L[2 + _0] = bits[1] & (((ULong)1 << j) - 1);
+				u->L[2 + _0] = bits[1] & (((uint32_t)1 << j) - 1);
 				u->L[2 + _1] = bits[0];
 				break;
 			}
@@ -176,7 +176,7 @@ int strtopdd(const char *s, char **sp, double *dd)
 			u->L[_0] = ((bits[2] << i | bits[1] >> j) & 0xfffff) | (unsigned)((j + 1) << 20);
 			u->L[_1] = (bits[1] << i | bits[0] >> j) & 0xffffffffL;
 			u->L[2 + _0] = 0;
-			u->L[2 + _1] = bits[0] & (((ULong)1 << j) - 1);
+			u->L[2 + _1] = bits[0] & (((uint32_t)1 << j) - 1);
 			break;
 
 		hardly_normal:
@@ -185,7 +185,7 @@ int strtopdd(const char *s, char **sp, double *dd)
 			u->L[_0] = (bits[1] >> j & 0xfffff) | (unsigned)((j + 1) << 20);
 			u->L[_1] = (bits[1] << i | bits[0] >> j) & 0xffffffffL;
 			u->L[2 + _0] = 0;
-			u->L[2 + _1] = bits[0] & (((ULong)1 << j) - 1);
+			u->L[2 + _1] = bits[0] & (((uint32_t)1 << j) - 1);
 			break;
 
 		case STRTOG_Infinite:

@@ -163,7 +163,7 @@ int main()
 	{
 		fprintf(f, "#define %s\n#define Arith_Kind_ASL %d\n", a->name, a->kind);
 		if(Ldef)
-			fprintf(f, "#define Long int\n#define Intcast (int)(long)\n");
+			fprintf(f, "#define int32_t int\n#define Intcast (int)(long)\n");
 		if(dalign)
 			fprintf(f, "#define Double_Align\n");
 		if(sizeof(char*) == 8)

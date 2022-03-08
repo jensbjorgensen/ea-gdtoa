@@ -50,9 +50,9 @@ char* g_xfmt(char *buf, void *V, int ndig, unsigned bufsize)
 	char *b;
 	char *s;
 	char *se;
-	ULong bits[2];
-	ULong sign;
-	UShort* L;
+	uint32_t bits[2];
+	uint32_t sign;
+	uint16_t* L;
 	int decpt;
 	int ex;
 	int i;
@@ -67,10 +67,10 @@ char* g_xfmt(char *buf, void *V, int ndig, unsigned bufsize)
 		return 0;
 	}
 
-	L = (UShort*)V;
+	L = (uint16_t*)V;
 	sign = L[_0] & 0x8000;
-	bits[1] = (ULong)(L[_1] << 16) | L[_2];
-	bits[0] = (ULong)(L[_3] << 16) | L[_4];
+	bits[1] = (uint32_t)(L[_1] << 16) | L[_2];
+	bits[0] = (uint32_t)(L[_3] << 16) | L[_4];
 
 	if((ex = L[_0] & 0x7fff) != 0)
 	{

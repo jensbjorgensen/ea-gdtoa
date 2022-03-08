@@ -34,11 +34,11 @@ THIS SOFTWARE.
 int strtopd(const char *s, char **sp, double *d)
 {
 	static FPI fpi0 = {53, 1 - 1023 - 53 + 1, 2046 - 1023 - 53 + 1, 1, SI};
-	ULong bits[2];
-	Long exp;
+	uint32_t bits[2];
+	int32_t exp;
 	int k;
 
 	k = strtodg(s, sp, &fpi0, &exp, bits);
-	ULtod((ULong*)d, bits, exp, k);
+	ULtod((uint32_t*)d, bits, exp, k);
 	return k;
 }

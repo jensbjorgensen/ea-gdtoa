@@ -46,10 +46,10 @@ THIS SOFTWARE.
 int strtopQ(const char *s, char **sp, void *V)
 {
 	static FPI fpi = {113, 1 - 16383 - 113 + 1, 32766 - 16383 - 113 + 1, 1, SI};
-	ULong bits[4];
-	Long exp;
+	uint32_t bits[4];
+	int32_t exp;
 	int k;
-	ULong* L = (ULong*)V;
+	uint32_t* L = (uint32_t*)V;
 
 	k = strtodg(s, sp, &fpi, &exp, bits);
 	switch(k & STRTOG_Retmask)

@@ -33,9 +33,9 @@ THIS SOFTWARE.
 
 void rshift(Bigint *b, int k)
 {
-	ULong *x;
-	ULong *x1;
-	ULong y;
+	uint32_t *x;
+	uint32_t *x1;
+	uint32_t y;
 	int n;
 
 	x = x1 = b->x;
@@ -43,7 +43,7 @@ void rshift(Bigint *b, int k)
 
 	if(n < b->wds)
 	{
-		ULong* xe = x + b->wds;
+		uint32_t* xe = x + b->wds;
 		x += n;
 
 		if(k &= kmask)
@@ -81,9 +81,9 @@ void rshift(Bigint *b, int k)
 
 int trailz(Bigint *b)
 {
-	ULong L;
-	ULong *x;
-	ULong *xe;
+	uint32_t L;
+	uint32_t *x;
+	uint32_t *xe;
 	int n = 0;
 
 	x = b->x;

@@ -33,16 +33,7 @@ THIS SOFTWARE.
 #define GDTOA_H_INCLUDED
 
 #include "arith.h"
-
-#ifndef Long
-#define Long long
-#endif
-#ifndef ULong
-typedef unsigned Long ULong;
-#endif
-#ifndef UShort
-typedef unsigned short UShort;
-#endif
+#include <stdint.h>
 
 enum
 { /* return values from strtodg */
@@ -87,10 +78,10 @@ extern "C" {
 #endif
 
 extern char* dtoa(double d, int mode, int ndigits, int* decpt, int* sign, char** rve);
-extern char* gdtoa(FPI * fpi, int be, ULong* bits, int* kindp, int mode, int ndigits,
+extern char* gdtoa(FPI * fpi, int be, uint32_t* bits, int* kindp, int mode, int ndigits,
 						 int* decpt, char** rve);
 extern void freedtoa(char*);
-extern int strtodg(const char*, char**, FPI*, Long*, ULong*);
+extern int strtodg(const char*, char**, FPI*, int32_t*, uint32_t*);
 
 extern char* g_ddfmt(char*, double*, int, unsigned);
 extern char* g_dfmt(char*, double*, int, unsigned);

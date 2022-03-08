@@ -35,7 +35,7 @@ THIS SOFTWARE.
 #include "locale.h"
 #endif
 
-int gethex( const char **sp, FPI *fpi, Long *exp, Bigint **bp, int sign)
+int gethex( const char **sp, FPI *fpi, int32_t *exp, Bigint **bp, int sign)
 {
 	Bigint* b;
 	const unsigned char *decpt;
@@ -50,11 +50,11 @@ int gethex( const char **sp, FPI *fpi, Long *exp, Bigint **bp, int sign)
 	int nbits;
 	int up;
 	int zret;
-	ULong L;
-	ULong lostbits;
-	ULong *x;
-	Long e;
-	Long e1;
+	uint32_t L;
+	uint32_t lostbits;
+	uint32_t *x;
+	int32_t e;
+	int32_t e1;
 #ifdef USE_LOCALE
 	unsigned char decimalpoint = *localeconv()->decimal_point;
 #else
@@ -128,7 +128,7 @@ int gethex( const char **sp, FPI *fpi, Long *exp, Bigint **bp, int sign)
 
 	if(decpt)
 	{
-		e = -(((Long)(s - decpt)) << 2);
+		e = -(((int32_t)(s - decpt)) << 2);
 	}
 
 pcheck:
@@ -233,7 +233,7 @@ pcheck:
 		{
 			lostbits = 1;
 			k = n - 1;
-			if(x[k >> kshift] & (ULong)(1 << (k & kmask)))
+			if(x[k >> kshift] & (uint32_t)(1 << (k & kmask)))
 			{
 				lostbits = 2;
 				if(k > 1 && any_on(b, k - 1))
@@ -316,7 +316,7 @@ pcheck:
 			lostbits = any_on(b, k);
 		}
 
-		if(x[k >> kshift] & (ULong)(1 << (k & kmask)))
+		if(x[k >> kshift] & (uint32_t)(1 << (k & kmask)))
 		{
 			lostbits |= 2;
 		}
@@ -358,7 +358,7 @@ pcheck:
 
 			if(irv == STRTOG_Denormal)
 			{
-				if((nbits == (fpi->nbits - 1)) && (x[nbits >> kshift] & (ULong)(1 << (nbits & kmask))))
+				if((nbits == (fpi->nbits - 1)) && (x[nbits >> kshift] & (uint32_t)(1 << (nbits & kmask))))
 				{
 					irv = STRTOG_Normal;
 				}

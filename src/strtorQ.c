@@ -43,7 +43,7 @@ THIS SOFTWARE.
 #error Something went wrong, IEEE8087 is not defined
 #endif
 
-void ULtoQ(ULong *L, const ULong *bits, Long exp, int k)
+void ULtoQ(uint32_t *L, const uint32_t *bits, int32_t exp, int k)
 {
 	switch(k & STRTOG_Retmask)
 	{
@@ -95,8 +95,8 @@ int strtorQ(const char *s, char **sp, int rounding, void *L)
 	static FPI fpi0 = {113, 1 - 16383 - 113 + 1, 32766 - 16383 - 113 + 1, 1, SI};
 	FPI *fpi;
 	FPI fpi1;
-	ULong bits[4];
-	Long exp;
+	uint32_t bits[4];
+	int32_t exp;
 	int k;
 
 	fpi = &fpi0;
@@ -107,6 +107,6 @@ int strtorQ(const char *s, char **sp, int rounding, void *L)
 		fpi = &fpi1;
 	}
 	k = strtodg(s, sp, fpi, &exp, bits);
-	ULtoQ((ULong*)L, bits, exp, k);
+	ULtoQ((uint32_t*)L, bits, exp, k);
 	return k;
 }

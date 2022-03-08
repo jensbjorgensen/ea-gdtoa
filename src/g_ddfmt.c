@@ -37,10 +37,10 @@ char* g_ddfmt(char *buf, double *dd, int ndig, unsigned bufsize)
 	char *b;
 	char *s;
 	char *se;
-	ULong *L;
-	ULong bits0[4];
-	ULong *bits;
-	ULong *zx;
+	uint32_t *L;
+	uint32_t bits0[4];
+	uint32_t *bits;
+	uint32_t *zx;
 	int bx;
 	int by;
 	int decpt;
@@ -59,7 +59,7 @@ char* g_ddfmt(char *buf, double *dd, int ndig, unsigned bufsize)
 		return 0;
 	}
 
-	L = (ULong*)dd;
+	L = (uint32_t*)dd;
 
 	if((L[_0] & 0x7ff00000L) == 0x7ff00000L)
 	{
@@ -126,7 +126,7 @@ char* g_ddfmt(char *buf, double *dd, int ndig, unsigned bufsize)
 		ddx[1] = dd[0];
 		ddx[0] = dd[1];
 		dd = ddx;
-		L = (ULong*)dd;
+		L = (uint32_t*)dd;
 	}
 
 	z = d2b(dd[0], &ex, &bx);
@@ -228,7 +228,7 @@ no_y:
 	fpi.sudden_underflow = 0;
 	i = STRTOG_Normal;
 	s = gdtoa(&fpi, ex, bits, &i, mode, ndig, &decpt, &se);
-	b = g__fmt(buf, s, se, decpt, (ULong)z->sign);
+	b = g__fmt(buf, s, se, decpt, (uint32_t)z->sign);
 	Bfree(z);
 
 	return b;

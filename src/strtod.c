@@ -94,9 +94,9 @@ double strtod (const char* s00, char** se)
 	double adj;
 	double rv;
 	double rv0;
-	Long L;
-	ULong y;
-	ULong z;
+	int32_t L;
+	uint32_t y;
+	uint32_t z;
 	Bigint *bb = NULL;
 	Bigint *bb1 = NULL;
 	Bigint *bd = NULL;
@@ -146,8 +146,8 @@ break2:
 #ifndef NO_HEX_FP
 		{
 			static FPI fpi = {53, 1 - 1023 - 53 + 1, 2046 - 1023 - 53 + 1, 1, SI};
-			Long exp;
-			ULong bits[2];
+			int32_t exp;
+			uint32_t bits[2];
 			switch(s[1])
 			{
 				case 'x':
@@ -353,7 +353,7 @@ dig_done:
 		{
 #ifdef INFNAN_CHECK
 			/* Check for Nan and Infinity */
-			ULong bits[2];
+			uint32_t bits[2];
 			static FPI fpinan = /* only 52 explicit bits */
 				{52, 1 - 1023 - 53 + 1, 2046 - 1023 - 53 + 1, 1, SI};
 			if(!decpt)
@@ -883,7 +883,7 @@ for(;;)
 		if(adj <= 0x7ffffffe)
 		{
 			/* adj = rounding ? ceil(adj) : floor(adj); */
-			y = (ULong)adj;
+			y = (uint32_t)adj;
 			if(fabs(y - adj) > DBL_EPSILON)
 			{
 				if(!((rounding >> 1) ^ dsign))
@@ -1032,7 +1032,7 @@ for(;;)
 #endif /*Avoid_Underflow*/
 					L = (int)(word0(rv) & Exp_mask) - Exp_msk1;
 #endif /*Sudden_Underflow}*/
-			word0(rv) = (ULong)(L | Bndry_mask1);
+			word0(rv) = (uint32_t)(L | Bndry_mask1);
 			word1(rv) = 0xffffffff;
 #ifdef IBM
 			goto cont;
@@ -1156,7 +1156,7 @@ for(;;)
 		{
 			if(aadj <= 0x7fffffff)
 			{
-				z = (ULong)aadj;
+				z = (uint32_t)aadj;
 				if(z <= 0)
 				{
 					z = 1;
@@ -1230,7 +1230,7 @@ for(;;)
 		if(y == z)
 		{
 			/* Can we stop now? */
-			L = (Long)aadj;
+			L = (int32_t)aadj;
 			aadj -= L;
 			/* The tolerances below are conservative. */
 			if(dsign || word1(rv) || word0(rv) & Bndry_mask)

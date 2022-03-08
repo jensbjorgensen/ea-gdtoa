@@ -54,10 +54,10 @@ Bigint* Balloc(int k)
 	{
 		int x = 1 << k;
 #ifdef Omit_Private_Memory
-		rv = (Bigint*)MALLOC(sizeof(Bigint) + (x - 1) * sizeof(ULong));
+		rv = (Bigint*)MALLOC(sizeof(Bigint) + (x - 1) * sizeof(uint32_t));
 #else
 		size_t len;
-		len = (sizeof(Bigint) + ((unsigned)x - 1) * sizeof(ULong) + sizeof(double) - 1) /
+		len = (sizeof(Bigint) + ((unsigned)x - 1) * sizeof(uint32_t) + sizeof(double) - 1) /
 			  sizeof(double);
 		if(((unsigned)(pmem_next - private_mem) + len) <= PRIVATE_mem)
 		{
@@ -90,10 +90,10 @@ void Bfree(Bigint* v)
 	}
 }
 
-int lo0bits(ULong* y)
+int lo0bits(uint32_t* y)
 {
 	int k;
-	ULong x = *y;
+	uint32_t x = *y;
 
 	if(x & 7)
 	{
@@ -159,17 +159,17 @@ Bigint* multadd(Bigint* b, int m, int a) /* multiply by m and add a */
 {
 	int i;
 	int wds;
-#ifdef ULLong
-	ULong* x;
-	ULLong carry;
-	ULLong y;
+#ifdef uint64_t
+	uint32_t* x;
+	uint64_t carry;
+	uint64_t y;
 #else
-	ULong carry;
-	ULong *x;
-	ULong y;
+	uint32_t carry;
+	uint32_t *x;
+	uint32_t y;
 #ifdef Pack_32
-	ULong xi;
-	ULong z;
+	uint32_t xi;
+	uint32_t z;
 #endif
 #endif
 	Bigint* b1;
@@ -181,8 +181,8 @@ Bigint* multadd(Bigint* b, int m, int a) /* multiply by m and add a */
 
 	do
 	{
-#ifdef ULLong
-		y = *x * (ULLong)m + carry;
+#ifdef uint64_t
+		y = *x * (uint64_t)m + carry;
 		carry = y >> 32;
 		*x++ = y & 0xffffffffUL;
 #else
@@ -210,14 +210,14 @@ Bigint* multadd(Bigint* b, int m, int a) /* multiply by m and add a */
 			b = b1;
 		}
 
-		b->x[wds++] = (ULong)carry;
+		b->x[wds++] = (uint32_t)carry;
 		b->wds = wds;
 	}
 
 	return b;
 }
 
-int hi0bits_D2A(register ULong x)
+int hi0bits_D2A(register uint32_t x)
 {
 	int k = 0;
 
@@ -263,7 +263,7 @@ Bigint* i2b(int i)
 	Bigint* b;
 
 	b = Balloc(1);
-	b->x[0] = (ULong)i;
+	b->x[0] = (uint32_t)i;
 	b->wds = 1;
 
 	return b;
@@ -276,22 +276,22 @@ Bigint *mult(Bigint* a, Bigint* b)
 	int wa;
 	int wb;
 	int wc;
-	ULong *x;
-	ULong *xa;
-	ULong *xae;
-	ULong *xb;
-	ULong *xbe;
-	ULong *xc;
-	ULong *xc0;
-	ULong y;
-#ifdef ULLong
-	ULLong carry;
-	ULLong z;
+	uint32_t *x;
+	uint32_t *xa;
+	uint32_t *xae;
+	uint32_t *xb;
+	uint32_t *xbe;
+	uint32_t *xc;
+	uint32_t *xc0;
+	uint32_t y;
+#ifdef uint64_t
+	uint64_t carry;
+	uint64_t z;
 #else
-	ULong carry;
-	ULong z;
+	uint32_t carry;
+	uint32_t z;
 #ifdef Pack_32
-	ULong z2;
+	uint32_t z2;
 #endif
 #endif
 
@@ -325,7 +325,7 @@ Bigint *mult(Bigint* a, Bigint* b)
 	xbe = xb + wb;
 	xc0 = c->x;
 
-#ifdef ULLong
+#ifdef uint64_t
 	for(; xb < xbe; xc0++)
 	{
 		if((y = *xb++) != 0)
@@ -336,12 +336,12 @@ Bigint *mult(Bigint* a, Bigint* b)
 
 			do
 			{
-				z = *x++ * (ULLong)y + *xc + carry;
+				z = *x++ * (uint64_t)y + *xc + carry;
 				carry = z >> 32;
 				*xc++ = z & 0xffffffffUL;
 			} while(x < xae);
 
-			*xc = (ULong)carry;
+			*xc = (uint32_t)carry;
 		}
 	}
 #else
@@ -490,10 +490,10 @@ Bigint* lshift(Bigint* b, int k)
 	int n;
 	int n1;
 	Bigint* b1;
-	ULong *x;
-	ULong *x1;
-	ULong *xe;
-	ULong z;
+	uint32_t *x;
+	uint32_t *x1;
+	uint32_t *xe;
+	uint32_t z;
 
 	n = k >> kshift;
 	k1 = b->k;
@@ -563,10 +563,10 @@ Bigint* lshift(Bigint* b, int k)
 
 int cmp(Bigint* a, Bigint* b)
 {
-	ULong *xa;
-	ULong *xa0;
-	ULong *xb;
-	ULong *xb0;
+	uint32_t *xa;
+	uint32_t *xa0;
+	uint32_t *xb;
+	uint32_t *xb0;
 	int i;
 	int j;
 
@@ -615,19 +615,19 @@ Bigint *diff(Bigint* a, Bigint* b)
 	int i;
 	int wa;
 	int wb;
-	ULong *xa;
-	ULong *xae;
-	ULong *xb;
-	ULong *xbe;
-	ULong *xc;
-#ifdef ULLong
-	ULLong borrow;
-	ULLong y;
+	uint32_t *xa;
+	uint32_t *xae;
+	uint32_t *xb;
+	uint32_t *xbe;
+	uint32_t *xc;
+#ifdef uint64_t
+	uint64_t borrow;
+	uint64_t y;
 #else
-	ULong borrow;
-	ULong y;
+	uint32_t borrow;
+	uint32_t y;
 #ifdef Pack_32
-	ULong z;
+	uint32_t z;
 #endif
 #endif
 
@@ -665,10 +665,10 @@ Bigint *diff(Bigint* a, Bigint* b)
 	xc = c->x;
 	borrow = 0;
 
-#ifdef ULLong
+#ifdef uint64_t
 	do
 	{
-		y = (ULLong)*xa++ - *xb++ - borrow;
+		y = (uint64_t)*xa++ - *xb++ - borrow;
 		borrow = y >> 32 & 1UL;
 		*xc++ = y & 0xffffffffUL;
 	} while(xb < xbe);
@@ -726,16 +726,16 @@ Bigint *diff(Bigint* a, Bigint* b)
 
 double b2d(Bigint* a, int* e)
 {
-	ULong *xa;
-	ULong *xa0;
-	ULong w;
-	ULong y;
-	ULong z;
+	uint32_t *xa;
+	uint32_t *xa0;
+	uint32_t w;
+	uint32_t y;
+	uint32_t z;
 	int k;
 	double d;
 #ifdef VAX
-	ULong d0;
-	ULong d1;
+	uint32_t d0;
+	uint32_t d1;
 #else
 #define d0 word0(d)
 #define d1 word1(d)
@@ -812,11 +812,11 @@ Bigint* d2b(double d, int* e, int* bits)
 #endif
 	int de;
 	int k;
-	ULong *x;
-	ULong y;
-	ULong z;
+	uint32_t *x;
+	uint32_t y;
+	uint32_t z;
 #ifdef VAX
-	ULong d0, d1;
+	uint32_t d0, d1;
 	d0 = word0(d) >> 16 | word0(d) << 16;
 	d1 = word1(d) >> 16 | word1(d) << 16;
 #else

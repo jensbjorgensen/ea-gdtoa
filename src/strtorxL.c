@@ -42,7 +42,7 @@ THIS SOFTWARE.
 #error Something went wrong, IEEE8087 is not defined
 #endif
 
-void ULtoxL(ULong *L, const ULong *bits, Long exp, int k)
+void ULtoxL(uint32_t *L, const uint32_t *bits, int32_t exp, int k)
 {
 	switch(k & STRTOG_Retmask)
 	{
@@ -54,7 +54,7 @@ void ULtoxL(ULong *L, const ULong *bits, Long exp, int k)
 		case STRTOG_Normal:
 		case STRTOG_Denormal:
 		case STRTOG_NaNbits:
-			L[_0] = (ULong)((exp + 0x3fff + 63) << 16);
+			L[_0] = (uint32_t)((exp + 0x3fff + 63) << 16);
 			L[_1] = bits[1];
 			L[_2] = bits[0];
 			break;
@@ -94,8 +94,8 @@ strtorxL(const char *s, char **sp, int rounding, void *L)
 	static FPI fpi0 = {64, 1 - 16383 - 64 + 1, 32766 - 16383 - 64 + 1, 1, SI};
 	FPI *fpi;
 	FPI fpi1;
-	ULong bits[2];
-	Long exp;
+	uint32_t bits[2];
+	int32_t exp;
 	int k;
 
 	fpi = &fpi0;
@@ -106,6 +106,6 @@ strtorxL(const char *s, char **sp, int rounding, void *L)
 		fpi = &fpi1;
 	}
 	k = strtodg(s, sp, fpi, &exp, bits);
-	ULtoxL((ULong*)L, bits, exp, k);
+	ULtoxL((uint32_t*)L, bits, exp, k);
 	return k;
 }
