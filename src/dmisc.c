@@ -103,7 +103,7 @@ int quorem(Bigint* b, Bigint* S)
 	uint32_t q;
 	uint32_t *sx;
 	uint32_t *sxe;
-#ifdef uint64_t
+#ifndef NO_LONG_LONG
 	uint64_t borrow;
 	uint64_t carry;
 	uint64_t y;
@@ -150,7 +150,7 @@ int quorem(Bigint* b, Bigint* S)
 
 		do
 		{
-#ifdef uint64_t
+#ifndef NO_LONG_LONG
 			ys = *sx++ * (uint64_t)q + carry;
 			carry = ys >> 32;
 			y = *bx - (ys & 0xffffffffUL) - borrow;
@@ -200,7 +200,7 @@ int quorem(Bigint* b, Bigint* S)
 
 		do
 		{
-#ifdef uint64_t
+#ifndef NO_LONG_LONG
 			ys = *sx++ + carry;
 			carry = ys >> 32;
 			y = *bx - (ys & 0xffffffffUL) - borrow;

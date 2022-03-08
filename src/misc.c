@@ -159,7 +159,7 @@ Bigint* multadd(Bigint* b, int m, int a) /* multiply by m and add a */
 {
 	int i;
 	int wds;
-#ifdef uint64_t
+#ifndef NO_LONG_LONG
 	uint32_t* x;
 	uint64_t carry;
 	uint64_t y;
@@ -181,7 +181,7 @@ Bigint* multadd(Bigint* b, int m, int a) /* multiply by m and add a */
 
 	do
 	{
-#ifdef uint64_t
+#ifndef NO_LONG_LONG
 		y = *x * (uint64_t)m + carry;
 		carry = y >> 32;
 		*x++ = y & 0xffffffffUL;
@@ -284,7 +284,7 @@ Bigint *mult(Bigint* a, Bigint* b)
 	uint32_t *xc;
 	uint32_t *xc0;
 	uint32_t y;
-#ifdef uint64_t
+#ifndef NO_LONG_LONG
 	uint64_t carry;
 	uint64_t z;
 #else
@@ -325,7 +325,7 @@ Bigint *mult(Bigint* a, Bigint* b)
 	xbe = xb + wb;
 	xc0 = c->x;
 
-#ifdef uint64_t
+#ifndef NO_LONG_LONG
 	for(; xb < xbe; xc0++)
 	{
 		if((y = *xb++) != 0)
@@ -620,7 +620,7 @@ Bigint *diff(Bigint* a, Bigint* b)
 	uint32_t *xb;
 	uint32_t *xbe;
 	uint32_t *xc;
-#ifdef uint64_t
+#ifndef NO_LONG_LONG
 	uint64_t borrow;
 	uint64_t y;
 #else
@@ -665,7 +665,7 @@ Bigint *diff(Bigint* a, Bigint* b)
 	xc = c->x;
 	borrow = 0;
 
-#ifdef uint64_t
+#ifndef NO_LONG_LONG
 	do
 	{
 		y = (uint64_t)*xa++ - *xb++ - borrow;
