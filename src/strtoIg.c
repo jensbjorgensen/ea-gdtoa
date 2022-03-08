@@ -31,17 +31,7 @@ THIS SOFTWARE.
 
 #include "gdtoaimp.h"
 
-int
-#ifdef KR_headers
-	strtoIg(s00, se, fpi, exp, B, rvp) CONST char* s00;
-char** se;
-FPI* fpi;
-Long* exp;
-Bigint** B;
-int* rvp;
-#else
-strtoIg(CONST char *s00, char **se, FPI *fpi, Long *exp, Bigint **B, int *rvp)
-#endif
+int strtoIg(CONST char *s00, char **se, FPI *fpi, Long *exp, Bigint **B, int *rvp)
 {
 	Bigint *b;
 	Bigint *b1;

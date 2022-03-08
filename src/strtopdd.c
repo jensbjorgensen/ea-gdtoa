@@ -31,14 +31,7 @@ THIS SOFTWARE.
 
 #include "gdtoaimp.h"
 
-int
-#ifdef KR_headers
-	strtopdd(s, sp, dd) CONST char* s;
-char** sp;
-double* dd;
-#else
-strtopdd(CONST char *s, char **sp, double *dd)
-#endif
+int strtopdd(CONST char *s, char **sp, double *dd)
 {
 #ifdef Sudden_Underflow
 	static FPI fpi = {106, 1 - 1023, 2046 - 1023 - 106 + 1, 1, 1};

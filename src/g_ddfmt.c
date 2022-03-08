@@ -31,15 +31,7 @@ THIS SOFTWARE.
 #include "gdtoaimp.h"
 #include <string.h>
 
-char*
-#ifdef KR_headers
-	g_ddfmt(buf, dd, ndig, bufsize) char* buf;
-double* dd;
-int ndig;
-unsigned bufsize;
-#else
-g_ddfmt(char *buf, double *dd, int ndig, unsigned bufsize)
-#endif
+char* g_ddfmt(char *buf, double *dd, int ndig, unsigned bufsize)
 {
 	FPI fpi;
 	char *b;

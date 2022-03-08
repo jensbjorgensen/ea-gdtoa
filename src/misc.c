@@ -40,12 +40,7 @@ static Bigint* freelist[Kmax + 1];
 static double private_mem[PRIVATE_mem], *pmem_next = private_mem;
 #endif
 
-Bigint* Balloc
-#ifdef KR_headers
-	(k) int k;
-#else
-	(int k)
-#endif
+Bigint* Balloc(int k)
 {
 	Bigint* rv;
 
@@ -84,12 +79,7 @@ Bigint* Balloc
 	return rv;
 }
 
-void Bfree
-#ifdef KR_headers
-	(v) Bigint* v;
-#else
-	(Bigint* v)
-#endif
+void Bfree(Bigint* v)
 {
 	if(v)
 	{
@@ -100,12 +90,7 @@ void Bfree
 	}
 }
 
-int lo0bits
-#ifdef KR_headers
-	(y) ULong* y;
-#else
-	(ULong* y)
-#endif
+int lo0bits(ULong* y)
 {
 	int k;
 	ULong x = *y;
@@ -170,13 +155,7 @@ int lo0bits
 	return k;
 }
 
-Bigint* multadd
-#ifdef KR_headers
-	(b, m, a) Bigint* b;
-int m, a;
-#else
-	(Bigint* b, int m, int a) /* multiply by m and add a */
-#endif
+Bigint* multadd(Bigint* b, int m, int a) /* multiply by m and add a */
 {
 	int i;
 	int wds;
@@ -238,12 +217,7 @@ int m, a;
 	return b;
 }
 
-int hi0bits_D2A
-#ifdef KR_headers
-	(x) register ULong x;
-#else
-	(register ULong x)
-#endif
+int hi0bits_D2A(register ULong x)
 {
 	int k = 0;
 
@@ -284,12 +258,7 @@ int hi0bits_D2A
 	return k;
 }
 
-Bigint* i2b
-#ifdef KR_headers
-	(i) int i;
-#else
-	(int i)
-#endif
+Bigint* i2b(int i)
 {
 	Bigint* b;
 
@@ -300,13 +269,7 @@ Bigint* i2b
 	return b;
 }
 
-Bigint *mult
-#ifdef KR_headers
-	(a, b) Bigint *a,
-	*b;
-#else
-	(Bigint* a, Bigint* b)
-#endif
+Bigint *mult(Bigint* a, Bigint* b)
 {
 	Bigint* c;
 	int k;
@@ -455,13 +418,7 @@ Bigint *mult
 
 static Bigint* p5s;
 
-Bigint* pow5mult
-#ifdef KR_headers
-	(b, k) Bigint* b;
-int k;
-#else
-	(Bigint* b, int k)
-#endif
+Bigint* pow5mult(Bigint* b, int k)
 {
 	Bigint *b1;
 	Bigint *p5;
@@ -526,13 +483,7 @@ int k;
 	return b;
 }
 
-Bigint* lshift
-#ifdef KR_headers
-	(b, k) Bigint* b;
-int k;
-#else
-	(Bigint* b, int k)
-#endif
+Bigint* lshift(Bigint* b, int k)
 {
 	int i;
 	int k1;
@@ -610,13 +561,7 @@ int k;
 	return b1;
 }
 
-int cmp
-#ifdef KR_headers
-	(a, b) Bigint *a,
-	*b;
-#else
-	(Bigint* a, Bigint* b)
-#endif
+int cmp(Bigint* a, Bigint* b)
 {
 	ULong *xa;
 	ULong *xa0;
@@ -664,13 +609,7 @@ int cmp
 	return 0;
 }
 
-Bigint *diff
-#ifdef KR_headers
-	(a, b) Bigint *a,
-	*b;
-#else
-	(Bigint* a, Bigint* b)
-#endif
+Bigint *diff(Bigint* a, Bigint* b)
 {
 	Bigint* c;
 	int i;
@@ -785,13 +724,7 @@ Bigint *diff
 	return c;
 }
 
-double b2d
-#ifdef KR_headers
-	(a, e) Bigint* a;
-int* e;
-#else
-	(Bigint* a, int* e)
-#endif
+double b2d(Bigint* a, int* e)
 {
 	ULong *xa;
 	ULong *xa0;
@@ -871,13 +804,7 @@ ret_d:
 #undef d0
 #undef d1
 
-Bigint* d2b
-#ifdef KR_headers
-	(d, e, bits) double d;
-int *e, *bits;
-#else
-	(double d, int* e, int* bits)
-#endif
+Bigint* d2b(double d, int* e, int* bits)
 {
 	Bigint* b;
 #ifndef Sudden_Underflow
@@ -1078,13 +1005,7 @@ CONST double tens[] = {1e0,
 #endif
 };
 
-char*
-#ifdef KR_headers
-	strcp_D2A(a, b) char* a;
-char* b;
-#else
-strcp_D2A(char *a, CONST char *b)
-#endif
+char* strcp_D2A(char *a, CONST char *b)
 {
 	while((*a = *b++))
 	{
@@ -1096,14 +1017,7 @@ strcp_D2A(char *a, CONST char *b)
 
 #ifdef NO_STRING_H
 
-Char*
-#ifdef KR_headers
-	memcpy_D2A(a, b, len) Char* a;
-Char* b;
-size_t len;
-#else
-memcpy_D2A(void *a1, void *b1, size_t len)
-#endif
+Char* memcpy_D2A(void *a1, void *b1, size_t len)
 {
 	char *a = (char*)a1, *ae = a + len;
 	char *b = (char*)b1, *a0 = a;

@@ -42,15 +42,7 @@ THIS SOFTWARE.
 #error Something went wrong, IEEE8087 is not defined
 #endif
 
-void
-#ifdef KR_headers
-	ULtoxL(L, bits, exp, k) ULong* L;
-const ULong* bits;
-Long exp;
-int k;
-#else
-ULtoxL(ULong *L, const ULong *bits, Long exp, int k)
-#endif
+void ULtoxL(ULong *L, const ULong *bits, Long exp, int k)
 {
 	switch(k & STRTOG_Retmask)
 	{

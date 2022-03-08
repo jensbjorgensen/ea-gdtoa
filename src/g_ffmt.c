@@ -31,15 +31,7 @@ THIS SOFTWARE.
 
 #include "gdtoaimp.h"
 
-char*
-#ifdef KR_headers
-	g_ffmt(buf, f, ndig, bufsize) char* buf;
-float* f;
-int ndig;
-unsigned bufsize;
-#else
-g_ffmt(char *buf, float *f, int ndig, unsigned bufsize)
-#endif
+char* g_ffmt(char *buf, float *f, int ndig, unsigned bufsize)
 {
 	static FPI fpi = {24, 1 - 127 - 24 + 1, 254 - 127 - 24 + 1, 1, 0};
 	char *b;

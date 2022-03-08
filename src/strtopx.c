@@ -44,14 +44,7 @@ THIS SOFTWARE.
 #error Something went wrong, IEEE8087 is not defined
 #endif
 
-int
-#ifdef KR_headers
-	strtopx(s, sp, V) CONST char* s;
-char** sp;
-void* V;
-#else
-strtopx(CONST char *s, char **sp, void *V)
-#endif
+int strtopx(CONST char *s, char **sp, void *V)
 {
 	static FPI fpi = {64, 1 - 16383 - 64 + 1, 32766 - 16383 - 64 + 1, 1, SI};
 	ULong bits[2];

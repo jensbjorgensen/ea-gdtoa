@@ -43,15 +43,7 @@ THIS SOFTWARE.
 #error Something went wrong, IEEE8087 is not defined
 #endif
 
-char*
-#ifdef KR_headers
-	g_Qfmt(buf, V, ndig, bufsize) char* buf;
-char* V;
-int ndig;
-unsigned bufsize;
-#else
-g_Qfmt(char *buf, void *V, int ndig, unsigned bufsize)
-#endif
+char* g_Qfmt(char *buf, void *V, int ndig, unsigned bufsize)
 {
 	static FPI fpi = {113, 1 - 16383 - 113 + 1, 32766 - 16383 - 113 + 1, 1, 0};
 	char *b;

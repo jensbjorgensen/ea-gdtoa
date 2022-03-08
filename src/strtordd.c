@@ -31,15 +31,7 @@ THIS SOFTWARE.
 
 #include "gdtoaimp.h"
 
-void
-#ifdef KR_headers
-	ULtodd(L, bits, exp, k) ULong* L;
-ULong* bits;
-Long exp;
-int k;
-#else
-ULtodd(ULong *L, ULong *bits, Long exp, int k)
-#endif
+void ULtodd(ULong *L, ULong *bits, Long exp, int k)
 {
 	int i;
 	int j;
@@ -207,15 +199,7 @@ ULtodd(ULong *L, ULong *bits, Long exp, int k)
 	}
 }
 
-int
-#ifdef KR_headers
-	strtordd(s, sp, rounding, dd) CONST char* s;
-char** sp;
-int rounding;
-double* dd;
-#else
-strtordd(CONST char *s, char **sp, int rounding, double *dd)
-#endif
+int strtordd(CONST char *s, char **sp, int rounding, double *dd)
 {
 #ifdef Sudden_Underflow
 	static FPI fpi0 = {106, 1 - 1023, 2046 - 1023 - 106 + 1, 1, 1};

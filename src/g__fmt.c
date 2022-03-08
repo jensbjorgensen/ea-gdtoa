@@ -35,16 +35,7 @@ THIS SOFTWARE.
 #include "locale.h"
 #endif
 
-char*
-#ifdef KR_headers
-	g__fmt(b, s, se, decpt, sign) char* b;
-char* s;
-const char* se;
-int decpt;
-ULong sign;
-#else
-g__fmt(char *b, char *s, const char *se, int decpt, ULong sign)
-#endif
+char* g__fmt(char *b, char *s, const char *se, int decpt, ULong sign)
 {
 	char* s0 = s;
 #ifdef USE_LOCALE

@@ -31,14 +31,7 @@ THIS SOFTWARE.
 
 #include "gdtoaimp.h"
 
-int
-#ifdef KR_headers
-	strtoId(s, sp, f0, f1) CONST char* s;
-char** sp;
-double *f0, *f1;
-#else
-strtoId(CONST char *s, char **sp, double *f0, double *f1)
-#endif
+int strtoId(CONST char *s, char **sp, double *f0, double *f1)
 {
 	static FPI fpi = {53, 1 - 1023 - 53 + 1, 2046 - 1023 - 53 + 1, 1, SI};
 	Long exp[2];

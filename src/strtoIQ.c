@@ -31,15 +31,7 @@ THIS SOFTWARE.
 
 #include "gdtoaimp.h"
 
-int
-#ifdef KR_headers
-	strtoIQ(s, sp, a, b) CONST char* s;
-char** sp;
-void* a;
-void* b;
-#else
-strtoIQ(CONST char *s, char **sp, void *a, void *b)
-#endif
+int strtoIQ(CONST char *s, char **sp, void *a, void *b)
 {
 	static FPI fpi = {113, 1 - 16383 - 113 + 1, 32766 - 16383 - 113 + 1, 1, SI};
 	Long exp[2];

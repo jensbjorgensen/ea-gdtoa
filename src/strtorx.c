@@ -44,15 +44,7 @@ THIS SOFTWARE.
 #error Something went wrong, IEEE8087 is not defined
 #endif
 
-void
-#ifdef KR_headers
-	ULtox(L, bits, exp, k) UShort* L;
-const ULong* bits;
-Long exp;
-int k;
-#else
-ULtox(UShort *L, const ULong *bits, Long exp, int k)
-#endif
+void ULtox(UShort *L, const ULong *bits, Long exp, int k)
 {
 	switch(k & STRTOG_Retmask)
 	{
@@ -99,15 +91,7 @@ ULtox(UShort *L, const ULong *bits, Long exp, int k)
 	}
 }
 
-int
-#ifdef KR_headers
-	strtorx(s, sp, rounding, L) CONST char* s;
-char** sp;
-int rounding;
-void* L;
-#else
-strtorx(CONST char *s, char **sp, int rounding, void *L)
-#endif
+int strtorx(CONST char *s, char **sp, int rounding, void *L)
 {
 	static FPI fpi0 = {64, 1 - 16383 - 64 + 1, 32766 - 16383 - 64 + 1, 1, SI};
 	FPI *fpi;

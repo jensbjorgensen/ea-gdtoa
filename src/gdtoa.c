@@ -33,14 +33,7 @@ THIS SOFTWARE.
 #include <float.h>
 #include <math.h>
 
-static Bigint*
-#ifdef KR_headers
-	bitstob(bits, nbits, bbits) ULong* bits;
-int nbits;
-int* bbits;
-#else
-	bitstob(ULong* bits, int nbits, int* bbits)
-#endif
+static Bigint* bitstob(ULong* bits, int nbits, int* bbits)
 {
 	int i;
 	int k;
@@ -129,16 +122,7 @@ ret:
  *	   calculation.
  */
 
-char* gdtoa
-#ifdef KR_headers
-	(fpi, be, bits, kindp, mode, ndigits, decpt, rve) FPI* fpi;
-int be;
-ULong* bits;
-int *kindp, mode, ndigits, *decpt;
-char** rve;
-#else
-	(FPI* fpi, int be, ULong* bits, int* kindp, int mode, int ndigits, int* decpt, char** rve)
-#endif
+char* gdtoa(FPI* fpi, int be, ULong* bits, int* kindp, int mode, int ndigits, int* decpt, char** rve)
 {
 	/*	Arguments ndigits and decpt are similar to the second and third
 	   arguments of ecvt and fcvt; trailing zeros are suppressed from

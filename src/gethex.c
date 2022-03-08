@@ -35,16 +35,7 @@ THIS SOFTWARE.
 #include "locale.h"
 #endif
 
-int
-#ifdef KR_headers
-	gethex(sp, fpi, exp, bp, sign) CONST char** sp;
-FPI* fpi;
-Long* exp;
-Bigint** bp;
-int sign;
-#else
-gethex( CONST char **sp, FPI *fpi, Long *exp, Bigint **bp, int sign)
-#endif
+int gethex( CONST char **sp, FPI *fpi, Long *exp, Bigint **bp, int sign)
 {
 	Bigint* b;
 	CONST unsigned char *decpt;

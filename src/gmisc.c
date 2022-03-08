@@ -31,13 +31,7 @@ THIS SOFTWARE.
 
 #include "gdtoaimp.h"
 
-void
-#ifdef KR_headers
-	rshift(b, k) Bigint* b;
-int k;
-#else
-rshift(Bigint *b, int k)
-#endif
+void rshift(Bigint *b, int k)
 {
 	ULong *x;
 	ULong *x1;
@@ -85,12 +79,7 @@ rshift(Bigint *b, int k)
 	}
 }
 
-int
-#ifdef KR_headers
-	trailz(b) Bigint* b;
-#else
-trailz(Bigint *b)
-#endif
+int trailz(Bigint *b)
 {
 	ULong L;
 	ULong *x;

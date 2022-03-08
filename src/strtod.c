@@ -59,13 +59,7 @@ static CONST double tinytens[] = {1e-16, 1e-32, 1e-64, 1e-128, 9007199254740992.
 #define Rounding Flt_Rounds
 #endif
 
-double strtod
-#ifdef KR_headers
-	(s00, se) CONST char* s00;
-CONST char** se;
-#else
-	(CONST char* s00, char** se)
-#endif
+double strtod (CONST char* s00, char** se)
 {
 #ifdef Avoid_Underflow
 	int scale;

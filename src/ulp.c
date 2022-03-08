@@ -31,12 +31,7 @@ THIS SOFTWARE.
 
 #include "gdtoaimp.h"
 
-double ulp
-#ifdef KR_headers
-	(x) double x;
-#else
-	(double x)
-#endif
+double ulp(double x)
 {
 	Long L;
 	double a = 0.0;

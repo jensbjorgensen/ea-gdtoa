@@ -75,14 +75,7 @@ THIS SOFTWARE.
 #define Rounding Flt_Rounds
 #endif
 
-char* dtoa
-#ifdef KR_headers
-	(d, mode, ndigits, decpt, sign, rve) double d;
-int mode, ndigits, *decpt, *sign;
-char** rve;
-#else
-	(double d, int mode, int ndigits, int* decpt, int* sign, char** rve)
-#endif
+char* dtoa(double d, int mode, int ndigits, int* decpt, int* sign, char** rve)
 {
 	/*	Arguments ndigits, decpt, sign are similar to those
 	   of ecvt and fcvt; trailing zeros are suppressed from

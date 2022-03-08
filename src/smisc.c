@@ -31,14 +31,7 @@ THIS SOFTWARE.
 
 #include "gdtoaimp.h"
 
-Bigint* s2b
-#ifdef KR_headers
-	(s, nd0, nd, y9) CONST char* s;
-int nd0, nd;
-ULong y9;
-#else
-	(CONST char* s, int nd0, int nd, ULong y9)
-#endif
+Bigint* s2b(CONST char* s, int nd0, int nd, ULong y9)
 {
 	Bigint* b;
 	int i;
@@ -95,13 +88,7 @@ ULong y9;
 	return b;
 }
 
-double ratio
-#ifdef KR_headers
-	(a, b) Bigint *a,
-	*b;
-#else
-	(Bigint* a, Bigint* b)
-#endif
+double ratio(Bigint* a, Bigint* b)
 {
 	double da;
 	double db;
@@ -146,13 +133,7 @@ double ratio
 
 #ifdef INFNAN_CHECK
 
-int match
-#ifdef KR_headers
-	(sp, t) char **sp,
-	*t;
-#else
-	(CONST char** sp, char* t)
-#endif
+int match(CONST char** sp, char* t)
 {
 	int d;
 	CONST char* s = *sp;
@@ -178,14 +159,7 @@ int match
 }
 #endif /* INFNAN_CHECK */
 
-void
-#ifdef KR_headers
-	copybits(c, n, b) ULong* c;
-int n;
-Bigint* b;
-#else
-copybits(ULong *c, int n, Bigint *b)
-#endif
+void copybits(ULong *c, int n, Bigint *b)
 {
 	ULong *ce;
 	ULong *x;
@@ -226,13 +200,7 @@ copybits(ULong *c, int n, Bigint *b)
 	}
 }
 
-ULong
-#ifdef KR_headers
-	any_on(b, k) Bigint* b;
-int k;
-#else
-any_on(Bigint *b, int k)
-#endif
+ULong any_on(Bigint *b, int k)
 {
 	int n;
 	int nwds;

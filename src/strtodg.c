@@ -66,12 +66,7 @@ static CONST int fivesbits[] = {0,
 #endif
 };
 
-Bigint*
-#ifdef KR_headers
-	increment(b) Bigint* b;
-#else
-	increment(Bigint* b)
-#endif
+Bigint* increment(Bigint* b)
 {
 	ULong *x;
 	ULong *xe;
@@ -117,12 +112,7 @@ Bigint*
 	return b;
 }
 
-int
-#ifdef KR_headers
-	decrement(b) Bigint* b;
-#else
-decrement(Bigint *b)
-#endif
+int decrement(Bigint *b)
 {
 	ULong *x;
 	ULong *xe;

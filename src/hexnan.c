@@ -31,14 +31,7 @@ THIS SOFTWARE.
 
 #include "gdtoaimp.h"
 
-static void
-#ifdef KR_headers
-	L_shift(x, x1, i) ULong* x;
-const ULong* x1;
-int i;
-#else
-	L_shift(ULong* x, const ULong* x1, int i)
-#endif
+static void L_shift(ULong* x, const ULong* x1, int i)
 {
 	int j;
 
@@ -53,14 +46,7 @@ int i;
 	} while(++x < x1);
 }
 
-int
-#ifdef KR_headers
-	hexnan(sp, fpi, x0) CONST char** sp;
-FPI* fpi;
-ULong* x0;
-#else
-hexnan( CONST char **sp, FPI *fpi, ULong *x0)
-#endif
+int hexnan( CONST char **sp, FPI *fpi, ULong *x0)
 {
 	ULong c;
 	ULong h;

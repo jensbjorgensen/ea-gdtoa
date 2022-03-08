@@ -35,12 +35,7 @@ THIS SOFTWARE.
 char* dtoa_result;
 #endif
 
-char*
-#ifdef KR_headers
-	rv_alloc(i) int i;
-#else
-rv_alloc(int i)
-#endif
+char* rv_alloc(int i)
 {
 	int k;
 	int *r;
@@ -60,14 +55,7 @@ rv_alloc(int i)
 			(char*)(r + 1);
 }
 
-char *
-#ifdef KR_headers
-	nrv_alloc(s, rve, n) const char *s,
-	char **rve;
-int n;
-#else
-	nrv_alloc(const char* s, char** rve, int n)
-#endif
+char * nrv_alloc(const char* s, char** rve, int n)
 {
 	char *rv;
 	char *t;
@@ -94,12 +82,7 @@ int n;
  * when MULTIPLE_THREADS is not defined.
  */
 
-void
-#ifdef KR_headers
-	freedtoa(s) char* s;
-#else
-freedtoa(char *s)
-#endif
+void freedtoa(char *s)
 {
 	Bigint* b = (Bigint*)((void*)(s - sizeof(int*)));
 	b->maxwds = 1 << (b->k = *(int*)b);
@@ -112,13 +95,7 @@ freedtoa(char *s)
 #endif
 }
 
-int quorem
-#ifdef KR_headers
-	(b, S) Bigint *b,
-	*S;
-#else
-	(Bigint* b, Bigint* S)
-#endif
+int quorem(Bigint* b, Bigint* S)
 {
 	int n;
 	ULong *bx;

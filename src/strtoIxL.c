@@ -31,15 +31,7 @@ THIS SOFTWARE.
 
 #include "gdtoaimp.h"
 
-int
-#ifdef KR_headers
-	strtoIxL(s, sp, a, b) CONST char* s;
-char** sp;
-void* a;
-void* b;
-#else
-strtoIxL(CONST char *s, char **sp, void *a, void *b)
-#endif
+int strtoIxL(CONST char *s, char **sp, void *a, void *b)
 {
 	static FPI fpi = {64, 1 - 16383 - 64 + 1, 32766 - 16383 - 64 + 1, 1, SI};
 	Long exp[2];

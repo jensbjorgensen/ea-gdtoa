@@ -43,15 +43,7 @@ THIS SOFTWARE.
 #error Something went wrong, IEEE8087 is not defined
 #endif
 
-void
-#ifdef KR_headers
-	ULtoQ(L, bits, exp, k) ULong* L;
-const ULong* bits;
-Long exp;
-int k;
-#else
-ULtoQ(ULong *L, const ULong *bits, Long exp, int k)
-#endif
+void ULtoQ(ULong *L, const ULong *bits, Long exp, int k)
 {
 	switch(k & STRTOG_Retmask)
 	{
@@ -98,15 +90,7 @@ ULtoQ(ULong *L, const ULong *bits, Long exp, int k)
 	}
 }
 
-int
-#ifdef KR_headers
-	strtorQ(s, sp, rounding, L) CONST char* s;
-char** sp;
-int rounding;
-void* L;
-#else
-strtorQ(CONST char *s, char **sp, int rounding, void *L)
-#endif
+int strtorQ(CONST char *s, char **sp, int rounding, void *L)
 {
 	static FPI fpi0 = {113, 1 - 16383 - 113 + 1, 32766 - 16383 - 113 + 1, 1, SI};
 	FPI *fpi;

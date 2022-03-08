@@ -31,13 +31,7 @@ THIS SOFTWARE.
 
 #include "gdtoaimp.h"
 
-Bigint*
-#ifdef KR_headers
-	sum(a, b) Bigint* a;
-Bigint* b;
-#else
-	sum(Bigint* a, Bigint* b)
-#endif
+Bigint* sum(Bigint* a, Bigint* b)
 {
 	Bigint* c;
 	ULong carry;

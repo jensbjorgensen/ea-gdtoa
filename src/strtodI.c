@@ -31,12 +31,7 @@ THIS SOFTWARE.
 
 #include "gdtoaimp.h"
 
-static double
-#ifdef KR_headers
-	ulpdown(d) double* d;
-#else
-	ulpdown(double* d)
-#endif
+static double ulpdown(double* d)
 {
 	double u;
 	ULong* L = (ULong*)d;
@@ -51,14 +46,7 @@ static double
 	return u;
 }
 
-int
-#ifdef KR_headers
-	strtodI(s, sp, dd) CONST char* s;
-char** sp;
-double* dd;
-#else
-strtodI(CONST char *s, char **sp, double *dd)
-#endif
+int strtodI(CONST char *s, char **sp, double *dd)
 {
 	static FPI fpi = {53, 1 - 1023 - 53 + 1, 2046 - 1023 - 53 + 1, 1, SI};
 	ULong bits[2];
