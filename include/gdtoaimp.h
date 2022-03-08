@@ -566,7 +566,7 @@ extern int decrement ANSI((Bigint*));
 extern Bigint* diff ANSI((Bigint*, Bigint*));
 extern char* g__fmt ANSI((char*, char*, const char*, int, ULong));
 extern int gethex ANSI((const char**, FPI*, Long*, Bigint**, int));
-extern void hexdig_init_D2A(Void);
+extern void hexdig_init_D2A(void);
 extern int hexnan ANSI((const char**, FPI*, ULong*));
 extern int hi0bits_D2A ANSI((ULong));
 extern Bigint* i2b ANSI((int));

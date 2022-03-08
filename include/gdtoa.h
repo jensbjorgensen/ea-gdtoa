@@ -47,10 +47,8 @@ typedef unsigned short UShort;
 #ifndef ANSI
 #ifdef KR_headers
 #define ANSI(x) ()
-#define Void /*nothing*/
 #else
 #define ANSI(x) x
-#define Void void
 #endif
 #endif /* ANSI */
 
