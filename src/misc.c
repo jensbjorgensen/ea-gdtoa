@@ -1017,7 +1017,7 @@ char* strcp_D2A(char *a, const char *b)
 
 #ifdef NO_STRING_H
 
-Char* memcpy_D2A(void *a1, void *b1, size_t len)
+void* memcpy_D2A(void *a1, void *b1, size_t len)
 {
 	char *a = (char*)a1, *ae = a + len;
 	char *b = (char*)b1, *a0 = a;

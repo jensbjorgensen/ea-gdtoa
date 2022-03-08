@@ -193,14 +193,8 @@ THIS SOFTWARE.
 #include "stdlib.h"
 #include "string.h"
 
-#ifdef KR_headers
-#define Char char
-#else
-#define Char void
-#endif
-
 #ifdef MALLOC
-extern Char* MALLOC(size_t);
+extern void* MALLOC(size_t);
 #else
 #define MALLOC malloc
 #endif
