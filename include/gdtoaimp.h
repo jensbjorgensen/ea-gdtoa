@@ -200,7 +200,7 @@ THIS SOFTWARE.
 #endif
 
 #ifdef MALLOC
-extern Char* MALLOC ANSI((size_t));
+extern Char* MALLOC(size_t);
 #else
 #define MALLOC malloc
 #endif
@@ -492,7 +492,7 @@ typedef struct Bigint Bigint;
 #ifdef DECLARE_SIZE_T
 typedef unsigned int size_t;
 #endif
-extern void memcpy_D2A ANSI((void*, const void*, size_t));
+extern void memcpy_D2A(void*, const void*, size_t);
 #define Bcopy(x, y) \
 	memcpy_D2A(&x->sign, &y->sign, (size_t)(y->wds) * sizeof(ULong) + 2 * sizeof(int))
 #else /* !NO_STRING_H */
@@ -549,46 +549,46 @@ extern char* dtoa_result;
 extern const double bigtens[], tens[], tinytens[];
 extern unsigned char hexdig[];
 
-extern Bigint* Balloc ANSI((int));
-extern void Bfree ANSI((Bigint*));
-extern void ULtof ANSI((ULong*, const ULong*, Long, int));
-extern void ULtod ANSI((ULong*, const ULong*, Long, int));
-extern void ULtodd ANSI((ULong*, ULong*, Long, int));
-extern void ULtoQ ANSI((ULong*, const ULong*, Long, int));
-extern void ULtox ANSI((UShort*, const ULong*, Long, int));
-extern void ULtoxL ANSI((ULong*, const ULong*, Long, int));
-extern ULong any_on ANSI((Bigint*, int));
-extern double b2d ANSI((Bigint*, int*));
-extern int cmp ANSI((Bigint*, Bigint*));
-extern void copybits ANSI((ULong*, int, Bigint*));
-extern Bigint* d2b ANSI((double, int*, int*));
-extern int decrement ANSI((Bigint*));
-extern Bigint* diff ANSI((Bigint*, Bigint*));
-extern char* g__fmt ANSI((char*, char*, const char*, int, ULong));
-extern int gethex ANSI((const char**, FPI*, Long*, Bigint**, int));
+extern Bigint* Balloc(int);
+extern void Bfree(Bigint*);
+extern void ULtof(ULong*, const ULong*, Long, int);
+extern void ULtod(ULong*, const ULong*, Long, int);
+extern void ULtodd(ULong*, ULong*, Long, int);
+extern void ULtoQ(ULong*, const ULong*, Long, int);
+extern void ULtox(UShort*, const ULong*, Long, int);
+extern void ULtoxL(ULong*, const ULong*, Long, int);
+extern ULong any_on(Bigint*, int);
+extern double b2d(Bigint*, int*);
+extern int cmp(Bigint*, Bigint*);
+extern void copybits(ULong*, int, Bigint*);
+extern Bigint* d2b(double, int*, int*);
+extern int decrement(Bigint*);
+extern Bigint* diff(Bigint*, Bigint*);
+extern char* g__fmt(char*, char*, const char*, int, ULong);
+extern int gethex(const char**, FPI*, Long*, Bigint**, int);
 extern void hexdig_init_D2A(void);
-extern int hexnan ANSI((const char**, FPI*, ULong*));
-extern int hi0bits_D2A ANSI((ULong));
-extern Bigint* i2b ANSI((int));
-extern Bigint* increment ANSI((Bigint*));
-extern int lo0bits ANSI((ULong*));
-extern Bigint* lshift ANSI((Bigint*, int));
-extern int match ANSI((const char**, char*));
-extern Bigint* mult ANSI((Bigint*, Bigint*));
-extern Bigint* multadd ANSI((Bigint*, int, int));
-extern char* nrv_alloc ANSI((const char*, char**, int));
-extern Bigint* pow5mult ANSI((Bigint*, int));
-extern int quorem ANSI((Bigint*, Bigint*));
-extern double ratio ANSI((Bigint*, Bigint*));
-extern void rshift ANSI((Bigint*, int));
-extern char* rv_alloc ANSI((int));
-extern Bigint* s2b ANSI((const char*, int, int, ULong));
-extern Bigint* set_ones ANSI((Bigint*, int));
-extern char* strcp ANSI((char*, const char*));
-extern int strtoIg ANSI((const char*, char**, FPI*, Long*, Bigint**, int*));
-extern Bigint* sum ANSI((Bigint*, Bigint*));
-extern int trailz ANSI((Bigint*));
-extern double ulp ANSI((double));
+extern int hexnan(const char**, FPI*, ULong*);
+extern int hi0bits_D2A(ULong);
+extern Bigint* i2b(int);
+extern Bigint* increment(Bigint*);
+extern int lo0bits(ULong*);
+extern Bigint* lshift(Bigint*, int);
+extern int match(const char**, char*);
+extern Bigint* mult(Bigint*, Bigint*);
+extern Bigint* multadd(Bigint*, int, int);
+extern char* nrv_alloc(const char*, char**, int);
+extern Bigint* pow5mult(Bigint*, int);
+extern int quorem(Bigint*, Bigint*);
+extern double ratio(Bigint*, Bigint*);
+extern void rshift(Bigint*, int);
+extern char* rv_alloc(int);
+extern Bigint* s2b(const char*, int, int, ULong);
+extern Bigint* set_ones(Bigint*, int);
+extern char* strcp(char*, const char*);
+extern int strtoIg(const char*, char**, FPI*, Long*, Bigint**, int*);
+extern Bigint* sum(Bigint*, Bigint*);
+extern int trailz(Bigint*);
+extern double ulp(double);
 
 #ifdef __cplusplus
 }

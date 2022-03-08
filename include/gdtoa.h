@@ -44,14 +44,6 @@ typedef unsigned Long ULong;
 typedef unsigned short UShort;
 #endif
 
-#ifndef ANSI
-#ifdef KR_headers
-#define ANSI(x) ()
-#else
-#define ANSI(x) x
-#endif
-#endif /* ANSI */
-
 enum
 { /* return values from strtodg */
   STRTOG_Zero = 0,
@@ -94,39 +86,39 @@ enum
 extern "C" {
 #endif
 
-extern char* dtoa ANSI((double d, int mode, int ndigits, int* decpt, int* sign, char** rve));
-extern char* gdtoa ANSI((FPI * fpi, int be, ULong* bits, int* kindp, int mode, int ndigits,
-						 int* decpt, char** rve));
-extern void freedtoa ANSI((char*));
-extern int strtodg ANSI((const char*, char**, FPI*, Long*, ULong*));
+extern char* dtoa(double d, int mode, int ndigits, int* decpt, int* sign, char** rve);
+extern char* gdtoa(FPI * fpi, int be, ULong* bits, int* kindp, int mode, int ndigits,
+						 int* decpt, char** rve);
+extern void freedtoa(char*);
+extern int strtodg(const char*, char**, FPI*, Long*, ULong*);
 
-extern char* g_ddfmt ANSI((char*, double*, int, unsigned));
-extern char* g_dfmt ANSI((char*, double*, int, unsigned));
-extern char* g_ffmt ANSI((char*, float*, int, unsigned));
-extern char* g_Qfmt ANSI((char*, void*, int, unsigned));
-extern char* g_xfmt ANSI((char*, void*, int, unsigned));
-extern char* g_xLfmt ANSI((char*, void*, int, unsigned));
+extern char* g_ddfmt(char*, double*, int, unsigned);
+extern char* g_dfmt(char*, double*, int, unsigned);
+extern char* g_ffmt(char*, float*, int, unsigned);
+extern char* g_Qfmt(char*, void*, int, unsigned);
+extern char* g_xfmt(char*, void*, int, unsigned);
+extern char* g_xLfmt(char*, void*, int, unsigned);
 
-extern int strtoId ANSI((const char*, char**, double*, double*));
-extern int strtoIdd ANSI((const char*, char**, double*, double*));
-extern int strtoIf ANSI((const char*, char**, float*, float*));
-extern int strtoIQ ANSI((const char*, char**, void*, void*));
-extern int strtoIx ANSI((const char*, char**, void*, void*));
-extern int strtoIxL ANSI((const char*, char**, void*, void*));
-extern int strtord ANSI((const char*, char**, int, double*));
-extern int strtordd ANSI((const char*, char**, int, double*));
-extern int strtorf ANSI((const char*, char**, int, float*));
-extern int strtorQ ANSI((const char*, char**, int, void*));
-extern int strtorx ANSI((const char*, char**, int, void*));
-extern int strtorxL ANSI((const char*, char**, int, void*));
+extern int strtoId(const char*, char**, double*, double*);
+extern int strtoIdd(const char*, char**, double*, double*);
+extern int strtoIf(const char*, char**, float*, float*);
+extern int strtoIQ(const char*, char**, void*, void*);
+extern int strtoIx(const char*, char**, void*, void*);
+extern int strtoIxL(const char*, char**, void*, void*);
+extern int strtord(const char*, char**, int, double*);
+extern int strtordd(const char*, char**, int, double*);
+extern int strtorf(const char*, char**, int, float*);
+extern int strtorQ(const char*, char**, int, void*);
+extern int strtorx(const char*, char**, int, void*);
+extern int strtorxL(const char*, char**, int, void*);
 #if 1
-extern int strtodI ANSI((const char*, char**, double*));
-extern int strtopd ANSI((const char*, char**, double*));
-extern int strtopdd ANSI((const char*, char**, double*));
-extern int strtopf ANSI((const char*, char**, float*));
-extern int strtopQ ANSI((const char*, char**, void*));
-extern int strtopx ANSI((const char*, char**, void*));
-extern int strtopxL ANSI((const char*, char**, void*));
+extern int strtodI(const char*, char**, double*);
+extern int strtopd(const char*, char**, double*);
+extern int strtopdd(const char*, char**, double*);
+extern int strtopf(const char*, char**, float*);
+extern int strtopQ(const char*, char**, void*);
+extern int strtopx(const char*, char**, void*);
+extern int strtopxL(const char*, char**, void*);
 #else
 #define strtopd(s, se, x) strtord(s, se, 1, x)
 #define strtopdd(s, se, x) strtordd(s, se, 1, x)
