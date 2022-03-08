@@ -31,7 +31,7 @@ THIS SOFTWARE.
 
 #include "gdtoaimp.h"
 
-int strtoIQ(CONST char *s, char **sp, void *a, void *b)
+int strtoIQ(const char *s, char **sp, void *a, void *b)
 {
 	static FPI fpi = {113, 1 - 16383 - 113 + 1, 32766 - 16383 - 113 + 1, 1, SI};
 	Long exp[2];

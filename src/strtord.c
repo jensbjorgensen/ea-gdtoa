@@ -71,7 +71,7 @@ void ULtod(ULong *L, const ULong *bits, Long exp, int k)
 	}
 }
 
-int strtord(CONST char *s, char **sp, int rounding, double *d)
+int strtord(const char *s, char **sp, int rounding, double *d)
 {
 	static FPI fpi0 = {53, 1 - 1023 - 53 + 1, 2046 - 1023 - 53 + 1, 1, SI};
 	FPI *fpi;

@@ -47,7 +47,7 @@ THIS SOFTWARE.
 #undef tinytens
 /* The factor of 2^53 in tinytens[4] helps us avoid setting the underflow */
 /* flag unnecessarily.  It leads to a song and dance at the end of strtod. */
-static CONST double tinytens[] = {1e-16, 1e-32, 1e-64, 1e-128, 9007199254740992.e-256};
+static const double tinytens[] = {1e-16, 1e-32, 1e-64, 1e-128, 9007199254740992.e-256};
 #endif
 #endif
 
@@ -59,7 +59,7 @@ static CONST double tinytens[] = {1e-16, 1e-32, 1e-64, 1e-128, 9007199254740992.
 #define Rounding Flt_Rounds
 #endif
 
-double strtod (CONST char* s00, char** se)
+double strtod (const char* s00, char** se)
 {
 #ifdef Avoid_Underflow
 	int scale;
@@ -86,9 +86,9 @@ double strtod (CONST char* s00, char** se)
 	int nz;
 	int nz0;
 	int sign;
-	CONST char *s;
-	CONST char *s0;
-	CONST char *s1;
+	const char *s;
+	const char *s0;
+	const char *s1;
 	double aadj;
 	double aadj1;
 	double adj;

@@ -35,13 +35,13 @@ THIS SOFTWARE.
 #include "locale.h"
 #endif
 
-int gethex( CONST char **sp, FPI *fpi, Long *exp, Bigint **bp, int sign)
+int gethex( const char **sp, FPI *fpi, Long *exp, Bigint **bp, int sign)
 {
 	Bigint* b;
-	CONST unsigned char *decpt;
-	CONST unsigned char *s0;
-	CONST unsigned char *s;
-	CONST unsigned char *s1;
+	const unsigned char *decpt;
+	const unsigned char *s0;
+	const unsigned char *s;
+	const unsigned char *s1;
 	int esign;
 	int havedig;
 	int irv;
@@ -67,7 +67,7 @@ int gethex( CONST char **sp, FPI *fpi, Long *exp, Bigint **bp, int sign)
 	}
 
 	havedig = 0;
-	s0 = *(CONST unsigned char**)sp + 2;
+	s0 = *(const unsigned char**)sp + 2;
 
 	while(s0[havedig] == '0')
 	{

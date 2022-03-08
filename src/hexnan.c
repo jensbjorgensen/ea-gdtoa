@@ -46,14 +46,14 @@ static void L_shift(ULong* x, const ULong* x1, int i)
 	} while(++x < x1);
 }
 
-int hexnan( CONST char **sp, FPI *fpi, ULong *x0)
+int hexnan( const char **sp, FPI *fpi, ULong *x0)
 {
 	ULong c;
 	ULong h;
 	ULong *x;
 	ULong *x1;
 	ULong *xe;
-	CONST char* s;
+	const char* s;
 	int havedig;
 	int hd0;
 	int i;
@@ -78,17 +78,17 @@ int hexnan( CONST char **sp, FPI *fpi, ULong *x0)
 	s = *sp;
 
 	/* allow optional initial 0x or 0X */
-	while((c = *(CONST unsigned char*)(s + 1)) && c <= ' ')
+	while((c = *(const unsigned char*)(s + 1)) && c <= ' ')
 	{
 		++s;
 	}
 
-	if(s[1] == '0' && (s[2] == 'x' || s[2] == 'X') && *(CONST unsigned char*)(s + 3) > ' ')
+	if(s[1] == '0' && (s[2] == 'x' || s[2] == 'X') && *(const unsigned char*)(s + 3) > ' ')
 	{
 		s += 2;
 	}
 
-	while((c = *(CONST unsigned char*)++s))
+	while((c = *(const unsigned char*)++s))
 	{
 		if(!(h = hexdig[c]))
 		{
@@ -113,13 +113,13 @@ int hexnan( CONST char **sp, FPI *fpi, ULong *x0)
 					i = 0;
 				}
 
-				while(*(CONST unsigned char*)(s + 1) <= ' ')
+				while(*(const unsigned char*)(s + 1) <= ' ')
 				{
 					++s;
 				}
 
 				if(s[1] == '0' && (s[2] == 'x' || s[2] == 'X') &&
-				   *(CONST unsigned char*)(s + 3) > ' ')
+				   *(const unsigned char*)(s + 3) > ' ')
 				{
 					s += 2;
 				}

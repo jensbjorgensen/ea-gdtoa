@@ -31,7 +31,7 @@ THIS SOFTWARE.
 
 #include "gdtoaimp.h"
 
-Bigint* s2b(CONST char* s, int nd0, int nd, ULong y9)
+Bigint* s2b(const char* s, int nd0, int nd, ULong y9)
 {
 	Bigint* b;
 	int i;
@@ -133,10 +133,10 @@ double ratio(Bigint* a, Bigint* b)
 
 #ifdef INFNAN_CHECK
 
-int match(CONST char** sp, char* t)
+int match(const char** sp, char* t)
 {
 	int d;
-	CONST char* s = *sp;
+	const char* s = *sp;
 
 	while((d = *t++) != 0)
 	{

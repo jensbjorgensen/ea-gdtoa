@@ -67,7 +67,7 @@ void ULtof(ULong *L, const ULong *bits, Long exp, int k)
 	}
 }
 
-int strtorf(CONST char *s, char **sp, int rounding, float *f)
+int strtorf(const char *s, char **sp, int rounding, float *f)
 {
 	static FPI fpi0 = {24, 1 - 127 - 24 + 1, 254 - 127 - 24 + 1, 1, SI};
 	FPI *fpi;

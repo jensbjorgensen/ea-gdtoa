@@ -31,7 +31,7 @@ THIS SOFTWARE.
 
 #include "gdtoaimp.h"
 
-int strtoIdd(CONST char *s, char **sp, double *f0, double *f1)
+int strtoIdd(const char *s, char **sp, double *f0, double *f1)
 {
 #ifdef Sudden_Underflow
 	static FPI fpi = {106, 1 - 1023, 2046 - 1023 - 106 + 1, 1, 1};

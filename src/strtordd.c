@@ -199,7 +199,7 @@ void ULtodd(ULong *L, ULong *bits, Long exp, int k)
 	}
 }
 
-int strtordd(CONST char *s, char **sp, int rounding, double *dd)
+int strtordd(const char *s, char **sp, int rounding, double *dd)
 {
 #ifdef Sudden_Underflow
 	static FPI fpi0 = {106, 1 - 1023, 2046 - 1023 - 106 + 1, 1, 1};

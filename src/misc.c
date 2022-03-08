@@ -961,21 +961,21 @@ Bigint* d2b(double d, int* e, int* bits)
 #undef d0
 #undef d1
 
-CONST double
+const double
 #ifdef IEEE_Arith
 	bigtens[] = {1e16, 1e32, 1e64, 1e128, 1e256};
-CONST double tinytens[] = {1e-16, 1e-32, 1e-64, 1e-128, 1e-256};
+const double tinytens[] = {1e-16, 1e-32, 1e-64, 1e-128, 1e-256};
 #else
 #ifdef IBM
 	bigtens[] = {1e16, 1e32, 1e64};
-CONST double tinytens[] = {1e-16, 1e-32, 1e-64};
+const double tinytens[] = {1e-16, 1e-32, 1e-64};
 #else
 	bigtens[] = {1e16, 1e32};
-CONST double tinytens[] = {1e-16, 1e-32};
+const double tinytens[] = {1e-16, 1e-32};
 #endif
 #endif
 
-CONST double tens[] = {1e0,
+const double tens[] = {1e0,
 					   1e1,
 					   1e2,
 					   1e3,
@@ -1005,7 +1005,7 @@ CONST double tens[] = {1e0,
 #endif
 };
 
-char* strcp_D2A(char *a, CONST char *b)
+char* strcp_D2A(char *a, const char *b)
 {
 	while((*a = *b++))
 	{

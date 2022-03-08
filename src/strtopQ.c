@@ -43,7 +43,7 @@ THIS SOFTWARE.
 #error Something went wrong, IEEE8087 is not defined
 #endif
 
-int strtopQ(CONST char *s, char **sp, void *V)
+int strtopQ(const char *s, char **sp, void *V)
 {
 	static FPI fpi = {113, 1 - 16383 - 113 + 1, 32766 - 16383 - 113 + 1, 1, SI};
 	ULong bits[4];

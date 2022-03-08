@@ -36,7 +36,7 @@ THIS SOFTWARE.
 #include "locale.h"
 #endif
 
-static CONST int fivesbits[] = {0,
+static const int fivesbits[] = {0,
 								3,
 								5,
 								7,
@@ -420,13 +420,13 @@ static int
 
 int strtodg
 #ifdef KR_headers
-	(s00, se, fpi, exp, bits) CONST char* s00;
+	(s00, se, fpi, exp, bits) const char* s00;
 char** se;
 FPI* fpi;
 Long* exp;
 ULong* bits;
 #else
-	(CONST char* s00, char** se, FPI* fpi, Long* exp, ULong* bits)
+	(const char* s00, char** se, FPI* fpi, Long* exp, ULong* bits)
 #endif
 {
 	int abe;
@@ -467,9 +467,9 @@ ULong* bits;
 	int rve1;
 	int sign;
 	int sudden_underflow = 0;
-	CONST char *s;
-	CONST char *s0;
-	CONST char *s1;
+	const char *s;
+	const char *s0;
+	const char *s1;
 	double adj;
 	double adj0;
 	double rv;

@@ -31,7 +31,7 @@ THIS SOFTWARE.
 
 #include "gdtoaimp.h"
 
-int strtoIg(CONST char *s00, char **se, FPI *fpi, Long *exp, Bigint **B, int *rvp)
+int strtoIg(const char *s00, char **se, FPI *fpi, Long *exp, Bigint **B, int *rvp)
 {
 	Bigint *b;
 	Bigint *b1;

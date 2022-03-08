@@ -31,7 +31,7 @@ THIS SOFTWARE.
 
 #include "gdtoaimp.h"
 
-int strtoId(CONST char *s, char **sp, double *f0, double *f1)
+int strtoId(const char *s, char **sp, double *f0, double *f1)
 {
 	static FPI fpi = {53, 1 - 1023 - 53 + 1, 2046 - 1023 - 53 + 1, 1, SI};
 	Long exp[2];

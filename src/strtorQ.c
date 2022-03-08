@@ -90,7 +90,7 @@ void ULtoQ(ULong *L, const ULong *bits, Long exp, int k)
 	}
 }
 
-int strtorQ(CONST char *s, char **sp, int rounding, void *L)
+int strtorQ(const char *s, char **sp, int rounding, void *L)
 {
 	static FPI fpi0 = {113, 1 - 16383 - 113 + 1, 32766 - 16383 - 113 + 1, 1, SI};
 	FPI *fpi;

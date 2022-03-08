@@ -46,7 +46,7 @@ static double ulpdown(double* d)
 	return u;
 }
 
-int strtodI(CONST char *s, char **sp, double *dd)
+int strtodI(const char *s, char **sp, double *dd)
 {
 	static FPI fpi = {53, 1 - 1023 - 53 + 1, 2046 - 1023 - 53 + 1, 1, SI};
 	ULong bits[2];

@@ -37,7 +37,7 @@ THIS SOFTWARE.
 
 #include "gdtoaimp.h"
 
-double strtod(CONST char* s, char** sp)
+double strtod(const char* s, char** sp)
 {
 	static FPI fpi = {53, 1 - 1023 - 53 + 1, 2046 - 1023 - 53 + 1, 1, SI};
 	ULong bits[2];

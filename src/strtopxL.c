@@ -42,7 +42,7 @@ THIS SOFTWARE.
 #error Something went wrong, IEEE8087 is not defined
 #endif
 
-int strtopxL(CONST char *s, char **sp, void *V)
+int strtopxL(const char *s, char **sp, void *V)
 {
 	static FPI fpi = {64, 1 - 16383 - 64 + 1, 32766 - 16383 - 64 + 1, 1, SI};
 	ULong bits[2];
