@@ -37,7 +37,6 @@
 #define X64_bit_pointers
 #elif defined(__arm__) || defined(__aarch64__)
 #define IEEE_8087
-#endif
 #define Arith_Kind_ASL 1
 #else
 #error Unsupported architecture
