@@ -36,10 +36,7 @@
 #define Double_Align
 #define X64_bit_pointers
 #elif defined(__arm__) || defined(__aarch64__)
-#if __VFP_FP__
 #define IEEE_8087
-#else
-#define IEEE_MC68k
 #endif
 #define Arith_Kind_ASL 1
 #else
