@@ -217,7 +217,7 @@ Bigint* multadd(Bigint* b, int m, int a) /* multiply by m and add a */
 	return b;
 }
 
-int hi0bits_D2A(register uint32_t x)
+int hi0bits(register uint32_t x)
 {
 	int k = 0;
 
@@ -1005,7 +1005,7 @@ const double tens[] = {1e0,
 #endif
 };
 
-char* strcp_D2A(char *a, const char *b)
+char* strcp(char *a, const char *b)
 {
 	while((*a = *b++))
 	{
@@ -1017,7 +1017,7 @@ char* strcp_D2A(char *a, const char *b)
 
 #ifdef NO_STRING_H
 
-void* memcpy_D2A(void *a1, void *b1, size_t len)
+void* memcpy(void *a1, void *b1, size_t len)
 {
 	char *a = (char*)a1, *ae = a + len;
 	char *b = (char*)b1, *a0 = a;

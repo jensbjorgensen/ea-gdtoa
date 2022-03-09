@@ -478,58 +478,16 @@ typedef struct Bigint Bigint;
 #ifdef DECLARE_SIZE_T
 typedef unsigned int size_t;
 #endif
-extern void memcpy_D2A(void*, const void*, size_t);
+extern void memcpy(void*, const void*, size_t);
 #define Bcopy(x, y) \
-	memcpy_D2A(&x->sign, &y->sign, (size_t)(y->wds) * sizeof(uint32_t) + 2 * sizeof(int))
+	memcpy(&x->sign, &y->sign, (size_t)(y->wds) * sizeof(uint32_t) + 2 * sizeof(int))
 #else /* !NO_STRING_H */
 #define Bcopy(x, y) memcpy(&x->sign, &y->sign, (size_t)(y->wds) * sizeof(uint32_t) + 2 * sizeof(int))
 #endif /* NO_STRING_H */
 
-#define Balloc Balloc_D2A
-#define Bfree Bfree_D2A
-#define ULtoQ ULtoQ_D2A
-#define ULtof ULtof_D2A
-#define ULtod ULtod_D2A
-#define ULtodd ULtodd_D2A
-#define ULtox ULtox_D2A
-#define ULtoxL ULtoxL_D2A
-#define any_on any_on_D2A
-#define b2d b2d_D2A
-#define bigtens bigtens_D2A
-#define cmp cmp_D2A
-#define copybits copybits_D2A
-#define d2b d2b_D2A
-#define decrement decrement_D2A
-#define diff diff_D2A
-#define dtoa_result dtoa_result_D2A
-#define g__fmt g__fmt_D2A
-#define gethex gethex_D2A
-#define hexdig hexdig_D2A
-#define hexnan hexnan_D2A
-#define hi0bits(x) hi0bits_D2A((uint32_t)(x))
-#define i2b i2b_D2A
-#define increment increment_D2A
-#define lo0bits lo0bits_D2A
-#define lshift lshift_D2A
-#define match match_D2A
-#define mult mult_D2A
-#define multadd multadd_D2A
-#define nrv_alloc nrv_alloc_D2A
-#define pow5mult pow5mult_D2A
-#define quorem quorem_D2A
-#define ratio ratio_D2A
-#define rshift rshift_D2A
-#define rv_alloc rv_alloc_D2A
-#define s2b s2b_D2A
-#define set_ones set_ones_D2A
-#define strcp strcp_D2A
-#define strtoIg strtoIg_D2A
-#define sum sum_D2A
-#define tens tens_D2A
+// This is still required at the moment because strtod switches out tinytens
+// for its own copy.
 #define tinytens tinytens_D2A
-#define tinytens tinytens_D2A
-#define trailz trailz_D2A
-#define ulp ulp_D2A
 
 extern char* dtoa_result;
 extern const double bigtens[], tens[], tinytens[];
@@ -552,9 +510,9 @@ extern int decrement(Bigint*);
 extern Bigint* diff(Bigint*, Bigint*);
 extern char* g__fmt(char*, char*, const char*, int, uint32_t);
 extern int gethex(const char**, FPI*, int32_t*, Bigint**, int);
-extern void hexdig_init_D2A(void);
+extern void hexdig_init(void);
 extern int hexnan(const char**, FPI*, uint32_t*);
-extern int hi0bits_D2A(uint32_t);
+extern int hi0bits(uint32_t);
 extern Bigint* i2b(int);
 extern Bigint* increment(Bigint*);
 extern int lo0bits(uint32_t*);

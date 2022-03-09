@@ -63,7 +63,7 @@ int gethex( const char **sp, FPI *fpi, int32_t *exp, Bigint **bp, int sign)
 
 	if(!hexdig['0'])
 	{
-		hexdig_init_D2A();
+		hexdig_init();
 	}
 
 	havedig = 0;

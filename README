@@ -202,10 +202,7 @@ values in the input.
 
 The makefile creates a library, gdtoa.a.  To use the helper
 routines, a program only needs to include gdtoa.h.  All the
-source files for gdtoa.a include a more extensive gdtoaimp.h;
-among other things, gdtoaimp.h has #defines that make "internal"
-names end in _D2A.  To make a "system" library, one could modify
-these #defines to make the names start with __.
+source files for gdtoa.a include a more extensive gdtoaimp.h.
 
 Various comments about possible #defines appear in gdtoaimp.h,
 but for most purposes, arith.h should set suitable #defines.
@@ -221,7 +218,7 @@ a small probability of wasting memory, but would otherwise be harmless.)
 Routines that call dtoa or gdtoa directly must also invoke freedtoa(s)
 to free the value s returned by dtoa or gdtoa.  It's OK to do so whether
 or not MULTIPLE_THREADS is #defined, and the helper g_*fmt routines
-listed above all do this indirectly (in gfmt_D2A(), which they all call).
+listed above all do this indirectly (in gfmt(), which they all call).
 
 By default, there is a private pool of memory of length 2000 bytes
 for intermediate quantities, and MALLOC (see gdtoaimp.h) is called only

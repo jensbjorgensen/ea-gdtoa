@@ -61,7 +61,7 @@ int hexnan( const char **sp, FPI *fpi, uint32_t *x0)
 
 	if(!hexdig['0'])
 	{
-		hexdig_init_D2A();
+		hexdig_init();
 	}
 
 	nbits = fpi->nbits;
