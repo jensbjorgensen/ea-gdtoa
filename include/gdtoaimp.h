@@ -185,7 +185,8 @@ THIS SOFTWARE.
 #define Bug(...)
 #else
 #include <assert.h>
-#define Bug(x) assert(!(x))
+#include <stdbool.h>
+#define Bug(x) assert(!(bool)(x))
 #endif // GDTOA_NO_ASSET
 #endif // GDTOA_HOST_DEBUG
 #endif // DEBUG
