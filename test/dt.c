@@ -56,7 +56,7 @@ THIS SOFTWARE.
 #ifdef __cplusplus
 extern "C" double atof(const char*);
 #else
-extern double atof ANSI((char*));
+extern double atof(char*);
 #endif
 #endif
 #ifdef IEEE_8087
@@ -71,7 +71,7 @@ extern double atof ANSI((char*));
 #ifdef __cplusplus
 extern "C" char *dtoa(double, int, int, int*, int*, char **);
 #else
-extern char *dtoa ANSI((double, int, int, int*, int*, char **));
+extern char *dtoa(double, int, int, int*, int*, char **);
 #endif
 
  static void
