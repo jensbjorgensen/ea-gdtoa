@@ -416,12 +416,7 @@ Exactly one of IEEE_8087, VAX, or IBM should be defined.
 
 #ifdef RND_PRODQUOT
 #define rounded_product(a, b) a = rnd_prod(a, b)
-#define rounded_quotient(a, b) a = rnd_quot(a, b)
-#ifdef KR_headers
-extern double rnd_prod(), rnd_quot();
-#else
-extern double rnd_prod(double, double), rnd_quot(double, double);
-#endif
+#define rounded_quotient(a, b) a = rnd_quot(a, b) extern double rnd_prod(double, double), rnd_quot(double, double);
 #else
 #define rounded_product(a, b) a *= b
 #define rounded_quotient(a, b) a /= b

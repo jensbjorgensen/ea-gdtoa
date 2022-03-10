@@ -144,13 +144,7 @@ int decrement(Bigint *b)
 	return STRTOG_Inexlo;
 }
 
-static int
-#ifdef KR_headers
-	all_on(b, n) Bigint* b;
-int n;
-#else
-	all_on(Bigint* b, int n)
-#endif
+static int all_on(Bigint* b, int n)
 {
 	uint32_t *x;
 	uint32_t *xe;
@@ -177,13 +171,7 @@ int n;
 	return 1;
 }
 
-Bigint*
-#ifdef KR_headers
-	set_ones(b, n) Bigint* b;
-int n;
-#else
-	set_ones(Bigint* b, int n)
-#endif
+Bigint* set_ones(Bigint* b, int n)
 {
 	int k;
 	uint32_t *x;
@@ -220,16 +208,7 @@ int n;
 	return b;
 }
 
-static int rvOK
-#ifdef KR_headers
-	(d, fpi, exp, bits, exact, rd, irv) double d;
-FPI* fpi;
-int32_t* exp;
-uint32_t* bits;
-int exact, rd, *irv;
-#else
-	(double d, FPI* fpi, int32_t* exp, uint32_t* bits, int exact, int rd, int* irv)
-#endif
+static int rvOK(double d, FPI* fpi, int32_t* exp, uint32_t* bits, int exact, int rd, int* irv
 {
 	Bigint* b;
 	uint32_t carry = 0;
@@ -393,12 +372,7 @@ ret:
 	return rv;
 }
 
-static int
-#ifdef KR_headers
-	mantbits(d) double d;
-#else
-	mantbits(double d)
-#endif
+static int 	mantbits(double d)
 {
 	uint32_t L;
 #ifdef VAX
@@ -418,16 +392,7 @@ static int
 	return P - 32 - lo0bits(&L);
 }
 
-int strtodg
-#ifdef KR_headers
-	(s00, se, fpi, exp, bits) const char* s00;
-char** se;
-FPI* fpi;
-int32_t* exp;
-uint32_t* bits;
-#else
-	(const char* s00, char** se, FPI* fpi, int32_t* exp, uint32_t* bits)
-#endif
+int strtodg(const char* s00, char** se, FPI* fpi, int32_t* exp, uint32_t* bits)
 {
 	int abe;
 	int abits;
