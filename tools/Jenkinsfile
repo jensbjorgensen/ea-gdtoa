@@ -37,21 +37,6 @@ pipeline
         sh 'make'
       }
     }
-    stage('Archive')
-    {
-      steps
-      {
-        echo 'Archiving artifacts'
-        archiveArtifacts 'buildresults/**/gdtoa/**/*'
-      }
-      post
-      {
-        failure
-        {
-          slackNotify 'ARCHIVE_ERROR'
-        }
-      }
-    }
   }
   post
   {
