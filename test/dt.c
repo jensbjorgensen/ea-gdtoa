@@ -69,12 +69,7 @@ extern "C" char *dtoa(double, int, int, int*, int*, char **);
 extern char *dtoa(double, int, int, int*, int*, char **);
 #endif
 
- static void
-#ifdef KR_headers
-g_fmt(b, x) char *b; double x;
-#else
-g_fmt(char *b, double x)
-#endif
+ static void g_fmt(char *b, double x)
 {
 	char *s, *se;
 	int decpt, i, j, k, sign;
@@ -145,12 +140,7 @@ baderrno(void)
 
 #define U (unsigned long)
 
- static void
-#ifdef KR_headers
-check(d) double d;
-#else
-check(double d)
-#endif
+ static void check(double d)
 {
 	char buf[64];
 	int decpt, sign;

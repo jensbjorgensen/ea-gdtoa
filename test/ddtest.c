@@ -59,12 +59,7 @@ THIS SOFTWARE.
 
 #define U (unsigned long)
 
- static void
-#ifdef KR_headers
-dprint(what, d) char *what; double d;
-#else
-dprint(char *what, double d)
-#endif
+ static void dprint(char *what, double d)
 {
 	char buf[32];
 	union { double d; uint32_t L[2]; } u;

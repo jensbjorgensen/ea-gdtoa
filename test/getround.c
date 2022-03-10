@@ -35,12 +35,7 @@ THIS SOFTWARE.
 static char *dir[4] = { "toward zero", "nearest", "toward +Infinity",
 			"toward -Infinity" };
 
- int
-#ifdef KR_headers
-getround(r, s) int r; char *s;
-#else
-getround(int r, char *s)
-#endif
+ int getround(int r, char *s)
 {
 	int i;
 

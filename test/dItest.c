@@ -37,12 +37,7 @@ THIS SOFTWARE.
 
 #define U (unsigned long)
 
- static void
-#ifdef KR_headers
-dshow(what, d) char *what; double d;
-#else
-dshow(char *what, double d)
-#endif
+ static void dshow(char *what, double d)
 {
 	char buf[32];
 	g_dfmt(buf, &d, 0, sizeof(buf));
