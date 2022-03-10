@@ -60,7 +60,7 @@ THIS SOFTWARE.
 #define U (unsigned long)
 
  int
-main(Void)
+main(void)
 {
 	char *s, *se, *se1;
 	double f1, fI[2];

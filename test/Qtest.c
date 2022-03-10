@@ -78,7 +78,7 @@ THIS SOFTWARE.
 #define U (unsigned long)
 
  int
-main(Void)
+main(void)
 {
 	char *s, *s1, *se, *se1;
 	int i, dItry, ndig = 0, r = 1;

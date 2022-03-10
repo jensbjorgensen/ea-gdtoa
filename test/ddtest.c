@@ -75,7 +75,7 @@ dprint(char *what, double d)
 	}
 
  int
-main(Void)
+main(void)
 {
 	char *s, *s1, *se, *se1;
 	int dItry, i, j, r = 1, ndig = 0;

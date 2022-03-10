@@ -44,11 +44,6 @@ THIS SOFTWARE.
 
 #include <stdio.h>
 #include "gdtoa.h"
-#ifdef KR_headers
-#define Void /*void*/
-#else
-#define Void void
-#endif
 
 #ifdef __STDC__
 #include <stdlib.h>
@@ -141,7 +136,7 @@ g_fmt(char *b, double x)
 	}
 
  static void
-baderrno(Void)
+baderrno(void)
 {
 	fflush(stdout);
 	perror("\nerrno strtod");
@@ -178,7 +173,7 @@ check(double d)
 	}
 
  int
-main(Void){
+main(void){
 	char buf[2048], buf1[32];
 	char *fmt, *s, *s1, *se;
 	double d, d1;
