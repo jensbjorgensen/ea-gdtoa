@@ -32,16 +32,16 @@ THIS SOFTWARE.
 #include "gdtoaimp.h"
 
 #ifdef USE_LOCALE
-#include "locale.h"
+	#include "locale.h"
 #endif
 
-int gethex( const char **sp, FPI *fpi, int32_t *exp, Bigint **bp, int sign)
+int gethex(const char** sp, FPI* fpi, int32_t* exp, Bigint** bp, int sign)
 {
 	Bigint* b;
-	const unsigned char *decpt;
-	const unsigned char *s0;
-	const unsigned char *s;
-	const unsigned char *s1;
+	const unsigned char* decpt;
+	const unsigned char* s0;
+	const unsigned char* s;
+	const unsigned char* s1;
 	int esign;
 	int havedig;
 	int irv;
@@ -52,13 +52,13 @@ int gethex( const char **sp, FPI *fpi, int32_t *exp, Bigint **bp, int sign)
 	int zret;
 	uint32_t L;
 	uint32_t lostbits;
-	uint32_t *x;
+	uint32_t* x;
 	int32_t e;
 	int32_t e1;
 #ifdef USE_LOCALE
 	unsigned char decimalpoint = *localeconv()->decimal_point;
 #else
-#define decimalpoint '.'
+	#define decimalpoint '.'
 #endif
 
 	if(!hexdig['0'])
@@ -358,7 +358,8 @@ pcheck:
 
 			if(irv == STRTOG_Denormal)
 			{
-				if((nbits == (fpi->nbits - 1)) && (x[nbits >> kshift] & (uint32_t)(1 << (nbits & kmask))))
+				if((nbits == (fpi->nbits - 1)) &&
+				   (x[nbits >> kshift] & (uint32_t)(1 << (nbits & kmask))))
 				{
 					irv = STRTOG_Normal;
 				}

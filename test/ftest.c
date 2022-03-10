@@ -52,89 +52,96 @@ THIS SOFTWARE.
 #include <stdio.h>
 #include <stdlib.h>
 
- extern int getround(int,char*);
+extern int getround(int, char*);
 
- static char ibuf[2048], obuf[1024];
+static char ibuf[2048], obuf[1024];
 
 #define U (unsigned long)
 
- int
-main(void)
+int main(void)
 {
 	char *s, *se, *se1;
 	int dItry, i, i1, ndig = 0, r = 1;
 	float f1, fI[2];
-	union { float f; uint32_t L[1]; } u;
+	union
+	{
+		float f;
+		uint32_t L[1];
+	} u;
 
-	while( (s = fgets(ibuf, sizeof(ibuf), stdin)) !=0) {
+	while((s = fgets(ibuf, sizeof(ibuf), stdin)) != 0)
+	{
 		while(*s <= ' ')
-			if (!*s++)
+			if(!*s++)
 				continue;
 		dItry = 0;
-		switch(*s) {
-		  case 'r':
-			r = getround(r, s);
-			continue;
-		  case 'n':
-			i = s[1];
-			if (i <= ' ' || i >= '0' && i <= '9') {
-				ndig = atoi(s+1);
+		switch(*s)
+		{
+			case 'r':
+				r = getround(r, s);
 				continue;
+			case 'n':
+				i = s[1];
+				if(i <= ' ' || i >= '0' && i <= '9')
+				{
+					ndig = atoi(s + 1);
+					continue;
 				}
-			break; /* nan? */
-		  case '#':
-			/* sscanf(s+1, "%lx", &u.L[0]); */
-			u.L[0] = (uint32_t)strtoul(s+1, &se, 16);
-			printf("\nInput: %s", ibuf);
-			printf(" --> f = #%lx\n", U u.L[0]);
-			goto fmt_test;
-			}
+				break; /* nan? */
+			case '#':
+				/* sscanf(s+1, "%lx", &u.L[0]); */
+				u.L[0] = (uint32_t)strtoul(s + 1, &se, 16);
+				printf("\nInput: %s", ibuf);
+				printf(" --> f = #%lx\n", U u.L[0]);
+				goto fmt_test;
+		}
 		dItry = 1;
 		printf("\nInput: %s", ibuf);
 		i = strtorf(ibuf, &se, r, &u.f);
-		if (r == 1) {
-		    if (u.f != (i1 = strtopf(ibuf, &se1, &f1), f1)
-				 || se != se1 || i != i1) {
-			printf("***strtopf and strtorf disagree!!\n");
-			if (u.f != f1)
-				printf("\tf1 = %g\n", (double)f1);
-			if (i != i1)
-				printf("\ti = %d but i1 = %d\n", i, i1);
-			if (se != se1)
-				printf("se - se1 = %d\n", (int)(se-se1));
+		if(r == 1)
+		{
+			if(u.f != (i1 = strtopf(ibuf, &se1, &f1), f1) || se != se1 || i != i1)
+			{
+				printf("***strtopf and strtorf disagree!!\n");
+				if(u.f != f1)
+					printf("\tf1 = %g\n", (double)f1);
+				if(i != i1)
+					printf("\ti = %d but i1 = %d\n", i, i1);
+				if(se != se1)
+					printf("se - se1 = %d\n", (int)(se - se1));
 			}
-		    if (u.f != strtof(ibuf, &se1) || se != se1)
-			printf("***strtof and strtorf disagree!\n");
-		    }
-		printf("strtof consumes %d bytes and returns %.8g = #%lx\n",
-				(int)(se-ibuf), u.f, U u.L[0]);
- fmt_test:
+			if(u.f != strtof(ibuf, &se1) || se != se1)
+				printf("***strtof and strtorf disagree!\n");
+		}
+		printf("strtof consumes %d bytes and returns %.8g = #%lx\n", (int)(se - ibuf), u.f,
+			   U u.L[0]);
+	fmt_test:
 		se = g_ffmt(obuf, &u.f, ndig, sizeof(obuf));
-		printf("g_ffmt(%d) gives %d bytes: \"%s\"\n\n",
-			ndig, (int)(se-obuf), se ? obuf : "<null>");
-		if (!dItry)
+		printf("g_ffmt(%d) gives %d bytes: \"%s\"\n\n", ndig, (int)(se - obuf),
+			   se ? obuf : "<null>");
+		if(!dItry)
 			continue;
 		printf("strtoIf returns %d,", strtoIf(ibuf, &se, fI, &fI[1]));
-		printf(" consuming %d bytes.\n", (int)(se-ibuf));
-		if (fI[0] == fI[1]) {
-			if (fI[0] == u.f)
+		printf(" consuming %d bytes.\n", (int)(se - ibuf));
+		if(fI[0] == fI[1])
+		{
+			if(fI[0] == u.f)
 				printf("fI[0] == fI[1] == strtof\n");
 			else
-				printf("fI[0] == fI[1] = #%lx = %.8g\n",
-					U *(uint32_t*)fI, fI[0]);
-			}
-		else {
-			printf("fI[0] = #%lx = %.8g\nfI[1] = #%lx = %.8g\n",
-				U *(uint32_t*)fI, fI[0],
-				U *(uint32_t*)&fI[1], fI[1]);
-			if (fI[0] == u.f)
+				printf("fI[0] == fI[1] = #%lx = %.8g\n", U * (uint32_t*)fI, fI[0]);
+		}
+		else
+		{
+			printf("fI[0] = #%lx = %.8g\nfI[1] = #%lx = %.8g\n", U * (uint32_t*)fI, fI[0],
+				   U * (uint32_t*)&fI[1], fI[1]);
+			if(fI[0] == u.f)
 				printf("fI[0] == strtof\n");
-			else if (fI[1] == u.f)
+			else if(fI[1] == u.f)
 				printf("fI[1] == strtof\n");
 			else
 				printf("**** Both differ from strtof ****\n");
-			}
-		printf("\n");
 		}
-	return 0;
+		printf("\n");
 	}
+	return 0;
+}

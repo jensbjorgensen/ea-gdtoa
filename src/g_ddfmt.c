@@ -31,16 +31,16 @@ THIS SOFTWARE.
 #include "gdtoaimp.h"
 #include <string.h>
 
-char* g_ddfmt(char *buf, double *dd, int ndig, unsigned bufsize)
+char* g_ddfmt(char* buf, double* dd, int ndig, unsigned bufsize)
 {
 	FPI fpi;
-	char *b;
-	char *s;
-	char *se;
-	uint32_t *L;
+	char* b;
+	char* s;
+	char* se;
+	uint32_t* L;
 	uint32_t bits0[4];
-	uint32_t *bits;
-	uint32_t *zx;
+	uint32_t* bits;
+	uint32_t* zx;
 	int bx;
 	int by;
 	int decpt;
@@ -49,9 +49,9 @@ char* g_ddfmt(char *buf, double *dd, int ndig, unsigned bufsize)
 	int i;
 	int j;
 	int mode;
-	Bigint *x;
-	Bigint *y;
-	Bigint *z;
+	Bigint* x;
+	Bigint* y;
+	Bigint* z;
 	double ddx[2];
 
 	if(bufsize < 10 || bufsize < (unsigned)(ndig + 8))

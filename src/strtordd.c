@@ -31,7 +31,7 @@ THIS SOFTWARE.
 
 #include "gdtoaimp.h"
 
-void ULtodd(uint32_t *L, uint32_t *bits, int32_t exp, int k)
+void ULtodd(uint32_t* L, uint32_t* bits, int32_t exp, int k)
 {
 	int i;
 	int j;
@@ -199,14 +199,14 @@ void ULtodd(uint32_t *L, uint32_t *bits, int32_t exp, int k)
 	}
 }
 
-int strtordd(const char *s, char **sp, int rounding, double *dd)
+int strtordd(const char* s, char** sp, int rounding, double* dd)
 {
 #ifdef Sudden_Underflow
 	static FPI fpi0 = {106, 1 - 1023, 2046 - 1023 - 106 + 1, 1, 1};
 #else
 	static FPI fpi0 = {106, 1 - 1023 - 53 + 1, 2046 - 1023 - 106 + 1, 1, 0};
 #endif
-	FPI *fpi;
+	FPI* fpi;
 	FPI fpi1;
 	uint32_t bits[4];
 	int32_t exp;

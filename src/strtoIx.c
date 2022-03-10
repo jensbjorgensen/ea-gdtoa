@@ -31,15 +31,15 @@ THIS SOFTWARE.
 
 #include "gdtoaimp.h"
 
-int strtoIx(const char *s, char **sp, void *a, void *b)
+int strtoIx(const char* s, char** sp, void* a, void* b)
 {
 	static FPI fpi = {64, 1 - 16383 - 64 + 1, 32766 - 16383 - 64 + 1, 1, SI};
 	int32_t exp[2];
 	Bigint* B[2];
 	int k;
 	int rv[2];
-	uint16_t *L = (uint16_t*)a;
-	uint16_t *M = (uint16_t*)b;
+	uint16_t* L = (uint16_t*)a;
+	uint16_t* M = (uint16_t*)b;
 
 	B[0] = Balloc(1);
 	B[0]->wds = 2;

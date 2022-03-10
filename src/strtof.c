@@ -31,7 +31,7 @@ THIS SOFTWARE.
 
 #include "gdtoaimp.h"
 
-float strtof(const char *s, char **sp)
+float strtof(const char* s, char** sp)
 {
 	static FPI fpi = {24, 1 - 127 - 24 + 1, 254 - 127 - 24 + 1, 1, SI};
 	uint32_t bits[1];

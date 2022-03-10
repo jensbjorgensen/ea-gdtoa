@@ -31,10 +31,10 @@ THIS SOFTWARE.
 
 #include "gdtoaimp.h"
 
-void rshift(Bigint *b, int k)
+void rshift(Bigint* b, int k)
 {
-	uint32_t *x;
-	uint32_t *x1;
+	uint32_t* x;
+	uint32_t* x1;
 	uint32_t y;
 	int n;
 
@@ -79,11 +79,11 @@ void rshift(Bigint *b, int k)
 	}
 }
 
-int trailz(Bigint *b)
+int trailz(Bigint* b)
 {
 	uint32_t L;
-	uint32_t *x;
-	uint32_t *xe;
+	uint32_t* x;
+	uint32_t* xe;
 	int n = 0;
 
 	x = b->x;

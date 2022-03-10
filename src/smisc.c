@@ -159,11 +159,11 @@ int match(const char** sp, char* t)
 }
 #endif /* INFNAN_CHECK */
 
-void copybits(uint32_t *c, int n, Bigint *b)
+void copybits(uint32_t* c, int n, Bigint* b)
 {
-	uint32_t *ce;
-	uint32_t *x;
-	uint32_t *xe;
+	uint32_t* ce;
+	uint32_t* x;
+	uint32_t* xe;
 #ifdef Pack_16
 	int nw;
 	int nw1;
@@ -200,12 +200,12 @@ void copybits(uint32_t *c, int n, Bigint *b)
 	}
 }
 
-uint32_t any_on(Bigint *b, int k)
+uint32_t any_on(Bigint* b, int k)
 {
 	int n;
 	int nwds;
-	uint32_t *x;
-	uint32_t *x0;
+	uint32_t* x;
+	uint32_t* x0;
 	uint32_t x1;
 	uint32_t x2;
 

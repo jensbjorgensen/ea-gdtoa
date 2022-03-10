@@ -31,15 +31,15 @@ THIS SOFTWARE.
 
 #include "gdtoaimp.h"
 
-int strtoIQ(const char *s, char **sp, void *a, void *b)
+int strtoIQ(const char* s, char** sp, void* a, void* b)
 {
 	static FPI fpi = {113, 1 - 16383 - 113 + 1, 32766 - 16383 - 113 + 1, 1, SI};
 	int32_t exp[2];
 	Bigint* B[2];
 	int k;
 	int rv[2];
-	uint32_t *L = (uint32_t*)a;
-	uint32_t *M = (uint32_t*)b;
+	uint32_t* L = (uint32_t*)a;
+	uint32_t* M = (uint32_t*)b;
 
 	B[0] = Balloc(2);
 	B[0]->wds = 4;

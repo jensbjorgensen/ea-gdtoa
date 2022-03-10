@@ -46,7 +46,7 @@ static void htinit(unsigned char* h, const unsigned char* s, int inc)
 
 void hexdig_init(void)
 {
-	htinit(hexdig, (const unsigned char *)"0123456789", 0x10);
-	htinit(hexdig, (const unsigned char *)"abcdef", 0x10 + 10);
-	htinit(hexdig, (const unsigned char *)"ABCDEF", 0x10 + 10);
+	htinit(hexdig, (const unsigned char*)"0123456789", 0x10);
+	htinit(hexdig, (const unsigned char*)"abcdef", 0x10 + 10);
+	htinit(hexdig, (const unsigned char*)"ABCDEF", 0x10 + 10);
 }

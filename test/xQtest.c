@@ -28,19 +28,19 @@ THIS SOFTWARE.
 
 #include <stdio.h>
 
- int
-main(void)
+int main(void)
 {
-	switch(sizeof(long double)) {
-	  case 10:
-	  case 12:
-		printf("cp x.ou1 x.out; cp xL.ou1 xL.out; cp Q.ou0 Q.out\n");
-		break;
-	  case 16:
-		printf("cp x.ou0 x.out; cp xL.ou0 xL.out; cp Q.ou1 Q.out\n");
-		break;
-	  default:
-		printf("cp x.ou0 x.out; cp xL.ou0 xL.out; cp Q.ou0 Q.out\n");
-	  }
-	return 0;
+	switch(sizeof(long double))
+	{
+		case 10:
+		case 12:
+			printf("cp x.ou1 x.out; cp xL.ou1 xL.out; cp Q.ou0 Q.out\n");
+			break;
+		case 16:
+			printf("cp x.ou0 x.out; cp xL.ou0 xL.out; cp Q.ou1 Q.out\n");
+			break;
+		default:
+			printf("cp x.ou0 x.out; cp xL.ou0 xL.out; cp Q.ou0 Q.out\n");
 	}
+	return 0;
+}

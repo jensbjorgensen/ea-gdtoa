@@ -31,14 +31,14 @@ THIS SOFTWARE.
 
 #include "gdtoaimp.h"
 
-char* g_dfmt(char *buf, double *d, int ndig, unsigned bufsize)
+char* g_dfmt(char* buf, double* d, int ndig, unsigned bufsize)
 {
 	static FPI fpi = {53, 1 - 1023 - 53 + 1, 2046 - 1023 - 53 + 1, 1, 0};
-	char *b;
-	char *s;
-	char *se;
+	char* b;
+	char* s;
+	char* se;
 	uint32_t bits[2];
-	uint32_t *L;
+	uint32_t* L;
 	uint32_t sign;
 	int decpt;
 	int ex;

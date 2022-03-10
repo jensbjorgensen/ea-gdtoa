@@ -53,120 +53,129 @@ THIS SOFTWARE.
 #include <stdio.h>
 #include <stdlib.h>
 
- extern int getround(int,char*);
+extern int getround(int, char*);
 
- static char ibuf[2048], obuf[1024];
+static char ibuf[2048], obuf[1024];
 
 #define U (unsigned long)
 
- static void dprint(char *what, double d)
+static void dprint(char* what, double d)
 {
 	char buf[32];
-	union { double d; uint32_t L[2]; } u;
+	union
+	{
+		double d;
+		uint32_t L[2];
+	} u;
 
 	u.d = d;
-	g_dfmt(buf,&d,0,sizeof(buf));
+	g_dfmt(buf, &d, 0, sizeof(buf));
 	printf("%s = %s = #%lx %lx\n", what, buf, U u.L[_0], U u.L[_1]);
-	}
+}
 
- int
-main(void)
+int main(void)
 {
 	char *s, *s1, *se, *se1;
 	int dItry, i, j, r = 1, ndig = 0;
 	double ddI[4];
 	long LL[4];
-	union { double dd[2]; uint32_t L[4]; } u;
+	union
+	{
+		double dd[2];
+		uint32_t L[4];
+	} u;
 
-	while( (s = fgets(ibuf, sizeof(ibuf), stdin)) !=0) {
+	while((s = fgets(ibuf, sizeof(ibuf), stdin)) != 0)
+	{
 		while(*s <= ' ')
-			if (!*s++)
+			if(!*s++)
 				continue;
 		dItry = 0;
-		switch(*s) {
-		  case 'r':
-			r = getround(r, s);
-			continue;
-		  case 'n':
-			i = s[1];
-			if (i <= ' ' || i >= '0' && i <= '9') {
-				ndig = atoi(s+1);
+		switch(*s)
+		{
+			case 'r':
+				r = getround(r, s);
 				continue;
+			case 'n':
+				i = s[1];
+				if(i <= ' ' || i >= '0' && i <= '9')
+				{
+					ndig = atoi(s + 1);
+					continue;
 				}
-			break; /* nan? */
-		  case '#':
-			LL[0] = u.L[_0];
-			LL[1] = u.L[_1];
-			LL[2] = u.L[2+_0];
-			LL[3] = u.L[2+_1];
-			sscanf(s+1, "%lx %lx %lx %lx", &LL[0], &LL[1],
-				&LL[2], &LL[3]);
-			u.L[_0] = LL[0];
-			u.L[_1] = LL[1];
-			u.L[2+_0] = LL[2];
-			u.L[2+_1] = LL[3];
-			printf("\nInput: %s", ibuf);
-			printf(" --> f = #%lx %lx %lx %lx\n",
-				LL[0],LL[1],LL[2],LL[3]);
-			goto fmt_test;
-			}
+				break; /* nan? */
+			case '#':
+				LL[0] = u.L[_0];
+				LL[1] = u.L[_1];
+				LL[2] = u.L[2 + _0];
+				LL[3] = u.L[2 + _1];
+				sscanf(s + 1, "%lx %lx %lx %lx", &LL[0], &LL[1], &LL[2], &LL[3]);
+				u.L[_0] = LL[0];
+				u.L[_1] = LL[1];
+				u.L[2 + _0] = LL[2];
+				u.L[2 + _1] = LL[3];
+				printf("\nInput: %s", ibuf);
+				printf(" --> f = #%lx %lx %lx %lx\n", LL[0], LL[1], LL[2], LL[3]);
+				goto fmt_test;
+		}
 		printf("\nInput: %s", ibuf);
-		for(s1 = s; *s1 > ' '; s1++){};
-		while(*s1 <= ' ' && *s1) s1++;
-		if (!*s1) {
+		for(s1 = s; *s1 > ' '; s1++)
+		{
+		};
+		while(*s1 <= ' ' && *s1)
+			s1++;
+		if(!*s1)
+		{
 			dItry = 1;
 			i = strtordd(ibuf, &se, r, u.dd);
-			if (r == 1) {
+			if(r == 1)
+			{
 				j = strtopdd(ibuf, &se1, ddI);
-				if (i != j || u.dd[0] != ddI[0]
-				 || u.dd[1] != ddI[1] || se != se1)
+				if(i != j || u.dd[0] != ddI[0] || u.dd[1] != ddI[1] || se != se1)
 					printf("***strtopdd and strtordd disagree!!\n:");
-				}
-			printf("strtopdd consumes %d bytes and returns %d\n",
-				(int)(se-ibuf), i);
 			}
-		else {
+			printf("strtopdd consumes %d bytes and returns %d\n", (int)(se - ibuf), i);
+		}
+		else
+		{
 			u.dd[0] = strtod(s, &se);
 			u.dd[1] = strtod(se, &se);
-			}
- fmt_test:
+		}
+	fmt_test:
 		dprint("dd[0]", u.dd[0]);
 		dprint("dd[1]", u.dd[1]);
 		se = g_ddfmt(obuf, u.dd, ndig, sizeof(obuf));
-		printf("g_ddfmt(%d) gives %d bytes: \"%s\"\n\n",
-			ndig, (int)(se-obuf), se ? obuf : "<null>");
-		if (!dItry)
+		printf("g_ddfmt(%d) gives %d bytes: \"%s\"\n\n", ndig, (int)(se - obuf),
+			   se ? obuf : "<null>");
+		if(!dItry)
 			continue;
-		printf("strtoIdd returns %d,", strtoIdd(ibuf, &se, ddI,&ddI[2]));
-		printf(" consuming %d bytes.\n", (int)(se-ibuf));
-		if (ddI[0] == ddI[2] && ddI[1] == ddI[3]) {
-			if (ddI[0] == u.dd[0] && ddI[1] == u.dd[1])
+		printf("strtoIdd returns %d,", strtoIdd(ibuf, &se, ddI, &ddI[2]));
+		printf(" consuming %d bytes.\n", (int)(se - ibuf));
+		if(ddI[0] == ddI[2] && ddI[1] == ddI[3])
+		{
+			if(ddI[0] == u.dd[0] && ddI[1] == u.dd[1])
 				printf("ddI[0] == ddI[1] == strtopdd\n");
 			else
 				printf("ddI[0] == ddI[1] = #%lx %lx + %lx %lx\n= %.17g + %17.g\n",
-					U ((uint32_t*)ddI)[_0],
-					U ((uint32_t*)ddI)[_1],
-					U ((uint32_t*)ddI)[2+_0],
-					U ((uint32_t*)ddI)[2+_1],
-					ddI[0], ddI[1]);
-			}
-		else {
-			printf("ddI[0] = #%lx %lx + %lx %lx\n= %.17g + %.17g\n",
-				U ((uint32_t*)ddI)[_0], U ((uint32_t*)ddI)[_1],
-				U ((uint32_t*)ddI)[2+_0], U ((uint32_t*)ddI)[2+_1],
-				ddI[0], ddI[1]);
-			printf("ddI[1] = #%lx %lx + %lx %lx\n= %.17g + %.17g\n",
-				U ((uint32_t*)ddI)[4+_0], U ((uint32_t*)ddI)[4+_1],
-				U ((uint32_t*)ddI)[6+_0], U ((uint32_t*)ddI)[6+_1],
-				ddI[2], ddI[3]);
-			if (ddI[0] == u.dd[0] && ddI[1] == u.dd[1])
+					   U((uint32_t*)ddI)[_0], U((uint32_t*)ddI)[_1], U((uint32_t*)ddI)[2 + _0],
+					   U((uint32_t*)ddI)[2 + _1], ddI[0], ddI[1]);
+		}
+		else
+		{
+			printf("ddI[0] = #%lx %lx + %lx %lx\n= %.17g + %.17g\n", U((uint32_t*)ddI)[_0],
+				   U((uint32_t*)ddI)[_1], U((uint32_t*)ddI)[2 + _0], U((uint32_t*)ddI)[2 + _1],
+				   ddI[0], ddI[1]);
+			printf("ddI[1] = #%lx %lx + %lx %lx\n= %.17g + %.17g\n", U((uint32_t*)ddI)[4 + _0],
+				   U((uint32_t*)ddI)[4 + _1], U((uint32_t*)ddI)[6 + _0], U((uint32_t*)ddI)[6 + _1],
+				   ddI[2], ddI[3]);
+			if(ddI[0] == u.dd[0] && ddI[1] == u.dd[1])
 				printf("ddI[0] == strtod\n");
-			else if (ddI[2] == u.dd[0] && ddI[3] == u.dd[1])
+			else if(ddI[2] == u.dd[0] && ddI[3] == u.dd[1])
 				printf("ddI[1] == strtod\n");
 			else
 				printf("**** Both differ from strtopdd ****\n");
-			}
-		printf("\n");
 		}
-	return 0;
+		printf("\n");
 	}
+	return 0;
+}

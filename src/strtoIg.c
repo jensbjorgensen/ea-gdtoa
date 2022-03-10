@@ -31,10 +31,10 @@ THIS SOFTWARE.
 
 #include "gdtoaimp.h"
 
-int strtoIg(const char *s00, char **se, FPI *fpi, int32_t *exp, Bigint **B, int *rvp)
+int strtoIg(const char* s00, char** se, FPI* fpi, int32_t* exp, Bigint** B, int* rvp)
 {
-	Bigint *b;
-	Bigint *b1;
+	Bigint* b;
+	Bigint* b1;
 	int i;
 	int nb;
 	int nw;

@@ -35,10 +35,10 @@ Bigint* sum(Bigint* a, Bigint* b)
 {
 	Bigint* c;
 	uint32_t carry;
-	uint32_t *xc;
-	uint32_t *xa;
-	uint32_t *xb;
-	uint32_t *xe;
+	uint32_t* xc;
+	uint32_t* xa;
+	uint32_t* xb;
+	uint32_t* xe;
 	uint32_t y;
 #ifdef Pack_32
 	uint32_t z;

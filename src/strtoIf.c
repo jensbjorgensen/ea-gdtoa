@@ -31,7 +31,7 @@ THIS SOFTWARE.
 
 #include "gdtoaimp.h"
 
-int strtoIf(const char *s, char **sp, float *f0, float *f1)
+int strtoIf(const char* s, char** sp, float* f0, float* f1)
 {
 	static FPI fpi = {24, 1 - 127 - 24 + 1, 254 - 127 - 24 + 1, 1, SI};
 	int32_t exp[2];

@@ -54,120 +54,126 @@ THIS SOFTWARE.
 #include <stdlib.h>
 #include <string.h>
 
- extern int getround(int,char*);
+extern int getround(int, char*);
 
- static char ibuf[2048], obuf[2048];
+static char ibuf[2048], obuf[2048];
 #undef _0
 #undef _1
 
 /* one or the other of IEEE_MC68k or IEEE_8087 should be #defined */
 
 #ifdef IEEE_MC68k
-#define _0 0
-#define _1 1
-#define _2 2
-#define _3 3
+	#define _0 0
+	#define _1 1
+	#define _2 2
+	#define _3 3
 #endif
 #ifdef IEEE_8087
-#define _0 3
-#define _1 2
-#define _2 1
-#define _3 0
+	#define _0 3
+	#define _1 2
+	#define _2 1
+	#define _3 0
 #endif
 
 #define U (unsigned long)
 
- int
-main(void)
+int main(void)
 {
 	char *s, *s1, *se, *se1;
 	int i, dItry, ndig = 0, r = 1;
-	union { long double d; uint32_t bits[4]; } u, v[2];
+	union
+	{
+		long double d;
+		uint32_t bits[4];
+	} u, v[2];
 
-	while( (s = fgets(ibuf, sizeof(ibuf), stdin)) !=0) {
+	while((s = fgets(ibuf, sizeof(ibuf), stdin)) != 0)
+	{
 		while(*s <= ' ')
-			if (!*s++)
+			if(!*s++)
 				continue;
 		dItry = 0;
-		switch(*s) {
-		  case 'r':
-			r = getround(r, s);
-			continue;
-		  case 'n':
-			i = s[1];
-			if (i <= ' ' || i >= '0' && i <= '9') {
-				ndig = atoi(s+1);
+		switch(*s)
+		{
+			case 'r':
+				r = getround(r, s);
 				continue;
+			case 'n':
+				i = s[1];
+				if(i <= ' ' || i >= '0' && i <= '9')
+				{
+					ndig = atoi(s + 1);
+					continue;
 				}
-			break; /* nan? */
-		  case '#':
-			/* sscanf(s+1, "%lx %lx %lx %lx", &u.bits[_0],	*/
-			/*	&u.bits[_1], &u.bits[_2], &u.bits[_3]);	*/
-			u.bits[_0] = (uint32_t)strtoul(s1 = s+1, &se, 16);
-			if (se > s1) {
-			  u.bits[_1] = (uint32_t)strtoul(s1 = se, &se, 16);
-			  if (se > s1) {
-			    u.bits[_2] = (uint32_t)strtoul(s1 = se, &se, 16);
-			    if (se > s1)
-				u.bits[_3] = (uint32_t)strtoul(s1 = se, &se, 16);
-			    }
-			  }
-			printf("\nInput: %s", ibuf);
-			printf(" --> f = #%lx %lx %lx %lx\n", u.bits[_0],
-				u.bits[_1], u.bits[_2], u.bits[_3]);
-			goto fmt_test;
-			}
+				break; /* nan? */
+			case '#':
+				/* sscanf(s+1, "%lx %lx %lx %lx", &u.bits[_0],	*/
+				/*	&u.bits[_1], &u.bits[_2], &u.bits[_3]);	*/
+				u.bits[_0] = (uint32_t)strtoul(s1 = s + 1, &se, 16);
+				if(se > s1)
+				{
+					u.bits[_1] = (uint32_t)strtoul(s1 = se, &se, 16);
+					if(se > s1)
+					{
+						u.bits[_2] = (uint32_t)strtoul(s1 = se, &se, 16);
+						if(se > s1)
+							u.bits[_3] = (uint32_t)strtoul(s1 = se, &se, 16);
+					}
+				}
+				printf("\nInput: %s", ibuf);
+				printf(" --> f = #%lx %lx %lx %lx\n", u.bits[_0], u.bits[_1], u.bits[_2],
+					   u.bits[_3]);
+				goto fmt_test;
+		}
 		dItry = 1;
 		printf("\nInput: %s", ibuf);
 		i = strtorQ(ibuf, &se, r, u.bits);
-		if (r == 1 && (strtopQ(ibuf,&se1,v[0].bits) != i
-		 || se != se1 || memcmp(u.bits, v[0].bits, 16)))
+		if(r == 1 &&
+		   (strtopQ(ibuf, &se1, v[0].bits) != i || se != se1 || memcmp(u.bits, v[0].bits, 16)))
 			printf("***strtoQ and strtorQ disagree!!\n:");
-		printf("\nstrtoQ consumes %d bytes and returns %d\n",
-				(int)(se-ibuf), i);
-		printf("with bits = #%lx %lx %lx %lx\n",
-			U u.bits[_0], U u.bits[_1], U u.bits[_2], U u.bits[_3]);
- fmt_test:
-		if (sizeof(long double) == 16)
+		printf("\nstrtoQ consumes %d bytes and returns %d\n", (int)(se - ibuf), i);
+		printf("with bits = #%lx %lx %lx %lx\n", U u.bits[_0], U u.bits[_1], U u.bits[_2],
+			   U u.bits[_3]);
+	fmt_test:
+		if(sizeof(long double) == 16)
 			printf("printf(\"%%.35Lg\") gives %.35Lg\n", u.d);
 		se = g_Qfmt(obuf, u.bits, ndig, sizeof(obuf));
-		printf("g_Qfmt(%d) gives %d bytes: \"%s\"\n\n", ndig,
-			(int)(se-obuf), se ? obuf : "<null>");
-		if (!dItry)
+		printf("g_Qfmt(%d) gives %d bytes: \"%s\"\n\n", ndig, (int)(se - obuf),
+			   se ? obuf : "<null>");
+		if(!dItry)
 			continue;
-		printf("strtoIQ returns %d,",
-			strtoIQ(ibuf, &se, v[0].bits, v[1].bits));
-		printf(" consuming %d bytes.\n", (int)(se-ibuf));
-		if (!memcmp(v[0].bits, v[1].bits, 16)) {
-			if (!memcpy(u.bits, v[0].bits, 16))
+		printf("strtoIQ returns %d,", strtoIQ(ibuf, &se, v[0].bits, v[1].bits));
+		printf(" consuming %d bytes.\n", (int)(se - ibuf));
+		if(!memcmp(v[0].bits, v[1].bits, 16))
+		{
+			if(!memcpy(u.bits, v[0].bits, 16))
 				printf("fI[0] == fI[1] == strtoQ\n");
-			else {
-				printf("fI[0] == fI[1] = #%lx %lx %lx %lx\n",
-					U v[0].bits[_0], U v[0].bits[_1],
-					U v[0].bits[_2], U v[0].bits[_3]);
-				if (sizeof(long double) == 16)
-				    printf("= %.35Lg\n", v[0].d);
-				}
+			else
+			{
+				printf("fI[0] == fI[1] = #%lx %lx %lx %lx\n", U v[0].bits[_0], U v[0].bits[_1],
+					   U v[0].bits[_2], U v[0].bits[_3]);
+				if(sizeof(long double) == 16)
+					printf("= %.35Lg\n", v[0].d);
 			}
-		else {
-			printf("fI[0] = #%lx %lx %lx %lx\n",
-					U v[0].bits[_0], U v[0].bits[_1],
-					U v[0].bits[_2], U v[0].bits[_3]);
-			if (sizeof(long double) == 16)
+		}
+		else
+		{
+			printf("fI[0] = #%lx %lx %lx %lx\n", U v[0].bits[_0], U v[0].bits[_1], U v[0].bits[_2],
+				   U v[0].bits[_3]);
+			if(sizeof(long double) == 16)
 				printf("= %.35Lg\n", v[0].d);
-			printf("fI[1] = #%lx %lx %lx %lx\n",
-					U v[1].bits[_0], U v[1].bits[_1],
-					U v[1].bits[_2], U v[1].bits[_3]);
-			if (sizeof(long double) == 16)
+			printf("fI[1] = #%lx %lx %lx %lx\n", U v[1].bits[_0], U v[1].bits[_1], U v[1].bits[_2],
+				   U v[1].bits[_3]);
+			if(sizeof(long double) == 16)
 				printf("= %.35Lg\n", v[1].d);
-			if (!memcmp(v[0].bits, u.bits, 16))
+			if(!memcmp(v[0].bits, u.bits, 16))
 				printf("fI[0] == strtod\n");
-			else if (!memcmp(v[1].bits, u.bits, 16))
+			else if(!memcmp(v[1].bits, u.bits, 16))
 				printf("fI[1] == strtod\n");
 			else
 				printf("**** Both differ from strtod ****\n");
-			}
-		printf("\n");
 		}
-	return 0;
+		printf("\n");
 	}
+	return 0;
+}

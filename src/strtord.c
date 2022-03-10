@@ -31,7 +31,7 @@ THIS SOFTWARE.
 
 #include "gdtoaimp.h"
 
-void ULtod(uint32_t *L, const uint32_t *bits, int32_t exp, int k)
+void ULtod(uint32_t* L, const uint32_t* bits, int32_t exp, int k)
 {
 	switch(k & STRTOG_Retmask)
 	{
@@ -71,10 +71,10 @@ void ULtod(uint32_t *L, const uint32_t *bits, int32_t exp, int k)
 	}
 }
 
-int strtord(const char *s, char **sp, int rounding, double *d)
+int strtord(const char* s, char** sp, int rounding, double* d)
 {
 	static FPI fpi0 = {53, 1 - 1023 - 53 + 1, 2046 - 1023 - 53 + 1, 1, SI};
-	FPI *fpi;
+	FPI* fpi;
 	FPI fpi1;
 	uint32_t bits[2];
 	int32_t exp;

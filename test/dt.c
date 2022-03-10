@@ -46,101 +46,113 @@ THIS SOFTWARE.
 #include "gdtoa.h"
 
 #ifdef __STDC__
-#include <stdlib.h>
+	#include <stdlib.h>
 #else
-#ifdef __cplusplus
+	#ifdef __cplusplus
 extern "C" double atof(const char*);
-#else
+	#else
 extern double atof(char*);
-#endif
+	#endif
 #endif
 #ifdef IEEE_8087
-#define word0(x) ((uint32_t *)&x)[1]
-#define word1(x) ((uint32_t *)&x)[0]
+	#define word0(x) ((uint32_t*)&x)[1]
+	#define word1(x) ((uint32_t*)&x)[0]
 #else
-#define word0(x) ((uint32_t *)&x)[0]
-#define word1(x) ((uint32_t *)&x)[1]
+	#define word0(x) ((uint32_t*)&x)[0]
+	#define word1(x) ((uint32_t*)&x)[1]
 #endif
 #include "errno.h"
 
 #ifdef __cplusplus
-extern "C" char *dtoa(double, int, int, int*, int*, char **);
+extern "C" char* dtoa(double, int, int, int*, int*, char**);
 #else
-extern char *dtoa(double, int, int, int*, int*, char **);
+extern char* dtoa(double, int, int, int*, int*, char**);
 #endif
 
- static void g_fmt(char *b, double x)
+static void g_fmt(char* b, double x)
 {
 	char *s, *se;
 	int decpt, i, j, k, sign;
 
-	if (!x) {
+	if(!x)
+	{
 		*b++ = '0';
 		*b = 0;
 		return;
-		}
+	}
 	s = dtoa(x, 0, 0, &decpt, &sign, &se);
-	if (sign)
+	if(sign)
 		*b++ = '-';
-	if (decpt == 9999) /* Infinity or Nan */ {
-		while(*b++ = *s++);
+	if(decpt == 9999) /* Infinity or Nan */
+	{
+		while(*b++ = *s++)
+			;
 		return;
-		}
-	if (decpt <= -4 || decpt > se - s + 5) {
+	}
+	if(decpt <= -4 || decpt > se - s + 5)
+	{
 		*b++ = *s++;
-		if (*s) {
+		if(*s)
+		{
 			*b++ = '.';
 			while(*b = *s++)
 				b++;
-			}
+		}
 		*b++ = 'e';
 		/* sprintf(b, "%+.2d", decpt - 1); */
-		if (--decpt < 0) {
+		if(--decpt < 0)
+		{
 			*b++ = '-';
 			decpt = -decpt;
-			}
+		}
 		else
 			*b++ = '+';
-		for(j = 2, k = 10; 10*k <= decpt; j++, k *= 10){};
-		for(;;) {
+		for(j = 2, k = 10; 10 * k <= decpt; j++, k *= 10)
+		{
+		};
+		for(;;)
+		{
 			i = decpt / k;
 			*b++ = i + '0';
-			if (--j <= 0)
+			if(--j <= 0)
 				break;
-			decpt -= i*k;
+			decpt -= i * k;
 			decpt *= 10;
-			}
-		*b = 0;
 		}
-	else if (decpt <= 0) {
+		*b = 0;
+	}
+	else if(decpt <= 0)
+	{
 		*b++ = '.';
 		for(; decpt < 0; decpt++)
 			*b++ = '0';
-		while(*b++ = *s++);
-		}
-	else {
-		while(*b = *s++) {
+		while(*b++ = *s++)
+			;
+	}
+	else
+	{
+		while(*b = *s++)
+		{
 			b++;
-			if (--decpt == 0 && *s)
+			if(--decpt == 0 && *s)
 				*b++ = '.';
-			}
+		}
 		for(; decpt > 0; decpt--)
 			*b++ = '0';
 		*b = 0;
-		}
 	}
+}
 
- static void
-baderrno(void)
+static void baderrno(void)
 {
 	fflush(stdout);
 	perror("\nerrno strtod");
 	fflush(stderr);
-	}
+}
 
 #define U (unsigned long)
 
- static void check(double d)
+static void check(double d)
 {
 	char buf[64];
 	int decpt, sign;
@@ -148,22 +160,20 @@ baderrno(void)
 	double d1;
 
 	s = dtoa(d, 0, 0, &decpt, &sign, &se);
-	sprintf(buf, "%s%s%se%d", sign ? "-" : "",
-		decpt == 9999 ? "" : ".", s, decpt);
+	sprintf(buf, "%s%s%se%d", sign ? "-" : "", decpt == 9999 ? "" : ".", s, decpt);
 	errno = 0;
-	d1 = strtod(buf, (char **)0);
-	if (errno)
+	d1 = strtod(buf, (char**)0);
+	if(errno)
 		baderrno();
-	if (d != d1) {
-		printf("sent d = %.17g = 0x%lx %lx, buf = %s\n",
-			d, U word0(d), U word1(d), buf);
-		printf("got d1 = %.17g = 0x%lx %lx\n",
-			d1, U word0(d1), U word1(d1));
-		}
+	if(d != d1)
+	{
+		printf("sent d = %.17g = 0x%lx %lx, buf = %s\n", d, U word0(d), U word1(d), buf);
+		printf("got d1 = %.17g = 0x%lx %lx\n", d1, U word0(d1), U word1(d1));
 	}
+}
 
- int
-main(void){
+int main(void)
+{
 	char buf[2048], buf1[32];
 	char *fmt, *s, *s1, *se;
 	double d, d1;
@@ -174,52 +184,56 @@ main(void){
 	uint32_t z;
 #endif
 
-	while(fgets(buf, sizeof(buf), stdin)) {
-		if (*buf == '*') {
+	while(fgets(buf, sizeof(buf), stdin))
+	{
+		if(*buf == '*')
+		{
 			printf("%s", buf);
 			continue;
-			}
+		}
 		printf("Input: %s", buf);
-		if (*buf == '#') {
+		if(*buf == '#')
+		{
 			x = word0(d);
 			y = word1(d);
 			/* sscanf(buf+1, "%lx %lx:%d %d", &x, &y, &mode, &ndigits); */
-			x = (uint32_t)strtoul(s1 = buf+1, &se, 16);
-			if (se > s1) {
+			x = (uint32_t)strtoul(s1 = buf + 1, &se, 16);
+			if(se > s1)
+			{
 				y = (uint32_t)strtoul(s1 = se, &se, 16);
-				if (se > s1)
+				if(se > s1)
 					sscanf(se, ":%d %d", &mode, &ndigits);
-				}
+			}
 			word0(d) = x;
 			word1(d) = y;
 			fmt = "Output: d =\n%.17g = 0x%lx %lx\n";
-			}
-		else {
+		}
+		else
+		{
 			errno = 0;
-			d = strtod(buf,&se);
-			if (*se == ':')
-				sscanf(se+1,"%d %d", &mode, &ndigits);
+			d = strtod(buf, &se);
+			if(*se == ':')
+				sscanf(se + 1, "%d %d", &mode, &ndigits);
 			d1 = atof(buf);
 			fmt = "Output: d =\n%.17g = 0x%lx %lx, se = %s";
-			if (errno)
+			if(errno)
 				baderrno();
-			}
+		}
 		printf(fmt, d, U word0(d), U word1(d), se);
 		g_fmt(buf1, d);
 		printf("\tg_fmt gives \"%s\"\n", buf1);
-		if (*buf != '#' && d != d1)
+		if(*buf != '#' && d != d1)
 			printf("atof gives\n\
 	d1 = %.17g = 0x%lx %lx\nversus\n\
-	d  = %.17g = 0x%lx %lx\n", d1, U word0(d1), U word1(d1),
-				d, U word0(d), U word1(d));
+	d  = %.17g = 0x%lx %lx\n",
+				   d1, U word0(d1), U word1(d1), d, U word0(d), U word1(d));
 		check(d);
 		s = dtoa(d, mode, ndigits, &decpt, &sign, &se);
 		printf("\tdtoa(mode = %d, ndigits = %d):\n", mode, ndigits);
-		printf("\tdtoa returns sign = %d, decpt = %d, %d digits:\n%s\n",
-			sign, decpt, se-s, s);
+		printf("\tdtoa returns sign = %d, decpt = %d, %d digits:\n%s\n", sign, decpt, se - s, s);
 		x = word1(d);
-		if (x != 0xffffffff
-		 && (word0(d) & 0x7ff00000) != 0x7ff00000) {
+		if(x != 0xffffffff && (word0(d) & 0x7ff00000) != 0x7ff00000)
+		{
 #ifdef VAX
 			z = x << 16 | x >> 16;
 			z++;
@@ -228,17 +242,16 @@ main(void){
 #else
 			word1(d) = x + 1;
 #endif
-			printf("\tnextafter(d,+Inf) = %.17g = 0x%lx %lx:\n",
-				d, U word0(d), U word1(d));
+			printf("\tnextafter(d,+Inf) = %.17g = 0x%lx %lx:\n", d, U word0(d), U word1(d));
 			g_fmt(buf1, d);
 			printf("\tg_fmt gives \"%s\"\n", buf1);
 			s = dtoa(d, mode, ndigits, &decpt, &sign, &se);
-			printf(
-		"\tdtoa returns sign = %d, decpt = %d, %d digits:\n%s\n",
-				sign, decpt, se-s, s);
+			printf("\tdtoa returns sign = %d, decpt = %d, %d digits:\n%s\n", sign, decpt, se - s,
+				   s);
 			check(d);
-			}
-		if (x) {
+		}
+		if(x)
+		{
 #ifdef VAX
 			z = x << 16 | x >> 16;
 			z--;
@@ -247,16 +260,14 @@ main(void){
 #else
 			word1(d) = x - 1;
 #endif
-			printf("\tnextafter(d,-Inf) = %.17g = 0x%lx %lx:\n",
-				d, U word0(d), U word1(d));
+			printf("\tnextafter(d,-Inf) = %.17g = 0x%lx %lx:\n", d, U word0(d), U word1(d));
 			g_fmt(buf1, d);
 			printf("\tg_fmt gives \"%s\"\n", buf1);
 			s = dtoa(d, mode, ndigits, &decpt, &sign, &se);
-			printf(
-		"\tdtoa returns sign = %d, decpt = %d, %d digits:\n%s\n",
-				sign, decpt, se-s, s);
+			printf("\tdtoa returns sign = %d, decpt = %d, %d digits:\n%s\n", sign, decpt, se - s,
+				   s);
 			check(d);
-			}
 		}
-	return 0;
 	}
+	return 0;
+}

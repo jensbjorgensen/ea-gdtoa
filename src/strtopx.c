@@ -35,16 +35,16 @@ THIS SOFTWARE.
 #undef _1
 
 #ifdef IEEE_8087
-#define _0 4
-#define _1 3
-#define _2 2
-#define _3 1
-#define _4 0
+	#define _0 4
+	#define _1 3
+	#define _2 2
+	#define _3 1
+	#define _4 0
 #else
-#error Something went wrong, IEEE8087 is not defined
+	#error Something went wrong, IEEE8087 is not defined
 #endif
 
-int strtopx(const char *s, char **sp, void *V)
+int strtopx(const char* s, char** sp, void* V)
 {
 	static FPI fpi = {64, 1 - 16383 - 64 + 1, 32766 - 16383 - 64 + 1, 1, SI};
 	uint32_t bits[2];

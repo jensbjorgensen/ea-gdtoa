@@ -32,26 +32,25 @@ THIS SOFTWARE.
 #include <stdio.h>
 #include <stdlib.h>
 
-static char *dir[4] = { "toward zero", "nearest", "toward +Infinity",
-			"toward -Infinity" };
+static char* dir[4] = {"toward zero", "nearest", "toward +Infinity", "toward -Infinity"};
 
- int getround(int r, char *s)
+int getround(int r, char* s)
 {
 	int i;
 
-	i = atoi(s+1);
-	if (i >= 0 && i < 4) {
+	i = atoi(s + 1);
+	if(i >= 0 && i < 4)
+	{
 		printf("Rounding mode for strtor... ");
-		if (i == r)
+		if(i == r)
 			printf("was and is %d (%s)\n", i, dir[i]);
 		else
-			printf("changed from %d (%s) to %d (%s)\n",
-				r, dir[r], i, dir[i]);
+			printf("changed from %d (%s) to %d (%s)\n", r, dir[r], i, dir[i]);
 		return i;
-		}
+	}
 	printf("Bad rounding direction %d: choose among\n", i);
 	for(i = 0; i < 4; i++)
 		printf("\t%d (%s)\n", i, dir[i]);
 	printf("Leaving rounding mode for strtor... at %d (%s)\n", r, dir[r]);
 	return r;
-	}
+}

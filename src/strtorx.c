@@ -35,16 +35,16 @@ THIS SOFTWARE.
 #undef _1
 
 #ifdef IEEE_8087
-#define _0 4
-#define _1 3
-#define _2 2
-#define _3 1
-#define _4 0
+	#define _0 4
+	#define _1 3
+	#define _2 2
+	#define _3 1
+	#define _4 0
 #else
-#error Something went wrong, IEEE8087 is not defined
+	#error Something went wrong, IEEE8087 is not defined
 #endif
 
-void ULtox(uint16_t *L, const uint32_t *bits, int32_t exp, int k)
+void ULtox(uint16_t* L, const uint32_t* bits, int32_t exp, int k)
 {
 	switch(k & STRTOG_Retmask)
 	{
@@ -91,10 +91,10 @@ void ULtox(uint16_t *L, const uint32_t *bits, int32_t exp, int k)
 	}
 }
 
-int strtorx(const char *s, char **sp, int rounding, void *L)
+int strtorx(const char* s, char** sp, int rounding, void* L)
 {
 	static FPI fpi0 = {64, 1 - 16383 - 64 + 1, 32766 - 16383 - 64 + 1, 1, SI};
-	FPI *fpi;
+	FPI* fpi;
 	FPI fpi1;
 	uint32_t bits[2];
 	int32_t exp;

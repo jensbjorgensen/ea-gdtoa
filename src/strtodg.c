@@ -33,7 +33,7 @@ THIS SOFTWARE.
 #include <stdint.h>
 
 #ifdef USE_LOCALE
-#include "locale.h"
+	#include "locale.h"
 #endif
 
 static const int fivesbits[] = {0,
@@ -68,8 +68,8 @@ static const int fivesbits[] = {0,
 
 Bigint* increment(Bigint* b)
 {
-	uint32_t *x;
-	uint32_t *xe;
+	uint32_t* x;
+	uint32_t* xe;
 	Bigint* b1;
 #ifdef Pack_16
 	uint32_t carry = 1;
@@ -112,10 +112,10 @@ Bigint* increment(Bigint* b)
 	return b;
 }
 
-int decrement(Bigint *b)
+int decrement(Bigint* b)
 {
-	uint32_t *x;
-	uint32_t *xe;
+	uint32_t* x;
+	uint32_t* xe;
 #ifdef Pack_16
 	uint32_t borrow = 1;
 	uint32_t y;
@@ -146,8 +146,8 @@ int decrement(Bigint *b)
 
 static int all_on(Bigint* b, int n)
 {
-	uint32_t *x;
-	uint32_t *xe;
+	uint32_t* x;
+	uint32_t* xe;
 
 	x = b->x;
 	xe = x + (n >> kshift);
@@ -174,8 +174,8 @@ static int all_on(Bigint* b, int n)
 Bigint* set_ones(Bigint* b, int n)
 {
 	int k;
-	uint32_t *x;
-	uint32_t *xe;
+	uint32_t* x;
+	uint32_t* xe;
 
 	k = (n + ((1 << kshift) - 1)) >> kshift;
 	if(b->k < k)
@@ -372,7 +372,7 @@ ret:
 	return rv;
 }
 
-static int 	mantbits(double d)
+static int mantbits(double d)
 {
 	uint32_t L;
 #ifdef VAX
@@ -432,9 +432,9 @@ int strtodg(const char* s00, char** se, FPI* fpi, int32_t* exp, uint32_t* bits)
 	int rve1;
 	int sign;
 	int sudden_underflow = 0;
-	const char *s;
-	const char *s0;
-	const char *s1;
+	const char* s;
+	const char* s0;
+	const char* s1;
 	double adj;
 	double adj0;
 	double rv;
@@ -442,15 +442,15 @@ int strtodg(const char* s00, char** se, FPI* fpi, int32_t* exp, uint32_t* bits)
 	int32_t L;
 	uint32_t y;
 	uint32_t z;
-	Bigint *ab;
-	Bigint *bb;
-	Bigint *bb1;
-	Bigint *bd;
-	Bigint *bd0;
-	Bigint *bs;
-	Bigint *delta;
-	Bigint *rvb;
-	Bigint *rvb0;
+	Bigint* ab;
+	Bigint* bb;
+	Bigint* bb1;
+	Bigint* bd;
+	Bigint* bd0;
+	Bigint* bs;
+	Bigint* delta;
+	Bigint* rvb;
+	Bigint* rvb0;
 
 	irv = STRTOG_Zero;
 	denorm = sign = nz0 = nz = 0;
@@ -677,12 +677,12 @@ dig_done:
 						{
 							irv = STRTOG_NaN;
 							*exp = fpi->emax + 1;
-#ifndef No_Hex_NaN
+	#ifndef No_Hex_NaN
 							if(*s == '(') /*)*/
 							{
 								irv = hexnan(&s, fpi, bits);
 							}
-#endif
+	#endif
 							goto infnanexp;
 						}
 				}

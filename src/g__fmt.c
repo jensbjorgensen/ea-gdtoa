@@ -32,16 +32,16 @@ THIS SOFTWARE.
 #include "gdtoaimp.h"
 
 #ifdef USE_LOCALE
-#include "locale.h"
+	#include "locale.h"
 #endif
 
-char* g__fmt(char *b, char *s, const char *se, int decpt, uint32_t sign)
+char* g__fmt(char* b, char* s, const char* se, int decpt, uint32_t sign)
 {
 	char* s0 = s;
 #ifdef USE_LOCALE
 	char decimalpoint = *localeconv()->decimal_point;
 #else
-#define decimalpoint '.'
+	#define decimalpoint '.'
 #endif
 	if(sign)
 	{

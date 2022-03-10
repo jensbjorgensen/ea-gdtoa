@@ -46,13 +46,13 @@ static void L_shift(uint32_t* x, const uint32_t* x1, int i)
 	} while(++x < x1);
 }
 
-int hexnan( const char **sp, FPI *fpi, uint32_t *x0)
+int hexnan(const char** sp, FPI* fpi, uint32_t* x0)
 {
 	uint32_t c;
 	uint32_t h;
-	uint32_t *x;
-	uint32_t *x1;
-	uint32_t *xe;
+	uint32_t* x;
+	uint32_t* x1;
+	uint32_t* xe;
 	const char* s;
 	int havedig;
 	int hd0;

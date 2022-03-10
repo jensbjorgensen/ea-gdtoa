@@ -38,9 +38,9 @@ static Bigint* bitstob(uint32_t* bits, int nbits, int* bbits)
 	int i;
 	int k;
 	Bigint* b;
-	uint32_t *be;
-	uint32_t *x;
-	uint32_t *x0;
+	uint32_t* be;
+	uint32_t* x;
+	uint32_t* x0;
 
 	i = ULbits;
 	k = 0;
@@ -122,7 +122,8 @@ ret:
  *	   calculation.
  */
 
-char* gdtoa(FPI* fpi, int be, uint32_t* bits, int* kindp, int mode, int ndigits, int* decpt, char** rve)
+char* gdtoa(FPI* fpi, int be, uint32_t* bits, int* kindp, int mode, int ndigits, int* decpt,
+			char** rve)
 {
 	/*	Arguments ndigits and decpt are similar to the second and third
 	   arguments of ecvt and fcvt; trailing zeros are suppressed from
@@ -185,19 +186,19 @@ char* gdtoa(FPI* fpi, int be, uint32_t* bits, int* kindp, int mode, int ndigits,
 	int spec_case;
 	int try_quick;
 	int32_t L;
-	Bigint *b;
-	Bigint *b1;
-	Bigint *delta;
-	Bigint *mlo = NULL;
-	Bigint *mhi;
-	Bigint *mhi1;
-	Bigint *S;
+	Bigint* b;
+	Bigint* b1;
+	Bigint* delta;
+	Bigint* mlo = NULL;
+	Bigint* mhi;
+	Bigint* mhi1;
+	Bigint* S;
 	double d;
 	double d2;
 	double ds;
 	double eps;
-	char *s;
-	char *s0;
+	char* s;
+	char* s0;
 
 #ifndef MULTIPLE_THREADS
 	if(dtoa_result)
@@ -441,7 +442,6 @@ char* gdtoa(FPI* fpi, int be, uint32_t* bits, int* kindp, int mode, int ndigits,
 				dval(d) *= tens[j1 & 0xf];
 				for(j = j1 >> 4; j; j >>= 1, i++)
 				{
-
 					if(j & 1)
 					{
 						ieps++;

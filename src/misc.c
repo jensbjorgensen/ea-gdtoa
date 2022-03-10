@@ -33,10 +33,10 @@ THIS SOFTWARE.
 
 static Bigint* freelist[Kmax + 1];
 #ifndef Omit_Private_Memory
-#ifndef PRIVATE_MEM
-#define PRIVATE_MEM 2304
-#endif
-#define PRIVATE_mem ((PRIVATE_MEM + sizeof(double) - 1) / sizeof(double))
+	#ifndef PRIVATE_MEM
+		#define PRIVATE_MEM 2304
+	#endif
+	#define PRIVATE_mem ((PRIVATE_MEM + sizeof(double) - 1) / sizeof(double))
 static double private_mem[PRIVATE_mem], *pmem_next = private_mem;
 #endif
 
@@ -165,12 +165,12 @@ Bigint* multadd(Bigint* b, int m, int a) /* multiply by m and add a */
 	uint64_t y;
 #else
 	uint32_t carry;
-	uint32_t *x;
+	uint32_t* x;
 	uint32_t y;
-#ifdef Pack_32
+	#ifdef Pack_32
 	uint32_t xi;
 	uint32_t z;
-#endif
+	#endif
 #endif
 	Bigint* b1;
 
@@ -186,17 +186,17 @@ Bigint* multadd(Bigint* b, int m, int a) /* multiply by m and add a */
 		carry = y >> 32;
 		*x++ = y & 0xffffffffUL;
 #else
-#ifdef Pack_32
+	#ifdef Pack_32
 		xi = *x;
 		y = (xi & 0xffff) * m + carry;
 		z = (xi >> 16) * m + (y >> 16);
 		carry = z >> 16;
 		*x++ = (z << 16) + (y & 0xffff);
-#else
+	#else
 		y = *x * m + carry;
 		carry = y >> 16;
 		*x++ = y & 0xffff;
-#endif
+	#endif
 #endif
 	} while(++i < wds);
 
@@ -269,20 +269,20 @@ Bigint* i2b(int i)
 	return b;
 }
 
-Bigint *mult(Bigint* a, Bigint* b)
+Bigint* mult(Bigint* a, Bigint* b)
 {
 	Bigint* c;
 	int k;
 	int wa;
 	int wb;
 	int wc;
-	uint32_t *x;
-	uint32_t *xa;
-	uint32_t *xae;
-	uint32_t *xb;
-	uint32_t *xbe;
-	uint32_t *xc;
-	uint32_t *xc0;
+	uint32_t* x;
+	uint32_t* xa;
+	uint32_t* xae;
+	uint32_t* xb;
+	uint32_t* xbe;
+	uint32_t* xc;
+	uint32_t* xc0;
 	uint32_t y;
 #ifndef NO_LONG_LONG
 	uint64_t carry;
@@ -290,9 +290,9 @@ Bigint *mult(Bigint* a, Bigint* b)
 #else
 	uint32_t carry;
 	uint32_t z;
-#ifdef Pack_32
+	#ifdef Pack_32
 	uint32_t z2;
-#endif
+	#endif
 #endif
 
 	if(a->wds < b->wds)
@@ -345,7 +345,7 @@ Bigint *mult(Bigint* a, Bigint* b)
 		}
 	}
 #else
-#ifdef Pack_32
+	#ifdef Pack_32
 	for(; xb < xbe; xb++, xc0++)
 	{
 		if((y = *xb & 0xffff) != 0)
@@ -385,7 +385,7 @@ Bigint *mult(Bigint* a, Bigint* b)
 			*xc = z2;
 		}
 	}
-#else
+	#else
 	for(; xb < xbe; xc0++)
 	{
 		if((y = *xb++) != 0)
@@ -404,7 +404,7 @@ Bigint *mult(Bigint* a, Bigint* b)
 			*xc = carry;
 		}
 	}
-#endif
+	#endif
 #endif
 	for(xc0 = c->x, xc = xc0 + wc; wc > 0 && !*--xc; --wc)
 	{
@@ -420,9 +420,9 @@ static Bigint* p5s;
 
 Bigint* pow5mult(Bigint* b, int k)
 {
-	Bigint *b1;
-	Bigint *p5;
-	Bigint *p51;
+	Bigint* b1;
+	Bigint* p5;
+	Bigint* p51;
 	int i;
 
 	if((i = k & 3) != 0)
@@ -490,9 +490,9 @@ Bigint* lshift(Bigint* b, int k)
 	int n;
 	int n1;
 	Bigint* b1;
-	uint32_t *x;
-	uint32_t *x1;
-	uint32_t *xe;
+	uint32_t* x;
+	uint32_t* x1;
+	uint32_t* xe;
 	uint32_t z;
 
 	n = k >> kshift;
@@ -563,10 +563,10 @@ Bigint* lshift(Bigint* b, int k)
 
 int cmp(Bigint* a, Bigint* b)
 {
-	uint32_t *xa;
-	uint32_t *xa0;
-	uint32_t *xb;
-	uint32_t *xb0;
+	uint32_t* xa;
+	uint32_t* xa0;
+	uint32_t* xb;
+	uint32_t* xb0;
 	int i;
 	int j;
 
@@ -609,26 +609,26 @@ int cmp(Bigint* a, Bigint* b)
 	return 0;
 }
 
-Bigint *diff(Bigint* a, Bigint* b)
+Bigint* diff(Bigint* a, Bigint* b)
 {
 	Bigint* c;
 	int i;
 	int wa;
 	int wb;
-	uint32_t *xa;
-	uint32_t *xae;
-	uint32_t *xb;
-	uint32_t *xbe;
-	uint32_t *xc;
+	uint32_t* xa;
+	uint32_t* xae;
+	uint32_t* xb;
+	uint32_t* xbe;
+	uint32_t* xc;
 #ifndef NO_LONG_LONG
 	uint64_t borrow;
 	uint64_t y;
 #else
 	uint32_t borrow;
 	uint32_t y;
-#ifdef Pack_32
+	#ifdef Pack_32
 	uint32_t z;
-#endif
+	#endif
 #endif
 
 	i = cmp(a, b);
@@ -680,7 +680,7 @@ Bigint *diff(Bigint* a, Bigint* b)
 		*xc++ = y & 0xffffffffUL;
 	}
 #else
-#ifdef Pack_32
+	#ifdef Pack_32
 	do
 	{
 		y = (*xa & 0xffff) - (*xb & 0xffff) - borrow;
@@ -698,7 +698,7 @@ Bigint *diff(Bigint* a, Bigint* b)
 		borrow = (z & 0x10000) >> 16;
 		Storeinc(xc, z, y);
 	}
-#else
+	#else
 	do
 	{
 		y = *xa++ - *xb++ - borrow;
@@ -712,7 +712,7 @@ Bigint *diff(Bigint* a, Bigint* b)
 		borrow = (y & 0x10000) >> 16;
 		*xc++ = y & 0xffff;
 	}
-#endif
+	#endif
 #endif
 	while(!*--xc)
 	{
@@ -726,8 +726,8 @@ Bigint *diff(Bigint* a, Bigint* b)
 
 double b2d(Bigint* a, int* e)
 {
-	uint32_t *xa;
-	uint32_t *xa0;
+	uint32_t* xa;
+	uint32_t* xa0;
 	uint32_t w;
 	uint32_t y;
 	uint32_t z;
@@ -737,8 +737,8 @@ double b2d(Bigint* a, int* e)
 	uint32_t d0;
 	uint32_t d1;
 #else
-#define d0 word0(d)
-#define d1 word1(d)
+	#define d0 word0(d)
+	#define d1 word1(d)
 #endif
 
 	xa0 = a->x;
@@ -812,7 +812,7 @@ Bigint* d2b(double d, int* e, int* bits)
 #endif
 	int de;
 	int k;
-	uint32_t *x;
+	uint32_t* x;
 	uint32_t y;
 	uint32_t z;
 #ifdef VAX
@@ -820,8 +820,8 @@ Bigint* d2b(double d, int* e, int* bits)
 	d0 = word0(d) >> 16 | word0(d) << 16;
 	d1 = word1(d) >> 16 | word1(d) << 16;
 #else
-#define d0 word0(d)
-#define d1 word1(d)
+	#define d0 word0(d)
+	#define d1 word1(d)
 #endif
 
 #ifdef Pack_32
@@ -835,9 +835,9 @@ Bigint* d2b(double d, int* e, int* bits)
 	d0 &= 0x7fffffff; /* clear sign bit, which we ignore */
 #ifdef Sudden_Underflow
 	de = (int)(d0 >> Exp_shift);
-#ifndef IBM
+	#ifndef IBM
 	z |= Exp_msk11;
-#endif
+	#endif
 #else
 	if((de = (int)(d0 >> Exp_shift)) != 0)
 	{
@@ -856,18 +856,18 @@ Bigint* d2b(double d, int* e, int* bits)
 		{
 			x[0] = y;
 		}
-#ifndef Sudden_Underflow
+	#ifndef Sudden_Underflow
 		i =
-#endif
+	#endif
 			b->wds = (x[1] = z) != 0 ? 2 : 1;
 	}
 	else
 	{
 		k = lo0bits(&z);
 		x[0] = z;
-#ifndef Sudden_Underflow
+	#ifndef Sudden_Underflow
 		i =
-#endif
+	#endif
 			b->wds = 1;
 		k += 32;
 	}
@@ -903,12 +903,12 @@ Bigint* d2b(double d, int* e, int* bits)
 	}
 	else
 	{
-#ifdef DEBUG
+	#ifdef DEBUG
 		if(!z)
 		{
 			Bug("Zero passed to d2b");
 		}
-#endif
+	#endif
 		k = lo0bits(&z);
 
 		if(k >= 16)
@@ -949,11 +949,11 @@ Bigint* d2b(double d, int* e, int* bits)
 	else
 	{
 		*e = de - Bias - (P - 1) + 1 + k;
-#ifdef Pack_32
+	#ifdef Pack_32
 		*bits = 32 * i - hi0bits(x[i - 1]);
-#else
+	#else
 		*bits = (i + 2) * 16 - hi0bits(x[i]);
-#endif
+	#endif
 	}
 #endif
 	return b;
@@ -966,13 +966,13 @@ const double
 	bigtens[] = {1e16, 1e32, 1e64, 1e128, 1e256};
 const double tinytens[] = {1e-16, 1e-32, 1e-64, 1e-128, 1e-256};
 #else
-#ifdef IBM
+	#ifdef IBM
 	bigtens[] = {1e16, 1e32, 1e64};
 const double tinytens[] = {1e-16, 1e-32, 1e-64};
-#else
+	#else
 	bigtens[] = {1e16, 1e32};
 const double tinytens[] = {1e-16, 1e-32};
-#endif
+	#endif
 #endif
 
 const double tens[] = {1e0,
@@ -1005,7 +1005,7 @@ const double tens[] = {1e0,
 #endif
 };
 
-char* strcp(char *a, const char *b)
+char* strcp(char* a, const char* b)
 {
 	while((*a = *b++))
 	{
@@ -1017,7 +1017,7 @@ char* strcp(char *a, const char *b)
 
 #ifdef NO_STRING_H
 
-void* memcpy(void *a1, void *b1, size_t len)
+void* memcpy(void* a1, void* b1, size_t len)
 {
 	char *a = (char*)a1, *ae = a + len;
 	char *b = (char*)b1, *a0 = a;

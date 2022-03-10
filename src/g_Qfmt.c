@@ -35,22 +35,22 @@ THIS SOFTWARE.
 #undef _1
 
 #ifdef IEEE_8087
-#define _0 3
-#define _1 2
-#define _2 1
-#define _3 0
+	#define _0 3
+	#define _1 2
+	#define _2 1
+	#define _3 0
 #else
-#error Something went wrong, IEEE8087 is not defined
+	#error Something went wrong, IEEE8087 is not defined
 #endif
 
-char* g_Qfmt(char *buf, void *V, int ndig, unsigned bufsize)
+char* g_Qfmt(char* buf, void* V, int ndig, unsigned bufsize)
 {
 	static FPI fpi = {113, 1 - 16383 - 113 + 1, 32766 - 16383 - 113 + 1, 1, 0};
-	char *b;
-	char *s;
-	char *se;
+	char* b;
+	char* s;
+	char* se;
 	uint32_t bits[4];
-	uint32_t *L;
+	uint32_t* L;
 	uint32_t sign;
 	int decpt;
 	int ex;

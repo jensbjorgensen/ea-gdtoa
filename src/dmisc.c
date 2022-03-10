@@ -38,7 +38,7 @@ char* dtoa_result;
 char* rv_alloc(int i)
 {
 	int k;
-	int *r;
+	int* r;
 	size_t j;
 
 	j = sizeof(uint32_t);
@@ -55,10 +55,10 @@ char* rv_alloc(int i)
 			(char*)(r + 1);
 }
 
-char * nrv_alloc(const char* s, char** rve, int n)
+char* nrv_alloc(const char* s, char** rve, int n)
 {
-	char *rv;
-	char *t;
+	char* rv;
+	char* t;
 
 	t = rv = rv_alloc(n);
 	while((*t = *s++) != 0)
@@ -82,7 +82,7 @@ char * nrv_alloc(const char* s, char** rve, int n)
  * when MULTIPLE_THREADS is not defined.
  */
 
-void freedtoa(char *s)
+void freedtoa(char* s)
 {
 	Bigint* b = (Bigint*)((void*)(s - sizeof(int*)));
 	b->maxwds = 1 << (b->k = *(int*)b);
@@ -98,11 +98,11 @@ void freedtoa(char *s)
 int quorem(Bigint* b, Bigint* S)
 {
 	int n;
-	uint32_t *bx;
-	uint32_t *bxe;
+	uint32_t* bx;
+	uint32_t* bxe;
 	uint32_t q;
-	uint32_t *sx;
-	uint32_t *sxe;
+	uint32_t* sx;
+	uint32_t* sxe;
 #ifndef NO_LONG_LONG
 	uint64_t borrow;
 	uint64_t carry;
@@ -113,11 +113,11 @@ int quorem(Bigint* b, Bigint* S)
 	uint32_t carry;
 	uint32_t y;
 	uint32_t ys;
-#ifdef Pack_32
+	#ifdef Pack_32
 	uint32_t si;
 	uint32_t z;
 	uint32_t zs;
-#endif
+	#endif
 #endif
 
 	n = S->wds;
@@ -157,7 +157,7 @@ int quorem(Bigint* b, Bigint* S)
 			borrow = y >> 32 & 1UL;
 			*bx++ = y & 0xffffffffUL;
 #else
-#ifdef Pack_32
+	#ifdef Pack_32
 			si = *sx++;
 			ys = (si & 0xffff) * q + carry;
 			zs = (si >> 16) * q + (ys >> 16);
@@ -167,13 +167,13 @@ int quorem(Bigint* b, Bigint* S)
 			z = (*bx >> 16) - (zs & 0xffff) - borrow;
 			borrow = (z & 0x10000) >> 16;
 			Storeinc(bx, z, y);
-#else
+	#else
 			ys = *sx++ * q + carry;
 			carry = ys >> 16;
 			y = *bx - (ys & 0xffff) - borrow;
 			borrow = (y & 0x10000) >> 16;
 			*bx++ = y & 0xffff;
-#endif
+	#endif
 #endif
 		} while(sx <= sxe);
 
@@ -207,7 +207,7 @@ int quorem(Bigint* b, Bigint* S)
 			borrow = y >> 32 & 1UL;
 			*bx++ = y & 0xffffffffUL;
 #else
-#ifdef Pack_32
+	#ifdef Pack_32
 			si = *sx++;
 			ys = (si & 0xffff) + carry;
 			zs = (si >> 16) + (ys >> 16);
@@ -217,13 +217,13 @@ int quorem(Bigint* b, Bigint* S)
 			z = (*bx >> 16) - (zs & 0xffff) - borrow;
 			borrow = (z & 0x10000) >> 16;
 			Storeinc(bx, z, y);
-#else
+	#else
 			ys = *sx++ + carry;
 			carry = ys >> 16;
 			y = *bx - (ys & 0xffff) - borrow;
 			borrow = (y & 0x10000) >> 16;
 			*bx++ = y & 0xffff;
-#endif
+	#endif
 #endif
 		} while(sx <= sxe);
 
