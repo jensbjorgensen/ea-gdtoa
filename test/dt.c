@@ -60,11 +60,11 @@ extern double atof(char*);
 #endif
 #endif
 #ifdef IEEE_8087
-#define word0(x) ((ULong *)&x)[1]
-#define word1(x) ((ULong *)&x)[0]
+#define word0(x) ((uint32_t *)&x)[1]
+#define word1(x) ((uint32_t *)&x)[0]
 #else
-#define word0(x) ((ULong *)&x)[0]
-#define word1(x) ((ULong *)&x)[1]
+#define word0(x) ((uint32_t *)&x)[0]
+#define word1(x) ((uint32_t *)&x)[1]
 #endif
 #include "errno.h"
 
@@ -184,9 +184,9 @@ main(Void){
 	double d, d1;
 	int decpt, sign;
 	int mode = 0, ndigits = 17;
-	ULong x, y;
+	uint32_t x, y;
 #ifdef VAX
-	ULong z;
+	uint32_t z;
 #endif
 
 	while(fgets(buf, sizeof(buf), stdin)) {
@@ -199,9 +199,9 @@ main(Void){
 			x = word0(d);
 			y = word1(d);
 			/* sscanf(buf+1, "%lx %lx:%d %d", &x, &y, &mode, &ndigits); */
-			x = (ULong)strtoul(s1 = buf+1, &se, 16);
+			x = (uint32_t)strtoul(s1 = buf+1, &se, 16);
 			if (se > s1) {
-				y = (ULong)strtoul(s1 = se, &se, 16);
+				y = (uint32_t)strtoul(s1 = se, &se, 16);
 				if (se > s1)
 					sscanf(se, ":%d %d", &mode, &ndigits);
 				}
