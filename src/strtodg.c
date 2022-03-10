@@ -208,7 +208,7 @@ Bigint* set_ones(Bigint* b, int n)
 	return b;
 }
 
-static int rvOK(double d, FPI* fpi, int32_t* exp, uint32_t* bits, int exact, int rd, int* irv
+static int rvOK(double d, FPI* fpi, int32_t* exp, uint32_t* bits, int exact, int rd, int* irv)
 {
 	Bigint* b;
 	uint32_t carry = 0;
