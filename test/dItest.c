@@ -47,7 +47,7 @@ dshow(char *what, double d)
 	char buf[32];
 	g_dfmt(buf, &d, 0, sizeof(buf));
 	printf("%s = #%lx %lx = %s\n", what,
-		U ((ULong*)&d)[_0], U ((ULong*)&d)[_1], buf);
+		U ((uint32_t*)&d)[_0], U ((uint32_t*)&d)[_1], buf);
 	}
 
  int

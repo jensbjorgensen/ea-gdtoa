@@ -66,7 +66,7 @@ main(Void)
 	double f1, fI[2];
 	int i, i1, ndig = 0, r = 1;
 	long LL[2];
-	union { double f; ULong L[2]; } u;
+	union { double f; uint32_t L[2]; } u;
 
 	while( (s = fgets(ibuf, sizeof(ibuf), stdin)) !=0) {
 		while(*s <= ' ')
@@ -117,14 +117,14 @@ main(Void)
 				printf("fI[0] == fI[1] == strtod\n");
 			else
 				printf("fI[0] == fI[1] = #%lx %lx = %.17g\n",
-					U ((ULong*)fI)[_0], U ((ULong*)fI)[_1],
+					U ((uint32_t*)fI)[_0], U ((uint32_t*)fI)[_1],
 					fI[0]);
 			}
 		else {
 			printf("fI[0] = #%lx %lx = %.17g\n",
-				U ((ULong*)fI)[_0], U ((ULong*)fI)[_1], fI[0]);
+				U ((uint32_t*)fI)[_0], U ((uint32_t*)fI)[_1], fI[0]);
 			printf("fI[1] = #%lx %lx = %.17g\n",
-				U ((ULong*)&fI[1])[_0], U ((ULong*)&fI[1])[_1],
+				U ((uint32_t*)&fI[1])[_0], U ((uint32_t*)&fI[1])[_1],
 				fI[1]);
 			if (fI[0] == u.f)
 				printf("fI[0] == strtod\n");

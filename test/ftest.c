@@ -64,7 +64,7 @@ main(Void)
 	char *s, *se, *se1;
 	int dItry, i, i1, ndig = 0, r = 1;
 	float f1, fI[2];
-	union { float f; ULong L[1]; } u;
+	union { float f; uint32_t L[1]; } u;
 
 	while( (s = fgets(ibuf, sizeof(ibuf), stdin)) !=0) {
 		while(*s <= ' ')
@@ -84,7 +84,7 @@ main(Void)
 			break; /* nan? */
 		  case '#':
 			/* sscanf(s+1, "%lx", &u.L[0]); */
-			u.L[0] = (ULong)strtoul(s+1, &se, 16);
+			u.L[0] = (uint32_t)strtoul(s+1, &se, 16);
 			printf("\nInput: %s", ibuf);
 			printf(" --> f = #%lx\n", U u.L[0]);
 			goto fmt_test;
@@ -121,12 +121,12 @@ main(Void)
 				printf("fI[0] == fI[1] == strtof\n");
 			else
 				printf("fI[0] == fI[1] = #%lx = %.8g\n",
-					U *(ULong*)fI, fI[0]);
+					U *(uint32_t*)fI, fI[0]);
 			}
 		else {
 			printf("fI[0] = #%lx = %.8g\nfI[1] = #%lx = %.8g\n",
-				U *(ULong*)fI, fI[0],
-				U *(ULong*)&fI[1], fI[1]);
+				U *(uint32_t*)fI, fI[0],
+				U *(uint32_t*)&fI[1], fI[1]);
 			if (fI[0] == u.f)
 				printf("fI[0] == strtof\n");
 			else if (fI[1] == u.f)

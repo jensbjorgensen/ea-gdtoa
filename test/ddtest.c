@@ -67,7 +67,7 @@ dprint(char *what, double d)
 #endif
 {
 	char buf[32];
-	union { double d; ULong L[2]; } u;
+	union { double d; uint32_t L[2]; } u;
 
 	u.d = d;
 	g_dfmt(buf,&d,0,sizeof(buf));
@@ -81,7 +81,7 @@ main(Void)
 	int dItry, i, j, r = 1, ndig = 0;
 	double ddI[4];
 	long LL[4];
-	union { double dd[2]; ULong L[4]; } u;
+	union { double dd[2]; uint32_t L[4]; } u;
 
 	while( (s = fgets(ibuf, sizeof(ibuf), stdin)) !=0) {
 		while(*s <= ' ')
@@ -149,20 +149,20 @@ main(Void)
 				printf("ddI[0] == ddI[1] == strtopdd\n");
 			else
 				printf("ddI[0] == ddI[1] = #%lx %lx + %lx %lx\n= %.17g + %17.g\n",
-					U ((ULong*)ddI)[_0],
-					U ((ULong*)ddI)[_1],
-					U ((ULong*)ddI)[2+_0],
-					U ((ULong*)ddI)[2+_1],
+					U ((uint32_t*)ddI)[_0],
+					U ((uint32_t*)ddI)[_1],
+					U ((uint32_t*)ddI)[2+_0],
+					U ((uint32_t*)ddI)[2+_1],
 					ddI[0], ddI[1]);
 			}
 		else {
 			printf("ddI[0] = #%lx %lx + %lx %lx\n= %.17g + %.17g\n",
-				U ((ULong*)ddI)[_0], U ((ULong*)ddI)[_1],
-				U ((ULong*)ddI)[2+_0], U ((ULong*)ddI)[2+_1],
+				U ((uint32_t*)ddI)[_0], U ((uint32_t*)ddI)[_1],
+				U ((uint32_t*)ddI)[2+_0], U ((uint32_t*)ddI)[2+_1],
 				ddI[0], ddI[1]);
 			printf("ddI[1] = #%lx %lx + %lx %lx\n= %.17g + %.17g\n",
-				U ((ULong*)ddI)[4+_0], U ((ULong*)ddI)[4+_1],
-				U ((ULong*)ddI)[6+_0], U ((ULong*)ddI)[6+_1],
+				U ((uint32_t*)ddI)[4+_0], U ((uint32_t*)ddI)[4+_1],
+				U ((uint32_t*)ddI)[6+_0], U ((uint32_t*)ddI)[6+_1],
 				ddI[2], ddI[3]);
 			if (ddI[0] == u.dd[0] && ddI[1] == u.dd[1])
 				printf("ddI[0] == strtod\n");
