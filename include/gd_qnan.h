@@ -13,7 +13,7 @@
 #define ldus_QNAN3 0x0
 #define ldus_QNAN4 0x0
 
-#elif defined(__i386__) || defined(__x86_64__) || defined(__arm__) || defined(__aarch64__)
+#elif defined(__i386__) || defined(__x86_64__) || defined(__arm__) || defined(__aarch64__) || defined(__wasm32__)
 
 #define f_QNAN 0x7fc00000
 #define d_QNAN0 0x0

@@ -28,6 +28,9 @@
 #if defined(__i386__)
 #define IEEE_8087
 #define Arith_Kind_ASL 1
+#elif defined(__wasm32__)
+#define IEEE_8087
+#define Arith_Kind_ASL 1
 #elif defined(__x86_64__)
 #define IEEE_8087
 #define Arith_Kind_ASL 1
